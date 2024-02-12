@@ -19,7 +19,7 @@ const Account = () => {
                             <AccountBox />
                         </Box>
                     </Grid>
-                    <Grid item xs={8.5}>
+                    <Grid item xs={12} md={8.5}>
                         <Outlet />
                     </Grid>
                 </Grid>
