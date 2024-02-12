@@ -10,14 +10,14 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path='/product/:id' element={<Product />} />
         <Route path='/products' element={<Products />} />
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cartlist' element={<Cart />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
