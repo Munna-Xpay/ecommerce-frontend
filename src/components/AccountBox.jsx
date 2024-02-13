@@ -6,8 +6,9 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import RedeemOutlinedIcon from '@mui/icons-material/RedeemOutlined';
 import GradingOutlinedIcon from '@mui/icons-material/GradingOutlined';
+import { Link } from 'react-router-dom';
 
-const AccountBox = () => {
+const AccountBox = ({ setIsDraweOpen }) => {
     return (
         <Stack spacing={2} sx={{ border: '2px solid #efefef', borderRadius: '15px', padding: '20px' }}>
             <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -31,10 +32,10 @@ const AccountBox = () => {
             </Stack>
             <Divider />
             <Stack spacing={1}>
-                <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<PersonOutlineOutlinedIcon fontSize='large' />}>Personal Info</Button>
-                <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<FavoriteBorderOutlinedIcon fontSize='large' />}>Wishlist</Button>
-                <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<RedeemOutlinedIcon fontSize='large' />}>Vouchers</Button>
-                <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<GradingOutlinedIcon fontSize='large' />}>Orders</Button>
+                <Link to={'/account/personal'} onClick={() => setIsDraweOpen(false)} style={{ textDecoration: 'none' }}><Button sx={{ display: 'flex', width: '100%', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<PersonOutlineOutlinedIcon fontSize='large' />}>Personal Info</Button></Link>
+                <Link to={'/account/wishlist'} onClick={() => setIsDraweOpen(false)} style={{ textDecoration: 'none' }}><Button sx={{ display: 'flex', width: '100%', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<FavoriteBorderOutlinedIcon fontSize='large' />}>Wishlist</Button></Link>
+                <Link to={'/account/vouchers'} onClick={() => setIsDraweOpen(false)} style={{ textDecoration: 'none' }}><Button sx={{ display: 'flex', width: '100%', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<RedeemOutlinedIcon fontSize='large' />}>Vouchers</Button></Link>
+                <Link to={'/account/orders'} onClick={() => setIsDraweOpen(false)} style={{ textDecoration: 'none' }}><Button sx={{ display: 'flex', width: '100%', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<GradingOutlinedIcon fontSize='large' />}>Orders</Button></Link>
             </Stack>
             <Divider />
             <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<LogoutOutlinedIcon fontSize='large' />}>Logout</Button>
