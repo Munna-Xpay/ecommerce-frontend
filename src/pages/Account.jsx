@@ -16,7 +16,7 @@ const Account = () => {
                 <Grid container spacing={4} sx={{ padding: '40px 0px' }}>
                     <Grid item xs={12} md={3.5}>
                         <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                            <AccountBox />
+                            <AccountBox setIsDraweOpen={setIsDraweOpen} />
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={8.5}>
@@ -26,9 +26,9 @@ const Account = () => {
             </Container>
 
 
-            <Drawer sx={{backgroundColor:'#efefef'}} anchor='left' open={isDrawerOpen} onClose={() => setIsDraweOpen(false)} >
+            <Drawer sx={{ backgroundColor: '#efefef' }} anchor='left' open={isDrawerOpen} onClose={() => setIsDraweOpen(false)} >
                 <Box width={'250px'} p={1}>
-                    <AccountBox />
+                    <AccountBox setIsDraweOpen={setIsDraweOpen} />
                 </Box>
             </Drawer>
         </>

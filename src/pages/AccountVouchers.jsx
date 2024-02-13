@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Paper, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CustomTabPanel from '../components/CustomTabPanel';
+import VoucherCardContainer from '../components/VoucherCardContainer';
 
 const AccountVouchers = () => {
 
@@ -41,13 +42,16 @@ const AccountVouchers = () => {
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={value} index={0}>
-                        Item One
+                        <VoucherCardContainer />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        Item Two
+                        <VoucherCardContainer />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={2}>
-                        Item Three
+                        <VoucherCardContainer />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={3}>
+                        <VoucherCardContainer />
                     </CustomTabPanel>
                 </Box>
 
