@@ -4,13 +4,13 @@ import ProductsTable from "../components/ProductsTable";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-function Wishlist() {
+function Wishlist({Wishlist}) {
   return (
     <Container>
       <Box
         sx={{
-          padding: "17px",
-          marginTop: "50px",
+          padding: "10px",
+         
         }}
       >
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
@@ -40,24 +40,17 @@ function Wishlist() {
           <Typography fontWeight={"bold"}>$567</Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          width: {
-            lg: 200,
-            md: 100,
-          },
-          marginLeft: {
-            lg: 119,
-            md: 0,
-          },
-        }}
-        mt={2}
-      >
-        <Button fullWidth variant="contained" size="large" color="warning">
+      
+    <Stack alignItems={'end'}>
+        <Button sx={{backgroundColor:'#01040a', '&:hover':{backgroundColor:'#01040a'},width:{
+          xs:365,
+          md:200
+        }}}  variant="contained" size="large" color="warning">
           <AddShoppingCartIcon sx={{ marginRight: "10px" }} />
           Add To Cart
         </Button>
-      </Box>
+        </Stack>
+      {!Wishlist&&
       <Button
         variant="text"
         size="large"
@@ -66,6 +59,7 @@ function Wishlist() {
         <ArrowBackIosIcon sx={{ fontSize: "14px", marginBottom: "2px" }} />
         Continue Shopping
       </Button>
+}
     </Container>
   );
 }
