@@ -37,34 +37,34 @@ const HotDeals = () => {
                 onSlideChange={() => console.log('slide change')}
             >
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <HotDealProductCard />
+                    <HotDealProductCard hotDeal />
                 </SwiperSlide>
                
             </Swiper >

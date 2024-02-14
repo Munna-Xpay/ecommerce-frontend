@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
     return (
@@ -31,7 +32,7 @@ const Hero = () => {
                                 <Typography sx={{ padding: '5px 10px', backgroundColor: 'rgba(255, 171, 0, 0.16)', color: '#B76E00', fontWeight: 'bold', borderRadius: '50px' }}>Opening Sale Discount 50%</Typography>
                                 <Typography variant='h4' sx={{ fontWeight: 'bold', }}>Arizona Soft Footbed Sandal</Typography>
                                 <Typography variant='body1' sx={{ opacity: '.5' }}>runt dolorem aut velit cumque adipisci aut enim. Nihil quis quisquam nesciunt dicta nobis ab aperiam dolorem repellat. Voluptates non blanditiis. Error et tenetur iste soluta cupiditate ratione perspiciatis et. Quibusdam aliquid nam sunt et quisquam non esse.</Typography>
-                                <Button size='large' variant='contained' sx={{ backgroundColor: '#212B36' }}>Shop Now</Button>
+                                <Link to={'/product/1'}><Button size='large' variant='contained' sx={{ backgroundColor: '#212B36' }}>Shop Now</Button></Link>
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Box
