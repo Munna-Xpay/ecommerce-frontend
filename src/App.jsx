@@ -21,7 +21,7 @@ import AccountVouchers from './pages/AccountVouchers';
 function App() {
   return (
     <div>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
