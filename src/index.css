@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .dot {
     background-color: orange !important;
     border-radius: 5px !important;
