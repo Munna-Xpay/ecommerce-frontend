@@ -1,16 +1,26 @@
-import { Box, Button, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Avatar, Box, Button, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import DoneIcon from '@mui/icons-material/Done';
 import { Link } from 'react-router-dom';
+import { getCountDownTime } from '../countdownTimer';
 
 const SpecialOffer = () => {
+
+    const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-16T23:59:59'))
+
+    useEffect(() => {
+        setInterval(() => {
+            setCountdown(() => getCountDownTime('2024-02-16T23:59:59'))
+        }, 1000)
+    }, [])
+
     return (
         <Stack spacing={4} >
             <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>Special Offer</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4} px={2} >
                     {/* <Paper sx={{ height: '97%',padding:'0px 20px' }}> */}
-                    <Stack spacing={2} px={2} sx={{ height: '97%', boxShadow: '-24px 24px 72px -8px rgba(145, 158, 171, 0.24)' }} justifyContent={'center'} alignItems={'center'} >
+                    <Stack spacing={2} px={2} sx={{ height: { xs: '350px', md: '97%' }, boxShadow: '-24px 24px 72px -8px rgba(145, 158, 171, 0.24)' }} justifyContent={'center'} alignItems={'center'} >
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.9', color: 'red', textAlign: { xs: 'center', md: 'start' } }}>NEW 2022</Typography>
                         <Typography variant='h6' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>Apple iPhone 14</Typography>
                         <Box sx={{ padding: '7px 15px', border: '2px solid #efefef', borderRadius: '10px' }} >
@@ -18,6 +28,35 @@ const SpecialOffer = () => {
                         </Box>
                         <Divider sx={{ width: '100%' }} />
                         <Typography variant='body1' sx={{ opacity: '.7', textAlign: { xs: 'center', md: 'start' } }}>Deals Ens in :</Typography>
+                        <Stack direction={'row'} alignItems={'start'} spacing={1}>
+                            <Stack alignItems={'center'}>
+                                <Avatar sx={{ fontWeight: 'bold', width: '50px', color: 'black' }} variant="rounded">
+                                    {countdown.day}
+                                </Avatar>
+                                <Typography variant='body2'>Days</Typography>
+                            </Stack>
+                            <Typography variant='h4'>:</Typography>
+                            <Stack alignItems={'center'}>
+                                <Avatar sx={{ fontWeight: 'bold', width: '50px', color: 'black' }} variant="rounded">
+                                    {countdown.hour}
+                                </Avatar>
+                                <Typography variant='body2'>Hours</Typography>
+                            </Stack>
+                            <Typography variant='h4'>:</Typography>
+                            <Stack alignItems={'center'}>
+                                <Avatar sx={{ fontWeight: 'bold', width: '50px', color: 'black' }} variant="rounded">
+                                    {countdown.minute}
+                                </Avatar>
+                                <Typography variant='body2'>Minutes</Typography>
+                            </Stack>
+                            <Typography variant='h4'>:</Typography>
+                            <Stack alignItems={'center'}>
+                                <Avatar sx={{ fontWeight: 'bold', width: '50px', color: 'black' }} variant="rounded">
+                                    {countdown.second}
+                                </Avatar>
+                                <Typography variant='body2'>Seconds</Typography>
+                            </Stack>
+                        </Stack>
                     </Stack>
                     {/* </Paper> */}
                 </Grid>

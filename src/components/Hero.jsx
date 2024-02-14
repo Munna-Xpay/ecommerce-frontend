@@ -20,8 +20,16 @@ const Hero = () => {
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={50}
                     slidesPerView={1}
-                    // navigation
-                    pagination={{ clickable: true }}
+                    pagination={{
+                        el: '.pagination',
+                        clickable: true,
+                        renderBullet: function (index, className) {
+                            return `<span class="dot swiper-pagination-bullet"></span>`;
+                        }
+                    }}
+                    autoplay={{
+                        delay: 5000
+                    }}
                     // scrollbar={{ draggable: true }}
                     onSwiper={(swiper) => console.log(swiper)}
                     onSlideChange={() => console.log('slide change')}
@@ -106,8 +114,12 @@ const Hero = () => {
                             </Grid>
                         </Grid>
                     </SwiperSlide>
+
+                    <Stack direction={'row'} justifyContent={'center'} sx={{ marginBottom: '10px' }}>
+                        <span style={{ backGroundColor: 'red', textAlign: 'center' }} class="pagination"></span>
+                    </Stack>
                 </Swiper >
-            </Stack>
+            </Stack >
 
         </>
     )
