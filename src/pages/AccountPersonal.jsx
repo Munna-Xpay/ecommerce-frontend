@@ -7,7 +7,7 @@ import { countries } from '../CountryData';
 
 function AccountPersonal() {
 
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -123,7 +123,7 @@ function AccountPersonal() {
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?   <Visibility />: <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }
@@ -148,7 +148,7 @@ function AccountPersonal() {
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <Visibility />: <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }
@@ -173,14 +173,14 @@ function AccountPersonal() {
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <Visibility />: <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }
           />
         </FormControl>
 
-        <Button sx={{marginTop:'15px',backgroundColor:'#01040a', '&:hover':{backgroundColor:'#01040a'}}}  disableElevation variant="contained" >
+        <Button sx={{marginTop:'15px',backgroundColor:'#03111c', '&:hover':{backgroundColor:'#03111c'}}}  disableElevation variant="contained" >
   Save Changes
 </Button>
     </Box>
