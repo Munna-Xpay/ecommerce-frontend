@@ -11,3 +11,7 @@
 .swiper-pagination-bullet {
     width: 50px !important;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
