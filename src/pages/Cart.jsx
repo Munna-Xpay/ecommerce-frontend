@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 function Cart() {
   return (
-    <Container>
+    <Container sx={{ minHeight: '100vh', marginBottom: '50px' }}>
       <Box
         sx={{
           padding: "17px",
@@ -119,8 +119,8 @@ function Cart() {
                   $425
                 </Typography>
               </Box>
-              <Link to={'/checkout'} style={{width:'100%'}}><Button
-                sx={{ marginTop: "15px",width:'100%' }}
+              <Link to={'/checkout'} style={{ width: '100%' }}><Button
+                sx={{ marginTop: "15px", width: '100%' }}
                 variant="contained"
                 color="success"
               >

@@ -115,7 +115,7 @@ const Product = () => {
                 <ProductReviews />
                 <ProductReviews />
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center',marginBottom:'70px' }}>
                 <Pagination sx={{ display: 'block', margin: 'auto' }} color='primary' count={10} />
             </Box>
         </>

@@ -13,27 +13,30 @@ function Login({ register }) {
   };
 
   return (
-    <Container sx={{width:'400px'}}>
-      <Stack sx={{width:{
-        xs:300,
-        md:350
-      }}} spacing={3} borderRadius={5}  padding={4} mt={5} boxShadow={15}>
+    <Stack style={{ background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),url(https://www.goalcast.com/wp-content/uploads/2022/07/Goalcast-44-1-1100x610.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} justifyContent={'center'} alignItems={'center'} sx={{ width: '100%', minHeight: '85vh', marginBottom: '40px' }}>
+      <Stack sx={{
+        width: {
+          xs: 300,
+          md: 350
+        },
+        bgcolor: 'white'
+      }} spacing={3} borderRadius={5} padding={4} mt={5} boxShadow={15}>
         {register ?
           <Typography variant='h5' fontWeight={'bold'}>Get Started</Typography> : <Typography variant='h5' fontWeight={'bold'}>Login</Typography>
         }
         {register ?
-          <Typography   fontSize={15} color={'gray'}>Already have an account?<Link to={'/login'} style={{ textDecoration: 'none', color: 'red', fontSize: '15px', fontWeight: 'bold' }}> Login</Link></Typography> :
-          <Typography   fontSize={15} color={'gray'}>Don't have an account?<Link to={'/register'} style={{ textDecoration: 'none', color: 'red', fontSize: '15px', fontWeight: 'bold' }}> Get Started</Link></Typography>
+          <Typography fontSize={15} color={'gray'}>Already have an account?<Link to={'/login'} style={{ textDecoration: 'none', color: 'red', fontSize: '15px', fontWeight: 'bold' }}> Login</Link></Typography> :
+          <Typography fontSize={15} color={'gray'}>Don't have an account?<Link to={'/register'} style={{ textDecoration: 'none', color: 'red', fontSize: '15px', fontWeight: 'bold' }}> Get Started</Link></Typography>
 
         }
         {register &&
-          <TextField  InputProps={{ disableUnderline: true, style:{borderRadius:'7px'} }} sx={{ width: {xs:300,md:350} }} label="Full Name" variant="filled" />
+          <TextField InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Full Name" variant="filled" />
         }
-        <TextField InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }} sx={{ width: {xs:300,md:350}}} label="Email Address" variant="filled" />
+        <TextField InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Email Address" variant="filled" />
         <FormControl sx={{ width: '25ch' }} variant="filled">
           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
           <FilledInput
-           style={{borderRadius:'7px'}}
+            style={{ borderRadius: '7px' }}
             disableUnderline
             sx={{
               width: {
@@ -63,7 +66,7 @@ function Login({ register }) {
           <FormControl sx={{ width: '25ch' }} variant="filled">
             <InputLabel htmlFor="filled-adornment-password">Confirm Password</InputLabel>
             <FilledInput
-            style={{borderRadius:'7px'}}
+              style={{ borderRadius: '7px' }}
               disableUnderline
               sx={{
                 width: {
@@ -89,7 +92,7 @@ function Login({ register }) {
           </FormControl>
         }
 
-        <Box  textAlign={'end'}>
+        <Box textAlign={'end'}>
           {!register &&
             <Typography fontSize={14}><Link to={'/forgot_password'} style={{ textDecoration: 'none', color: 'black' }}>Forgot Password?</Link></Typography>
           }
@@ -97,13 +100,13 @@ function Login({ register }) {
 
         {
           register ?
-            <Button
+            <Link to={'/verify'}><Button
               sx={{
-                width:{
-                  xs:300,
-                  md:350
+                width: {
+                  xs: 300,
+                  md: 350
                 },
-              
+
                 padding: "10px",
                 borderRadius: "10px",
                 backgroundColor: "#03111c",
@@ -113,10 +116,10 @@ function Login({ register }) {
               variant="contained"
             >
               Register
-            </Button> :
+            </Button></Link> :
             <Button
               sx={{
-              
+
                 padding: "10px",
                 borderRadius: "10px",
                 backgroundColor: "#03111c",
@@ -130,13 +133,13 @@ function Login({ register }) {
         }
 
         {register &&
-          <Typography textAlign={'center'}  fontSize={12} color={'gray'}> I agree to <Link style={{color:'black'}}>Terms of Service </Link>and <Link style={{color:'black'}}>Privacy Policy</Link></Typography>
+          <Typography textAlign={'center'} fontSize={12} color={'gray'}> I agree to <Link style={{ color: 'black' }}>Terms of Service </Link>and <Link style={{ color: 'black' }}>Privacy Policy</Link></Typography>
 
         }
 
         <Divider><Typography fontSize={13} color={'gray'}>or continue with</Typography></Divider>
 
-        <Stack direction={'row'}  spacing={2} justifyContent={'center'}>
+        <Stack direction={'row'} spacing={2} justifyContent={'center'}>
           <Button sx={{ width: '90px', border: '1px solid', borderColor: 'gray', borderRadius: '7px' }} variant='filled' disableElevation>
             <svg style={{ marginBottom: '2px', marginRight: '5px' }} xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 256 262"><path fill="#4285f4" d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"></path><path fill="#34a853" d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"></path><path fill="#fbbc05" d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602z"></path><path fill="#eb4335" d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"></path></svg>
           </Button>
@@ -150,7 +153,7 @@ function Login({ register }) {
         </Stack>
 
       </Stack>
-    </Container>
+    </Stack>
   )
 }
 

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 function OrderCompleted() {
   return (
-    <Stack spacing={3} mt={5} justifyContent={'center'} alignItems={'center'}>
-      <Box  mt={10}>
+    <Stack spacing={3} mt={5} justifyContent={'center'} sx={{ marginBottom: '40px', minHeight: '90vh' }} alignItems={'center'}>
+      <Box mt={10}>
         <img
           width={300}
           height={300}
@@ -14,12 +14,12 @@ function OrderCompleted() {
           alt=""
         />
       </Box>
-        <Typography fontSize={30} fontWeight={"bold"}>
-          Your order is completed!
-        </Typography>
-        <Typography color={"gray"} fontSize={15}>
-          You will be receiving a confirmation email with order details
-        </Typography>
+      <Typography fontSize={30} fontWeight={"bold"}>
+        Your order is completed!
+      </Typography>
+      <Typography color={"gray"} fontSize={15}>
+        You will be receiving a confirmation email with order details
+      </Typography>
       <Box>
         <Link to={'/products'}><Button
           sx={{
