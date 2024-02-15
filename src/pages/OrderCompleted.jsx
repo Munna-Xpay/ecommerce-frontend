@@ -20,7 +20,7 @@ function OrderCompleted() {
         <Typography color={"gray"} fontSize={15}>
           You will be receiving a confirmation email with order details
         </Typography>
-      <Box mt={5} >
+      <Box>
         <Link to={'/products'}><Button
           sx={{
             marginTop: "15px",
