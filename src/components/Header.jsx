@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import NavbarCategories from './NavbarCategories';
 
+
 const Header = () => {
 
     const [drawer, setDrawer] = useState(false)
@@ -29,7 +30,10 @@ const Header = () => {
                             <Link to={'/products'} style={{ textDecoration: 'none', color: 'white', fontWeight: 'bold' }}>Shoppify</Link>
                         </Typography>
                     </Stack>
-                    <Stack direction={'row'} alignItems={'center'}>
+                    <Stack direction={'row'} alignItems={'center'} >
+                        <Link to={'/login'}>
+                            <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
+                        </Link>
                         <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={2} color="error">
