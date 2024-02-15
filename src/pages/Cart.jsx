@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ProductsTable from "../components/ProductsTable";
+import { Link } from "react-router-dom";
 
 function Cart() {
   return (
@@ -118,13 +119,13 @@ function Cart() {
                   $425
                 </Typography>
               </Box>
-              <Button
-                sx={{ marginTop: "15px" }}
+              <Link to={'/checkout'} style={{width:'100%'}}><Button
+                sx={{ marginTop: "15px",width:'100%' }}
                 variant="contained"
                 color="success"
               >
                 Checkout
-              </Button>
+              </Button></Link>
             </Stack>
           </Grid>
         </Grid>

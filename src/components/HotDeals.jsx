@@ -20,7 +20,7 @@ const HotDeals = () => {
 
     useEffect(() => {
         setInterval(() => {
-            setCountdown(() => getCountDownTime('2024-02-16T23:59:59'))
+            setCountdown(() => getCountDownTime('2024-02-15T23:59:59'))
         }, 1000)
     }, [])
 
@@ -30,10 +30,6 @@ const HotDeals = () => {
                 <Stack direction={'row'} alignItems={'center'} spacing={2}>
                     <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>🔥 Hot Deal Today</Typography>
                     <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                        <Avatar sx={{ bgcolor: '#131D2C', fontWeight: 'bold' }} variant="rounded">
-                            {countdown.day}
-                        </Avatar>
-                        <Typography variant='h4'>:</Typography>
                         <Avatar sx={{ bgcolor: '#131D2C', fontWeight: 'bold' }} variant="rounded">
                             {countdown.hour}
                         </Avatar>

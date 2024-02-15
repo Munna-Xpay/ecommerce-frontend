@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { ArrowBackIos } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 function OrderCompleted() {
   return (
@@ -22,7 +23,7 @@ function OrderCompleted() {
         </Typography>
       </Stack>
       <Box mt={5} textAlign={"center"}>
-        <Button
+        <Link to={'/products'}><Button
           sx={{
             marginTop: "15px",
             padding: "10px",
@@ -34,9 +35,9 @@ function OrderCompleted() {
           variant="contained"
         >
           <ArrowBackIos /> Continue Shopping
-        </Button>
+        </Button></Link>
       </Box>
-    </Container>
+    </Container >
   );
 }
 

@@ -5,26 +5,29 @@ import VoucherCard from './VoucherCard'
 const VoucherCardContainer = () => {
     return (
         <>
-            <Grid container >
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
-                <Grid item xs={12} md={6} sx={{ border: '3px solid #efefef', borderRadius: '12px' }}>
+                <Grid item xs={12} md={6}>
+                    <VoucherCard />
+                </Grid>
+                <Grid item xs={12} md={6}>
                     <VoucherCard />
                 </Grid>
             </Grid>
