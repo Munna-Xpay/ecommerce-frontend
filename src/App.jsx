@@ -16,6 +16,7 @@ import AccountPersonal from './pages/AccountPersonal';
 import AccountOrders from './pages/AccountOrders';
 import AccountWishlist from './pages/AccountWishlist';
 import AccountVouchers from './pages/AccountVouchers';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path='wishlist' element={<AccountWishlist />} />
           <Route path='vouchers' element={<AccountVouchers />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </div>
