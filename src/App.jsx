@@ -16,6 +16,7 @@ import AccountPersonal from './pages/AccountPersonal';
 import AccountOrders from './pages/AccountOrders';
 import AccountWishlist from './pages/AccountWishlist';
 import AccountVouchers from './pages/AccountVouchers';
+import ForgotPassword from './pages/ForgotPassword';
 import NotFound from './pages/NotFound';
 import Varification from './pages/Varification';
 
@@ -27,6 +28,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Login register />} />
+        <Route path='/forgot_password' element={<ForgotPassword />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/products' element={<Products />} />
         <Route path='/wishlist' element={<Wishlist />} />

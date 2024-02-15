@@ -17,7 +17,7 @@ function Login({ register }) {
       <Stack sx={{width:{
         xs:300,
         md:350
-      }}} spacing={3} borderRadius={5}  padding={4} mt={15} boxShadow={15}>
+      }}} spacing={3} borderRadius={5}  padding={4} mt={5} boxShadow={15}>
         {register ?
           <Typography variant='h5' fontWeight={'bold'}>Get Started</Typography> : <Typography variant='h5' fontWeight={'bold'}>Login</Typography>
         }
@@ -91,7 +91,7 @@ function Login({ register }) {
 
         <Box  textAlign={'end'}>
           {!register &&
-            <Typography fontSize={14}><Link style={{ textDecoration: 'none', color: 'black' }}>Forgot Password?</Link></Typography>
+            <Typography fontSize={14}><Link to={'/forgot_password'} style={{ textDecoration: 'none', color: 'black' }}>Forgot Password?</Link></Typography>
           }
         </Box>
 
