@@ -117,13 +117,13 @@ function CheckoutDetails() {
       <Box mt={5}>
         
         <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}
           sx={{ width: "396px" }}
           label="First Name"
           variant="filled"
         />
         <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true ,style:{borderRadius:'7px'}}}
           sx={{
             width: "396px",
             marginTop: { md: 0, xs: 2 },
@@ -134,13 +134,13 @@ function CheckoutDetails() {
         />
       
         <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}
           sx={{ width: "396px", marginTop: "10px" }}
           label="Email Address"
           variant="filled"
         />
         <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true ,style:{borderRadius:'7px'}}}
           sx={{
             width: "396px",
             marginTop: "10px",
@@ -153,6 +153,7 @@ function CheckoutDetails() {
         <FormControl sx={{ width: "25ch", marginTop: "10px" }} variant="filled">
           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
           <FilledInput
+          style={{borderRadius:'7px'}}
             disableUnderline
             sx={{
               width: {
@@ -197,13 +198,13 @@ function CheckoutDetails() {
       <Box mt={5}>
          
       <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}
           sx={{ width: "396px" }}
           label="Street Address"
           variant="filled"
         />
         <TextField
-          InputProps={{ disableUnderline: true }}
+          InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}
           sx={{
             width: "396px",
             marginTop: { md: 0, xs: 2 },
@@ -218,11 +219,12 @@ function CheckoutDetails() {
       
       }}}  >
       
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginTop:'20px'}}  label="City" type='text' variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginTop:'20px'}}  label="City" type='text' variant="filled" />
       
       <Autocomplete
+      style={{borderRadius:'7px'}}
       id="country-select-demo"
-      sx={{width:'396px',backgroundColor:'#edf2ef', marginLeft:{md:1,xs:0}, marginTop:'20px',boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }}} 
+      sx={{width:'396px',backgroundColor:'#f2f4f5', marginLeft:{md:1,xs:0}, marginTop:'20px',boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }}} 
       options={countries}
       autoHighlight
       getOptionLabel={(option) => option.label}
@@ -277,7 +279,7 @@ function CheckoutDetails() {
       <Box sx={{width:{
         xs:360,
         md:300
-      }}}   border={1} borderRadius={5}  padding={2}>
+      }}}   border={1} borderRadius={3}  padding={2}>
      
             <Stack direction={"row"} spacing={2}>
             <FormControlLabel value="free" control={<Radio />}  />
@@ -304,7 +306,7 @@ function CheckoutDetails() {
       <Box sx={{width:{
         xs:360,
         md:300
-      }}}  border={1} borderRadius={5} padding={2} >
+      }}}  border={1} borderRadius={3} padding={2} >
       
             <Stack direction={"row"} spacing={2}>
             <FormControlLabel value="standard" control={<Radio />}  />
@@ -338,7 +340,7 @@ function CheckoutDetails() {
       <Box sx={{width:{
         xs:360,
         md:300
-      }}} border={1} borderRadius={5} padding={2} >
+      }}} border={1} borderRadius={3} padding={2} >
       
             <Stack direction={"row"} spacing={2}>
             <FormControlLabel value="Express" control={<Radio />}  />

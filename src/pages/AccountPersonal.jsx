@@ -36,17 +36,18 @@ function AccountPersonal() {
     >
 
         <Box  sx={{width:'100%', marginTop:'20px'}}>
-      <TextField   InputProps={{ disableUnderline: true }} sx={{width:'396px'}}  label="First Name" variant="filled" />
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px',marginTop:{md:0,xs:2}, marginLeft:{md:1,xs:0}}}  label="Last Name" variant="filled" />
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginTop:'20px'}}  label="Email Address" variant="filled" />
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px',marginLeft:{md:1,xs:0}, marginTop:'20px'}}  label="Phone Number" variant="filled" />
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginTop:'20px'}}  InputLabelProps={{
+      <TextField   InputProps={{ disableUnderline: true ,style:{borderRadius:'7px'}}} sx={{width:'396px'}}  label="First Name" variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true ,style:{borderRadius:'7px'}}}  sx={{width:'396px',marginTop:{md:0,xs:2}, marginLeft:{md:1,xs:0}}}  label="Last Name" variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginTop:'20px'}}  label="Email Address" variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true ,style:{borderRadius:'7px'}}}  sx={{width:'396px',marginLeft:{md:1,xs:0}, marginTop:'20px'}}  label="Phone Number" variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginTop:'20px'}}  InputLabelProps={{
         shrink: true,
       }}  label="Birthday" type='date' variant="filled" />
      
-      <FormControl sx={{width:'396px',marginLeft:{md:1,xs:0}, marginTop:'20px', backgroundColor:'#edf2ef'}} >
-        <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+      <FormControl  style={{borderRadius:'7px'}} sx={{width:'396px',marginLeft:{md:1,xs:0}, marginTop:'20px', backgroundColor:'#f2f4f5'}} >
+        <InputLabel  id="demo-simple-select-label">Gender</InputLabel>
         <Select
+          style={{borderRadius:'7px'}}
            sx={{ boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -60,17 +61,18 @@ function AccountPersonal() {
         </Select>
       </FormControl>
 
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginTop:'20px'}}  label="Street Address" type='text' variant="filled" />
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginLeft:{md:1,xs:0}, marginTop:'20px'}}  label="Zip Code" variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginTop:'20px'}}  label="Street Address" type='text' variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginLeft:{md:1,xs:0}, marginTop:'20px'}}  label="Zip Code" variant="filled" />
       <Stack direction={'row'}  sx={{display:{
         xs:'block',
         md:'flex'
       
       }}}  >
       
-      <TextField   InputProps={{ disableUnderline: true }}  sx={{width:'396px', marginTop:'20px'}}  label="City" type='text' variant="filled" />
+      <TextField   InputProps={{ disableUnderline: true,style:{borderRadius:'7px'} }}  sx={{width:'396px', marginTop:'20px'}}  label="City" type='text' variant="filled" />
       
       <Autocomplete
+      style={{borderRadius:'7px'}}
       id="country-select-demo"
       sx={{width:'396px',backgroundColor:'#edf2ef', marginLeft:{md:1,xs:0}, marginTop:'20px',boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 }}} 
       options={countries}
@@ -108,11 +110,12 @@ function AccountPersonal() {
       <FormControl  sx={{  width: '25ch' }} variant="filled">
           <InputLabel   htmlFor="filled-adornment-password">Old Password</InputLabel>
           <FilledInput
+         style={{borderRadius:'7px'}}
          disableUnderline
           sx={{width:{
             xs:396,
             md:804
-          } }}
+          }, marginBottom:'15px'}}
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
@@ -133,11 +136,12 @@ function AccountPersonal() {
         <FormControl  sx={{  width: '25ch', display:'block' }} variant="filled">
           <InputLabel   htmlFor="filled-adornment-password">New Password</InputLabel>
           <FilledInput
+          style={{borderRadius:'7px'}}
          disableUnderline
           sx={{width:{
             xs:396,
             md:804
-          }, marginTop:'10px' }}
+          } ,marginBottom:'15px'}}
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
@@ -158,11 +162,12 @@ function AccountPersonal() {
         <FormControl  sx={{  width: '25ch', display:'block' }} variant="filled">
           <InputLabel   htmlFor="filled-adornment-password">Confirm New Password</InputLabel>
           <FilledInput
+          style={{borderRadius:'7px'}}
          disableUnderline
           sx={{width:{
             xs:396,
             md:804
-          }, marginTop:'10px' }}
+          },  marginBottom:'15px' }}
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={

@@ -8,7 +8,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Checkout from './pages/Checkout';
 import Compare from './pages/Compare';
 import OrderCompleted from './pages/OrderCompleted';
@@ -25,7 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/register' element={<Login register />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/products' element={<Products />} />
         <Route path='/wishlist' element={<Wishlist />} />
@@ -40,7 +39,7 @@ function App() {
           <Route path='vouchers' element={<AccountVouchers />} />
         </Route>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
