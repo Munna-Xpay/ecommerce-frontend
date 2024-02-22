@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const orderSlice = createSlice({
-
-})
+const orderSlice = ''
 
 export default orderSlice.reducer;

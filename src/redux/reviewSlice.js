@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const reviewSlice = createSlice({
-
-})
+const reviewSlice = ''
 
 export default reviewSlice.reducer;

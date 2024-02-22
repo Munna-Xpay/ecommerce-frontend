@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const categorySlice = createSlice({
-
-})
+const categorySlice = ''
 
 export default categorySlice.reducer;

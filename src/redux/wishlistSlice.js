@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const wishlistSlice = createSlice({
-
-})
+const wishlistSlice =''
 
 export default wishlistSlice.reducer;
