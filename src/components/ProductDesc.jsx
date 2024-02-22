@@ -42,7 +42,6 @@ const ProductDesc = () => {
 
             <Stack maxWidth={600} spacing={2} mt={8} bgcolor={'success'}>
                 <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.8' }}>Description</Typography>
-                <Typography variant='body1' sx={{ opacity: '.7' }}>Aenean viverra rhoncus pede. Etiam feugiat lorem non metus. Quisque malesuada placerat nisl.</Typography>
                 <ul style={{lineHeight:'30px'}}>
                     <li><Typography sx={{ opacity: '.8' }}> Updated with a more matte texture, perfect for casual styling.</Typography></li>
                     <li><Typography sx={{ opacity: '.8' }}>Durable water-repellent coating.</Typography></li>
