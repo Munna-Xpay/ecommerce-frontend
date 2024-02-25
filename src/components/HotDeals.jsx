@@ -14,13 +14,36 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { getCountDownTime } from '../countdownTimer';
 
 
-const HotDeals = () => {
+const HotDeals = ({ hotDealProducts }) => {
 
-    const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-16T23:59:59'))
+    const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-30T23:59:59'))
+
+    const showProducts = hotDealProducts.map((item, index) => {
+        return (
+            <SwiperSlide>
+                <HotDealProductCard hotDeal product={item} />
+            </SwiperSlide>
+        )
+    })
 
     useEffect(() => {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        // Get the current time
+        var hours = today.getHours();
+        var minutes = today.getMinutes();
+
+        // Set the time to 11:59 PM
+        hours = 23;
+        minutes = 59;
+
+        // Create a new Date object with today's date and adjusted time
+        var todayAt1159PM = new Date(yyyy, mm - 1, dd, hours, minutes);
         setInterval(() => {
-            setCountdown(() => getCountDownTime('2024-02-15T23:59:59'))
+            setCountdown(() => getCountDownTime(todayAt1159PM))
         }, 1000)
     }, [])
 
@@ -79,36 +102,7 @@ const HotDeals = () => {
                 onSwiper={(swiper) => console.log(swiper)}
                 onSlideChange={() => console.log('slide change')}
             >
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <HotDealProductCard hotDeal />
-                </SwiperSlide>
+                {showProducts}
                 <Stack direction={'row'} justifyContent={'center'}>
                     <span style={{ backGroundColor: 'red', textAlign: 'center' }} class="pagination"></span>
                 </Stack>

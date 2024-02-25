@@ -10,7 +10,8 @@ const ProductList = () => {
 
     const dispatch = useDispatch()
     const allProducts = useSelector(state => state.productReducer.allProducts)
-    console.log(allProducts)
+    const Products = useSelector(state => state.productReducer)
+    console.log(Products)
     const [isCardLike, SetIsCardLike] = useState(true)
 
     useEffect(() => {

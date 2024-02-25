@@ -2,35 +2,32 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
 
-export const fetchAllProducts = createAsyncThunk('/fetch/all/products', async () => {
+export const fetchAllProducts = createAsyncThunk('/fetch/all/products', async (args, { rejectWithValue }) => {
     return await axios.get(`${BASE_URL}/api/product/get`)
         .then(res => res.data)
-})
-
-export const fetchOneProduct = createAsyncThunk('/fetch/one/product', async (id) => {
-    return await axios.get(`${BASE_URL}/api/product/get-one/${id}`)
-        .then(res => res.data)
+        .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
 const initialState = {
     allProducts: [],
-    error: false
+    error: "",
+    loading: false
 }
 
 const productSlice = createSlice({
     name: "product",
     initialState,
     extraReducers: builder => {
+        builder.addCase(fetchAllProducts.pending, (state) => {
+            return { ...state, loading: true }
+        })
+
         builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
-            return { ...state, allProducts: action.payload }
+            return { ...state, allProducts: action.payload, loading: false }
         })
 
         builder.addCase(fetchAllProducts.rejected, (state, action) => {
-            console.log(action.error)
-        })
-
-        builder.addCase(fetchOneProduct.fulfilled, (state, action) => {
-            return { ...state, currentProduct: action.payload }
+            return { ...state, error: action.payload, loading: false }
         })
     }
 })

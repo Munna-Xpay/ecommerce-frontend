@@ -6,7 +6,7 @@ import FeaturedProductCard from './FeaturedProductCard';
 const FeaturedBrands = () => {
     return (
         <Stack spacing={4} >
-            <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>Featured Products</Typography>
+            <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>Featured Brand</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4} >
                     <Stack spacing={2} sx={{ height: '100%', border: '2px solid #efefef', borderRadius: '15px' }} px={6} justifyContent={'center'} alignItems={'center'}>
