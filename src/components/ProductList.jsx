@@ -10,13 +10,13 @@ const ProductList = () => {
 
     const dispatch = useDispatch()
     const allProducts = useSelector(state => state.productReducer.allProducts)
-    const Products = useSelector(state => state.productReducer)
-    console.log(Products)
     const [isCardLike, SetIsCardLike] = useState(true)
+    const [sort, setSort] = useState("latest")
+    console.log(sort)
 
     useEffect(() => {
-        dispatch(fetchAllProducts())
-    }, [])
+        dispatch(fetchAllProducts({ sort }))
+    }, [sort])
 
     const listAllProducts = allProducts.map((item, index) => {
         return (
@@ -36,12 +36,13 @@ const ProductList = () => {
                     </Stack>
 
                     <FormControl variant="outlined" sx={{ minWidth: 120 }}>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Sort</InputLabel>
                         <Select
                             size='small'
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={'latest'}
+                            value={sort}
+                            onChange={(e) => setSort(e.target.value)}
                             label="Sort"
                         >
                             <MenuItem value='latest'>Latest</MenuItem>

@@ -12,7 +12,16 @@ import PopularReviewCard from './PopularReviewCard';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-const PopularReview = () => {
+const PopularReview = ({ popularReviews }) => {
+
+    const showPopularReviews = popularReviews.map(item => item).sort((a, b) => a.review_star - b.review_star).map((item, index) => {
+        return (
+            <SwiperSlide>
+                <PopularReviewCard review={item} />
+            </SwiperSlide>
+        )
+    })
+
     return (
         <Stack spacing={4} mb={6}>
             <Stack direction={'row'} justifyContent={'space-between'}>
@@ -53,21 +62,7 @@ const PopularReview = () => {
                 onSwiper={(swiper) => console.log(swiper)}
                 onSlideChange={() => console.log('slide change')}
             >
-                <SwiperSlide>
-                    <PopularReviewCard />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <PopularReviewCard />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <PopularReviewCard />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <PopularReviewCard />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <PopularReviewCard />
-                </SwiperSlide>
+                {showPopularReviews}
 
                 <Stack direction={'row'} justifyContent={'center'}>
                     <span style={{ backGroundColor: 'red', textAlign: 'center' }} class="pagination"></span>

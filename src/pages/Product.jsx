@@ -17,13 +17,12 @@ const Product = () => {
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.find(item => item._id == id))
     const productReviews = useSelector(state => state.reviewReducer.allReviews.filter(item => item.productId == id))
-    console.log(productReviews)
+    console.log(product)
     const [slideImg, setSlideImg] = useState(product.thumbnail)
     const [images, setImages] = useState([product?.thumbnail, ...product?.images])
     const [selectedColor, setSelecetdColor] = useState(product?.colors[0])
     const [selectedMemory, setselectedMemory] = useState(product?.memory[0])
     const [selectedQuantity, setselectedQuantity] = useState(1)
-    console.log(selectedQuantity)
 
     const allImg = images.map((item, index) => {
         return (
@@ -46,7 +45,7 @@ const Product = () => {
             <Container sx={{ padding: '50px 0px' }}>
                 <Breadcrumbs sx={{ marginBottom: '30px' }} separator={<Box sx={{ width: '5px', height: '5px', backgroundColor: 'gray', margin: '0px 7px', opacity: '.6', borderRadius: '50%' }} />} aria-label="breadcrumb">
                     <Typography variant='body2' sx={{ opacity: '.9' }} color="text.primary">Home</Typography>
-                    <Typography variant='body2' sx={{ opacity: '.9' }} color="text.primary">{product?.category[0]}</Typography>
+                    <Typography variant='body2' sx={{ opacity: '.9' }} color="text.primary">{product?.category}</Typography>
                     <Typography variant='body2' sx={{ opacity: '.7' }} color="text.primary">{product?.title}</Typography>
                 </Breadcrumbs>
                 <Grid container spacing={1}>
@@ -67,7 +66,7 @@ const Product = () => {
                             <Stack spacing={2}>
                                 <Typography variant='h5' sx={{ opacity: '.8', fontWeight: '500' }}>{product?.title}</Typography>
                                 <Stack direction={'row'}>
-                                    <Rating readOnly value={productReviews?.map(rev => rev?.review_stars).length > 0 && Math.round(productReviews?.map(rev => rev?.review_stars).reduce((a, b) => a + b) / productReviews?.length)} />
+                                    <Rating readOnly value={product?.review_star} />
                                     <Typography variant='subtitle2' sx={{ opacity: '.7' }}>({productReviews?.length} Reviews)</Typography>
                                 </Stack>
                                 <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: '500' }}>${product?.discounted_price} - $<Typography component={'span'} sx={{ textDecoration: 'line-through' }}>{product?.original_price}</Typography> </Typography>

@@ -1,44 +1,26 @@
-import { Box, Stack, Tab, Tabs, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import CustomTabPanel from './CustomTabPanel';
-import AllPopularProducts from './AllPopularProducts';
+import { Grid, Stack, Typography } from '@mui/material'
+import React from 'react'
+import BestSellerCard from './BestSellerCard';
 
-const PopularProduct = () => {
+const PopularProduct = ({ popularProducts }) => {
 
-  const [value, setValue] = useState(0);
+  const showPopularProducts = popularProducts.map((product, index) => {
+    if (index < 8) {
+      return (
+        <Grid item xs={12} p={3} md={3}>
+          <BestSellerCard product={product} />
+        </Grid>
+      )
+    }
+  })
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
 
   return (
     <Stack spacing={4} >
       <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>Popular Products</Typography>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Featured Products" {...a11yProps(0)} />
-            <Tab label="Top rated Products" {...a11yProps(1)} />
-            <Tab label="Onsale Products" {...a11yProps(2)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <AllPopularProducts />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <AllPopularProducts />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <AllPopularProducts />
-        </CustomTabPanel>
-      </Box>
+      <Grid container mt={2} spacing={2}>
+        {showPopularProducts}
+      </Grid>
     </Stack>
   )
 }

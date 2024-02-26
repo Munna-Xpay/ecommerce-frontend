@@ -11,34 +11,40 @@ import TopProducts from '../components/TopProducts'
 import PopularReview from '../components/PopularReview'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllProducts } from '../redux/productSlice'
+import { fetchAllreviews } from '../redux/reviewSlice'
+import { fetchAllCategory } from '../redux/categorySlice'
 
 const LandingPage = () => {
 
     const dispatch = useDispatch()
     const bannerProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isBanner))
     const hotDealProducts = useSelector(state => state.productReducer.allProducts)
+    const popularProducts = useSelector(state => state.productReducer.allProducts)
     const featuredProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isFeaturedProduct))
     const specialOfferProduct = useSelector(state => state.productReducer.allProducts.find((item) => item.isSpacialOffer))
-    const featuredBrand = useSelector(state => state.productReducer.allProducts.find((item) => item.isSpacialOffer))
-    
-    console.log(specialOfferProduct)
+    const featuredBrand = useSelector(state => state.productReducer.allProducts.find((item) => item.isFeaturedBrand))
+    const popularReviews = useSelector(state => state.reviewReducer.allReviews)
+    const allCategories = useSelector(state => state.categoryReducer.allCategories)
+    console.log(featuredBrand)
 
     useEffect(() => {
         dispatch(fetchAllProducts())
+        dispatch(fetchAllCategory())
+        dispatch(fetchAllreviews())
     }, [])
 
     return (
         <Container>
             <Stack mt={6} spacing={10}>
                 <Hero bannerProducts={bannerProducts} />
-                <Categories />
+                <Categories allCategories={allCategories} />
                 <HotDeals hotDealProducts={hotDealProducts} />
                 <FeaturedProducts featuredProducts={featuredProducts} />
                 <SpecialOffer specialOfferProduct={specialOfferProduct} />
-                <FeaturedBrands />
-                <PopularProduct />
+                <FeaturedBrands featuredBrand={featuredBrand} />
+                <PopularProduct popularProducts={popularProducts} />
                 {/* <TopProducts /> */}
-                <PopularReview />
+                <PopularReview popularReviews={popularReviews} />
             </Stack>
         </Container>
     )

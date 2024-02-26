@@ -9,11 +9,9 @@ const ProductDesc = ({ product }) => {
                 <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.8' }}>Specifications</Typography>
                 <Stack spacing={2} direction={'row'} justifyContent={'space-between'}>
                     <Typography sx={{ opacity: '.8' }} variant='body1'>Category</Typography>
-                    <Stack direction={'row'} spacing={1} minWidth={200}>
-                        {product?.category?.map((cat, index) => (
-                            <Typography variant='body1'>-{cat}</Typography>
-                        ))}
-                    </Stack>
+                    <Box minWidth={200}>
+                        <Typography variant='body1'>{product?.category}</Typography>
+                    </Box>
                 </Stack>
                 <Stack spacing={2} direction={'row'} justifyContent={'space-between'}>
                     <Typography sx={{ opacity: '.8' }} variant='body1'>Manufacturer</Typography>
