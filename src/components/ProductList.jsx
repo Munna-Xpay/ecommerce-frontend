@@ -1,4 +1,4 @@
-import { FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Stack } from '@mui/material'
+import { FormControl, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Stack, Typography } from '@mui/material'
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import WindowIcon from '@mui/icons-material/Window';
 import React, { useEffect, useState } from 'react'
@@ -52,11 +52,14 @@ const ProductList = () => {
                     </FormControl>
                 </Stack>
                 <Grid container spacing={isCardLike ? 2 : 4}>
-                    {listAllProducts}
+                    {listAllProducts.length > 0 ? listAllProducts : <Typography sx={{ opacity: '.8', textAlign: 'center', my: '30px',width:'300px' }}>There is no products to show</Typography>}
                 </Grid>
-                <Stack direction={'row'} justifyContent={'center'}>
-                    <Pagination count={10} color="primary" />
-                </Stack>
+                {
+                    listAllProducts.length > 0 &&
+                    <Stack direction={'row'} justifyContent={'center'}>
+                        <Pagination count={10} color="primary" />
+                    </Stack>
+                }
             </Stack>
         </>
     )

@@ -9,6 +9,12 @@ export const fetchAllProducts = createAsyncThunk('/fetch/all/products', async (q
             res = await axios.get(`${BASE_URL}/api/product/get?oldest=true`)
         } else if (query.sort == 'popular') {
             res = await axios.get(`${BASE_URL}/api/product/get?popular=true`)
+        } else if (query.category) {
+            res = await axios.get(`${BASE_URL}/api/product/get?category=${query.category}`)
+        } else if (query.min && query.max) {
+            res = await axios.get(`${BASE_URL}/api/product/get?min=${query.min}&max=${query.max}`)
+        } else if (query.review) {
+            res = await axios.get(`${BASE_URL}/api/product/get?review=${query.review}`)
         }
         else {
             res = await axios.get(`${BASE_URL}/api/product/get`)

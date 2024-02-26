@@ -1,10 +1,43 @@
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormGroup, InputAdornment, Paper, Rating, Stack, Switch, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import BestSellerCard from './BestSellerCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllCategory } from '../redux/categorySlice';
+import { fetchAllProducts } from '../redux/productSlice';
 const ProductSidebar = () => {
+
+    const dispatch = useDispatch();
+    const allCategories = useSelector(state => state.categoryReducer.allCategories);
+    const [category, setCategory] = useState("")
+    const [review, setReview] = useState(null)
+    const [price, setPrice] = useState({
+        min: null,
+        max: null
+    })
+
+    console.log(price)
+
+    useEffect(() => {
+        dispatch(fetchAllCategory())
+    }, [])
+
+    useEffect(() => {
+        dispatch(fetchAllProducts({ category }))
+    }, [category])
+
+    useEffect(() => {
+        if (price.min && price.max) {
+            dispatch(fetchAllProducts(price))
+        }
+    }, [price])
+
+    useEffect(() => {
+        dispatch(fetchAllProducts({ review }))
+    }, [review])
+
     return (
         <>
             <Stack sx={{ padding: '30px 0px' }}>
@@ -17,30 +50,14 @@ const ProductSidebar = () => {
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }}>Category</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Apple iPhone</Typography>
-                        </Stack>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Samsung Galaxy</Typography>
-                        </Stack>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Nike Air Max</Typography>
-                        </Stack>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Adidas Ultraboost</Typography>
-                        </Stack>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Apple iPhone</Typography>
-                        </Stack>
-                        <Stack direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
-                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                            <Typography variant='body2' sx={{ opacity: '.8' }}>Sony PlayStation</Typography>
-                        </Stack>
+                        {
+                            allCategories.map((item, index) => (
+                                <Stack onClick={() => setCategory(item.category)} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                                    <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                                    <Typography variant='body2' sx={{ opacity: category == item.category ? '.99' : '.7' }}>{item.category}</Typography>
+                                </Stack>
+                            ))
+                        }
                     </AccordionDetails>
                 </Accordion>
 
@@ -81,6 +98,8 @@ const ProductSidebar = () => {
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">₹</InputAdornment>,
                                 }}
+                                value={price.min}
+                                onChange={(e) => setPrice({ ...price, min: e.target.value })}
                             />
                             <Typography variant='h6'>-</Typography>
                             <TextField
@@ -92,6 +111,8 @@ const ProductSidebar = () => {
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">₹</InputAdornment>,
                                 }}
+                                value={price.max}
+                                onChange={(e) => setPrice({ ...price, max: e.target.value })}
                             />
                         </Stack>
                     </AccordionDetails>
@@ -124,16 +145,16 @@ const ProductSidebar = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Stack spacing={2}>
-                            <Stack sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
-                                <Rating value={2} disabled />
+                            <Stack onClick={() => setReview(2)} sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
+                                <Rating value={2} readOnly />
                                 <Typography variant='body2' sx={{ opacity: '.8' }}> & Up</Typography>
                             </Stack>
-                            <Stack sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
-                                <Rating value={3} disabled />
+                            <Stack onClick={() => setReview(3)} sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
+                                <Rating value={3} readOnly />
                                 <Typography variant='body2' sx={{ opacity: '.8' }}> & Up</Typography>
                             </Stack>
-                            <Stack sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
-                                <Rating value={4} disabled />
+                            <Stack onClick={() => setReview(4)} sx={{ cursor: 'pointer' }} direction={'row'} spacing={1}>
+                                <Rating value={4} readOnly />
                                 <Typography variant='body2' sx={{ opacity: '.8' }}> & Up</Typography>
                             </Stack>
                         </Stack>
