@@ -16,8 +16,8 @@ const Product = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.find(item => item._id == id))
-    const productReviews = useSelector(state => state.reviewReducer.allReviews.filter(item => item.productId == id))
-    console.log(product)
+    const productReviews = useSelector(state => state.reviewReducer.allReviews?.filter(item => item.productId == id))
+    console.log(productReviews)
     const [slideImg, setSlideImg] = useState(product.thumbnail)
     const [images, setImages] = useState([product?.thumbnail, ...product?.images])
     const [selectedColor, setSelecetdColor] = useState(product?.colors[0])
@@ -37,7 +37,7 @@ const Product = () => {
     })
 
     useEffect(() => {
-        dispatch(fetchAllProducts())
+        dispatch(fetchAllProducts({}))
         dispatch(fetchAllreviews())
     }, [id])
     return (
