@@ -11,7 +11,7 @@ const Products = () => {
         <>
             <Container sx={{ padding: '50px 0px' }}>
                 <Typography gutterBottom variant='h4' sx={{ fontWeight: 'bolder', opacity: '.8' }}>Catalog</Typography>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     <Grid item xs={12} sx={{ display: { xs: 'none', md: 'block' } }} sm={3.5}>
                         <ProductSidebar />
                     </Grid>

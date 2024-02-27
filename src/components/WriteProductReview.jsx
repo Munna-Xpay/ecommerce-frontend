@@ -3,7 +3,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import React, { useState } from 'react'
 
-const WriteProductReview = () => {
+const WriteProductReview = ({ productReviews }) => {
 
     const [open, setOpen] = useState(false)
 
@@ -20,10 +20,10 @@ const WriteProductReview = () => {
                             <Stack spacing={3} direction={'column'} alignItems={'flex-start'}>
                                 <Typography variant='h4' sx={{ fontWeight: 'bolder', opacity: '.9' }}>Reviews</Typography>
                                 <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                                    <Typography variant='h3' sx={{ fontWeight: 'bolder', opacity: '.9' }}>4.1</Typography>
+                                    <Typography variant='h3' sx={{ fontWeight: 'bolder', opacity: '.9' }}>{productReviews?.map(rev => rev?.review_stars).length > 0 && productReviews?.map(rev => rev?.review_stars).reduce((a, b) => a + b) / productReviews?.length}</Typography>
                                     <Stack>
-                                        <Rating size='large' />
-                                        <Typography variant='body2' sx={{ opacity: '.7' }}>100k reviews</Typography>
+                                        <Rating readOnly size='large' value={productReviews?.map(rev => rev?.review_stars).length > 0 && Math.round(productReviews?.map(rev => rev?.review_stars).reduce((a, b) => a + b) / productReviews?.length)} />
+                                        <Typography variant='body2' sx={{ opacity: '.7' }}>{productReviews?.length} reviews</Typography>
                                     </Stack>
                                 </Stack>
                                 <Button onClick={handleClickOpen} size='large' sx={{ backgroundColor: '#212B36' }} variant='contained' startIcon={<EditNoteIcon />}>Write a review</Button>
@@ -93,7 +93,7 @@ const WriteProductReview = () => {
                         <TextField id="outlined-basic" type='email' label="Email" variant="filled" />
                     </Stack>
                 </DialogContent>
-                <DialogActions sx={{padding:'30px'}}>
+                <DialogActions sx={{ padding: '30px' }}>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleClose} variant='contained' autoFocus>
                         Submit
