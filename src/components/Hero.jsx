@@ -9,8 +9,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const Hero = ({ bannerProducts }) => {
+const Hero = () => {
+
+    const bannerProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isBanner))
+
     return (
         <>
             <Stack sx={{ border: "3px solid #F8F8F8", backdropFilter: 'blur(10)', borderRadius: '20px', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} spacing={2} width={'100%'} justifyContent={'center'}>

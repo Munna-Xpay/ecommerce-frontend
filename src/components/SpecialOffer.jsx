@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import DoneIcon from '@mui/icons-material/Done';
 import { Link } from 'react-router-dom';
 import { getCountDownTime } from '../countdownTimer';
+import { useSelector } from 'react-redux';
 
-const SpecialOffer = ({ specialOfferProduct }) => {
+const SpecialOffer = () => {
 
+    const specialOfferProduct = useSelector(state => state.productReducer.allProducts.find((item) => item.isSpacialOffer))
     const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-16T23:59:59'))
     const [selectedColor, setSelecetdColor] = useState(specialOfferProduct?.colors[0])
     const [selectedMemory, setselectedMemory] = useState(specialOfferProduct?.memory[0])
@@ -22,7 +24,7 @@ const SpecialOffer = ({ specialOfferProduct }) => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4} px={2} >
                     {/* <Paper sx={{ height: '97%',padding:'0px 20px' }}> */}
-                    <Stack spacing={2} px={2} sx={{ height: { xs: '350px', md: '99%' }, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',borderRadius:'15px' }} justifyContent={'center'} alignItems={'center'} >
+                    <Stack spacing={2} px={2} sx={{ height: { xs: '350px', md: '99%' }, boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: '15px' }} justifyContent={'center'} alignItems={'center'} >
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.9', color: 'red', textAlign: { xs: 'center', md: 'start' } }}>NEW 2024</Typography>
                         <Typography variant='h6' sx={{ fontWeight: 'bold', opacity: '.9', textAlign: { xs: 'center', md: 'start' } }}>{specialOfferProduct?.title}</Typography>
                         <Box sx={{ padding: '7px 15px', border: '2px solid #efefef', borderRadius: '10px' }} >

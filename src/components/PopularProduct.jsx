@@ -1,9 +1,11 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 import BestSellerCard from './BestSellerCard';
+import { useSelector } from 'react-redux';
 
-const PopularProduct = ({ popularProducts }) => {
+const PopularProduct = () => {
 
+  const popularProducts = useSelector(state => state.productReducer.allProducts.map(item => item).sort((a, b) => b.review_star - a.review_star))
   const showPopularProducts = popularProducts.map((product, index) => {
     if (index < 8) {
       return (

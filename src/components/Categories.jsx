@@ -1,8 +1,11 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const Categories = ({ allCategories }) => {
+const Categories = () => {
+
+    const allCategories = useSelector(state => state.categoryReducer.allCategories)
 
     const showCategories = allCategories.map((item, index) => {
         if (index < 12) {
