@@ -4,22 +4,8 @@ import { BASE_URL } from './baseUrl';
 
 export const fetchAllProducts = createAsyncThunk('/fetch/all/products', async (query, { rejectWithValue }) => {
     try {
-        let res
-        if (query.sort == 'oldest') {
-            res = await axios.get(`${BASE_URL}/api/product/get?oldest=true`)
-        } else if (query.sort == 'popular') {
-            res = await axios.get(`${BASE_URL}/api/product/get?popular=true`)
-        } else if (query.category) {
-            res = await axios.get(`${BASE_URL}/api/product/get?category=${query.category}`)
-        } else if (query.min && query.max) {
-            res = await axios.get(`${BASE_URL}/api/product/get?min=${query.min}&max=${query.max}`)
-        } else if (query.review) {
-            res = await axios.get(`${BASE_URL}/api/product/get?review=${query.review}`)
-        }
-        else {
-            res = await axios.get(`${BASE_URL}/api/product/get`)
-        }
-        console.log(res.data)
+        const res = await axios.get(`${BASE_URL}/api/product/get?sort=${query.sort ? query.sort : ""}&category=${query.category ? query.category : ""}&min=${query.min ? query.min : ""}&max=${query.max ? query.max : ""}&review=${query.review ? query.review : ""}&shipping=${query.shipping ? query.shipping : ""}&inStock=${query.inStockSrting ? query.inStockSrting : "true"}`)
+        // console.log(res.data)
         return res.data
     } catch (err) {
         rejectWithValue("Something went wrong ! network error")

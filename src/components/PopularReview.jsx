@@ -11,9 +11,11 @@ import 'swiper/css/scrollbar';
 import PopularReviewCard from './PopularReviewCard';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useSelector } from 'react-redux';
 
-const PopularReview = ({ popularReviews }) => {
+const PopularReview = () => {
 
+    const popularReviews = useSelector(state => state.reviewReducer.allReviews)
     const showPopularReviews = popularReviews.map(item => item).sort((a, b) => a.review_star - b.review_star).map((item, index) => {
         return (
             <SwiperSlide>

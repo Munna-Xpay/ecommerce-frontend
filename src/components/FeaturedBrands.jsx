@@ -4,8 +4,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import FeaturedProductCard from './FeaturedProductCard';
 import { useSelector } from 'react-redux';
 
-const FeaturedBrands = ({ featuredBrand }) => {
+const FeaturedBrands = () => {
 
+    const featuredBrand = useSelector(state => state.productReducer.allProducts.find((item) => item.isFeaturedBrand))
     const featuredBrandProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.manufacturer == featuredBrand.manufacturer))
     // console.log(featuredBrandProducts)
 
