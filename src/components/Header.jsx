@@ -11,6 +11,7 @@ import NavbarCategories from './NavbarCategories';
 const Header = () => {
 
     const [drawer, setDrawer] = useState(false)
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
