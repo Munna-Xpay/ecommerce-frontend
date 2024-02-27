@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import NavbarCategories from './NavbarCategories';
 
@@ -11,7 +11,6 @@ import NavbarCategories from './NavbarCategories';
 const Header = () => {
 
     const [drawer, setDrawer] = useState(false)
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -31,10 +30,10 @@ const Header = () => {
                         </Typography>
                     </Stack>
                     <Stack direction={'row'} alignItems={'center'} >
-                        <Link to={'/login'}>
+                            <Link to={'/login'}>
                             <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
                         </Link>
-                        <Link to={'/wishlist'}>
+                    <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={2} color="error">
                                     <FavoriteBorderIcon sx={{ color: '#efefef' }} />

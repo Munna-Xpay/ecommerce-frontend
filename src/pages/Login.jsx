@@ -1,16 +1,112 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Container, Divider, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Box, Button, Divider, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom'
+import { userLogin } from '../redux/userSlice';
+import toast, { Toaster } from 'react-hot-toast';
+//import { userInputValidation } from '../validations/UserValidation';
+import axios from 'axios';
+import { BASE_URL } from '../redux/baseUrl';
 
 function Login({ register }) {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+//const [errors,setErrors]=useState({})
+
+
+  const [user, setUser] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPass: ""
+  })
+
+  //state for matching confirm pass with pass
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+  //password visibility
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const handleClickShowPassword = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else if (field === 'confirmPass') {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+
+  //onchange
+  const setInputs = (e) => {
+    const { value, name } = e.target
+    setUser({ ...user, [name]: value })
+  }
+  //console.log(user);
+
+
+
+
+  //handle register func
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    const { fullName, email, password } = user
+    if (!fullName || !email || !password) {
+      toast.error('Fill all details')
+    }
+    //setErrors(userInputValidation(user))
+    // Check if passwords match
+    if (user.password !== user.confirmPass) {
+      setPasswordsMatch(false);
+      return;
+    }
+    setPasswordsMatch(true);
+    const data = { fullName, email, password }
+
+    try {
+      const response = await axios.post(`${BASE_URL}/api/auth/register`, data)
+      if (response.status === 200) {
+        toast.success('SignUp successfull')
+        navigate('/login')
+        setUser({ fullName: "", email: "", password: "", confirmPass: "" })
+      }
+    }
+    catch (err) {
+      // toast.error(err.response.data)
+    }
+  }
+
+  //login func
+  const handleLogin = (e) => {
+    e.preventDefault()
+    const { email, password } = user
+     //setErrors(userInputValidation(user))
+    const data = { email, password }
+    dispatch(userLogin(data))
+  }
+
+
+
+  //error 
+  const error = useSelector(state => state.userReducer.error)
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
+
+  //navigation after login
+  const userData = useSelector(state => state.userReducer.user)
+  if (userData) {
+    navigate('/')
+    toast.success('Login successfull')
+  }
 
   return (
     <Stack style={{ background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),url(https://www.goalcast.com/wp-content/uploads/2022/07/Goalcast-44-1-1100x610.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} justifyContent={'center'} alignItems={'center'} sx={{ width: '100%', minHeight: '85vh', marginBottom: '40px' }}>
@@ -30,9 +126,18 @@ function Login({ register }) {
 
         }
         {register &&
-          <TextField InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Full Name" variant="filled" />
+
+          <Box>
+            <TextField value={user.fullName} onChange={(e) => setInputs(e)} name='fullName' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Full Name" variant="filled" />
+
+          </Box>
+
         }
-        <TextField InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Email Address" variant="filled" />
+
+        <Box>
+          <TextField value={user.email} onChange={(e) => setInputs(e)} name='email' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Email Address" variant="filled" />
+
+        </Box>
         <FormControl sx={{ width: '25ch' }} variant="filled">
           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
           <FilledInput
@@ -44,13 +149,16 @@ function Login({ register }) {
                 md: 350
               }
             }}
+            value={user.password}
+            onChange={(e) => setInputs(e)}
+            name='password'
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={() => handleClickShowPassword('password')}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
@@ -59,6 +167,7 @@ function Login({ register }) {
               </InputAdornment>
             }
           />
+
         </FormControl>
 
 
@@ -74,22 +183,27 @@ function Login({ register }) {
                   md: 350
                 }
               }}
-              id="filled-adornment-password"
-              type={showPassword ? 'text' : 'password'}
+              value={user.confirmPass}
+              onChange={(e) => setInputs(e)}
+              name='confirmPass'
+              id="filled-adornment-password2"
+              type={showConfirmPassword ? 'text' : 'password'}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
+                    onClick={() => handleClickShowPassword('confirmPass')}
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               }
             />
+            {!passwordsMatch && <Typography fontSize={14} color={'red'}>Passwords do not match!</Typography>}
           </FormControl>
+
         }
 
         <Box textAlign={'end'}>
@@ -100,7 +214,9 @@ function Login({ register }) {
 
         {
           register ?
-            <Link to={'/verify'}><Button
+
+            <Button
+              onClick={(e) => handleSignUp(e)}
               sx={{
                 width: {
                   xs: 300,
@@ -116,10 +232,10 @@ function Login({ register }) {
               variant="contained"
             >
               Register
-            </Button></Link> :
+            </Button> :
             <Button
+              onClick={(e) => handleLogin(e)}
               sx={{
-
                 padding: "10px",
                 borderRadius: "10px",
                 backgroundColor: "#03111c",
@@ -153,6 +269,16 @@ function Login({ register }) {
         </Stack>
 
       </Stack>
+      <Toaster position="top-center"
+        reverseOrder={false}
+        containerStyle={{
+          padding: '10px',
+          fontSize: '17px',
+          fontFamily: 'sans-serif',
+
+
+        }}
+      />
     </Stack>
   )
 }
