@@ -28,7 +28,7 @@ const LandingPage = () => {
     console.log(featuredBrand)
 
     useEffect(() => {
-        dispatch(fetchAllProducts())
+        dispatch(fetchAllProducts({}))
         dispatch(fetchAllCategory())
         dispatch(fetchAllreviews())
     }, [])
