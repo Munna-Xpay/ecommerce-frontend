@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Autocomplete, Box,  Button,  FilledInput,  FormControl,  IconButton,  InputAdornment,  InputLabel,   MenuItem,   Select,  Stack,  TextField, Typography } from '@mui/material'
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Autocomplete, Box,  Button,  FormControl,  InputLabel,   MenuItem,   Select,  Stack,  TextField, Typography } from '@mui/material'
 import { countries } from '../CountryData';
+import { useSelector } from 'react-redux';
 
 
 function AccountPersonal() {
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   const [gender, setGender] =useState('');
 
@@ -21,7 +12,20 @@ function AccountPersonal() {
     setGender(event.target.value);
   };
 
- 
+
+//state for storing form data
+  const [profileData,setProfileData]=useState({
+    fullName:"",email:"",phoneNum:"",birthday:"",gender:"",address:"",city:"",country:""
+  })
+
+const userData=useSelector(state=>state.userReducer.user)
+useEffect(()=>{
+  if(userData){
+    setProfileData({...profileData,})
+  }
+})
+
+  
 
   return (
     <Box>
@@ -103,87 +107,6 @@ function AccountPersonal() {
     />
     </Stack>
       </Box>
-   
-      
-      <Typography mt={5} mb={3} variant='h6' fontWeight={'bold'}>Change Password</Typography>
-
-      <FormControl  sx={{  width: '25ch' }} variant="filled">
-          <InputLabel   htmlFor="filled-adornment-password">Old Password</InputLabel>
-          <FilledInput
-         style={{borderRadius:'7px'}}
-         disableUnderline
-          sx={{width:{
-            xs:396,
-            md:804
-          }, marginBottom:'15px'}}
-            id="filled-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ?   <Visibility />: <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-
-        <FormControl  sx={{  width: '25ch', display:'block' }} variant="filled">
-          <InputLabel   htmlFor="filled-adornment-password">New Password</InputLabel>
-          <FilledInput
-          style={{borderRadius:'7px'}}
-         disableUnderline
-          sx={{width:{
-            xs:396,
-            md:804
-          } ,marginBottom:'15px'}}
-            id="filled-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility />: <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-
-        <FormControl  sx={{  width: '25ch', display:'block' }} variant="filled">
-          <InputLabel   htmlFor="filled-adornment-password">Confirm New Password</InputLabel>
-          <FilledInput
-          style={{borderRadius:'7px'}}
-         disableUnderline
-          sx={{width:{
-            xs:396,
-            md:804
-          },  marginBottom:'15px' }}
-            id="filled-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility />: <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
 
         <Button sx={{marginTop:'15px',backgroundColor:'#03111c', '&:hover':{backgroundColor:'#03111c'}}}  disableElevation variant="contained" >
   Save Changes
