@@ -18,13 +18,13 @@ const Product = () => {
     const product = useSelector(state => state.productReducer.allProducts.find(item => item._id == id))
     const productReviews = useSelector(state => state.reviewReducer.allReviews?.filter(item => item.productId == id))
     console.log(productReviews)
-    const [slideImg, setSlideImg] = useState(product.thumbnail)
-    const [images, setImages] = useState([product?.thumbnail, ...product?.images])
-    const [selectedColor, setSelecetdColor] = useState(product?.colors[0])
-    const [selectedMemory, setselectedMemory] = useState(product?.memory[0])
+    const [slideImg, setSlideImg] = useState(product?.thumbnail)
+    // const [images, setImages] = useState([product?.thumbnail, ...product?.images])
+    const [selectedColor, setSelecetdColor] = useState('')
+    const [selectedMemory, setselectedMemory] = useState('')
     const [selectedQuantity, setselectedQuantity] = useState(1)
 
-    const allImg = images.map((item, index) => {
+    const allImg = product?.images?.map((item, index) => {
         return (
             <Box
                 onClick={(e) => setSlideImg(item)}
@@ -36,10 +36,19 @@ const Product = () => {
         )
     })
 
+    console.log(product?.review_star)
+
     useEffect(() => {
         dispatch(fetchAllProducts({}))
         dispatch(fetchAllreviews())
-    }, [id])
+    }, [])
+
+    useEffect(() => {
+        setSlideImg(product?.thumbnail)
+        setSelecetdColor(product?.colors[0])
+        setselectedMemory(product?.memory[0])
+    }, [product])
+
     return (
         <>
             <Container sx={{ padding: '50px 0px' }}>
@@ -78,7 +87,7 @@ const Product = () => {
                                 <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Color</Typography>
                                 <Stack direction={'row'} spacing={3}>
                                     {
-                                        product.colors.map((color, index) => (
+                                        product?.colors?.map((color, index) => (
                                             < Box onClick={() => setSelecetdColor(color)} width={35} height={35} sx={{ background: color, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == color && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
                                         ))
                                     }
