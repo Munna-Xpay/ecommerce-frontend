@@ -14,7 +14,6 @@ function AccountPersonal() {
   //state for storing user data
   const [userData, setUserData] = useState({})
 
-
  //data from store
   const userDetails = useSelector(state => state.userReducer.user)
  // console.log(userDetails);
