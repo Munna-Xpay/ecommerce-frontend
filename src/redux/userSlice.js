@@ -37,7 +37,7 @@ export const profileEdit = createAsyncThunk(
       }
     ).catch(err=>rejectWithValue(err.response.data))
     return response
-    console.log(response);
+    //console.log(response);
   }
 );
 
