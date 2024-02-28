@@ -2,14 +2,50 @@ import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTit
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addReviews } from '../redux/reviewSlice';
+import { validateReview } from '../validations/reviewValidation';
 
-const WriteProductReview = ({ productReviews }) => {
+const WriteProductReview = ({ productReviews, productId }) => {
 
     const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.userReducer.user)
+    const [createreview, setCreatereview] = useState({
+        review_stars: 0,
+        review: "",
+        username: "",
+    })
 
-    const handleClose = () => setOpen(false)
-
+    const handleClose = () => {
+        setOpen(false)
+        setCreatereview({
+            review: "",
+            review_stars: 0,
+            username: ""
+        })
+        setError({})
+    }
     const handleClickOpen = () => setOpen(true)
+
+    const handleSubmitReview = () => {
+        const { review, review_stars, username } = createreview;
+        if (!review || !username) {
+            setError(validateReview(createreview))
+        }
+
+        if (review && username) {
+            console.log(productId)
+            console.log(user.user._id)
+            try {
+                dispatch(addReviews({ ...createreview, date: new Date(), reviewFrom: user.user._id, productId }))
+                handleClose()
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }
 
     return (
         <>
@@ -80,7 +116,7 @@ const WriteProductReview = ({ productReviews }) => {
                     <Stack spacing={3} sx={{ width: '500px' }} >
                         <Box>
                             <Typography variant='body2' sx={{ opacity: '.7' }} gutterBottom>Your Rating :</Typography>
-                            <Rating />
+                            <Rating value={createreview.review_stars} onChange={(e) => setCreatereview({ ...createreview, review_stars: Number(e.target.value) })} />
                         </Box>
                         <TextField
                             id="outlined-multiline-static"
@@ -88,14 +124,25 @@ const WriteProductReview = ({ productReviews }) => {
                             label="Review"
                             multiline
                             rows={3}
+                            error={error.review}
+                            value={createreview.review}
+                            helperText={error.review && error.review}
+                            onChange={(e) => setCreatereview({ ...createreview, review: e.target.value })}
                         />
-                        <TextField id="outlined-basic" label="Name" variant="filled" />
-                        <TextField id="outlined-basic" type='email' label="Email" variant="filled" />
+                        <TextField
+                            id="outlined-basic"
+                            label="Name"
+                            variant="filled"
+                            error={error.username}
+                            value={createreview.username}
+                            helperText={error.username && error.username}
+                            onChange={(e) => setCreatereview({ ...createreview, username: e.target.value })}
+                        />
                     </Stack>
                 </DialogContent>
                 <DialogActions sx={{ padding: '30px' }}>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose} variant='contained' autoFocus>
+                    <Button onClick={handleSubmitReview} variant='contained' autoFocus>
                         Submit
                     </Button>
                 </DialogActions>

@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, FormGroup, InputAdornment, Paper, Rating, Stack, Switch, TextField, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, InputAdornment, Paper, Radio, RadioGroup, Rating, Stack, Switch, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -11,6 +11,7 @@ const ProductSidebar = () => {
 
     const dispatch = useDispatch();
     const allCategories = useSelector(state => state.categoryReducer.allCategories);
+    const brands = useSelector(state => state.productReducer.brands);
     const popularProducts = useSelector(state => state.productReducer.allProducts.map(item => item).sort((a, b) => b.review_star - a.review_star))
     const [category, setCategory] = useState("")
     const [review, setReview] = useState(0)
@@ -19,14 +20,10 @@ const ProductSidebar = () => {
         max: ""
     })
     const [shipping, setShipping] = useState("")
+    const [brand, setBrand] = useState("")
     const [inStock, setInStock] = useState(true)
 
-    console.log(category)
-
-    useEffect(() => {
-        dispatch(fetchAllCategory())
-        dispatch(fetchAllProducts({}))
-    }, [])
+    console.log(brands)
 
     useEffect(() => {
         dispatch(fetchAllProducts({ category }))
@@ -45,6 +42,10 @@ const ProductSidebar = () => {
     useEffect(() => {
         dispatch(fetchAllProducts({ shipping }))
     }, [shipping])
+
+    useEffect(() => {
+        dispatch(fetchAllProducts({ brand }))
+    }, [brand])
 
     useEffect(() => {
         const inStockSrting = inStock ? 'true' : 'false'
@@ -91,12 +92,14 @@ const ProductSidebar = () => {
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }}>Brand</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <FormGroup>
-                            <FormControlLabel control={<Checkbox />} label="Apple" />
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Xiaomi" />
-                            <FormControlLabel control={<Checkbox />} label="Honor" />
-                            <FormControlLabel control={<Checkbox />} label="Samsumg" />
-                        </FormGroup>
+                        {
+                            brands.map((item, index) => (
+                                <Stack onClick={() => setBrand(item._id)} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                                    <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                                    <Typography variant='body2' sx={{ opacity: brand == item._id ? '.99' : '.7' }}>{item._id}</Typography>
+                                </Stack>
+                            ))
+                        }
                     </AccordionDetails>
                 </Accordion>
 
@@ -204,7 +207,7 @@ const ProductSidebar = () => {
                         {showPopularProducts}
                     </Stack>
                 </Paper>
-            </Stack>
+            </Stack >
         </>
     )
 }

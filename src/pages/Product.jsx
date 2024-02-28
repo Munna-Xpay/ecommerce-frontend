@@ -10,14 +10,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { fetchAllreviews } from '../redux/reviewSlice';
 import { fetchAllProducts } from '../redux/productSlice';
+import { addToCart } from '../redux/cartSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Product = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.find(item => item._id == id))
+    const cart = useSelector(state => state.cartReducer)
     const productReviews = useSelector(state => state.reviewReducer.allReviews?.filter(item => item.productId == id))
-    console.log(productReviews)
+    console.log(cart)
     const [slideImg, setSlideImg] = useState(product?.thumbnail)
     // const [images, setImages] = useState([product?.thumbnail, ...product?.images])
     const [selectedColor, setSelecetdColor] = useState('')
@@ -36,8 +39,6 @@ const Product = () => {
         )
     })
 
-    console.log(product?.review_star)
-
     useEffect(() => {
         dispatch(fetchAllProducts({}))
         dispatch(fetchAllreviews())
@@ -48,6 +49,11 @@ const Product = () => {
         setSelecetdColor(product?.colors[0])
         setselectedMemory(product?.memory[0])
     }, [product])
+
+    //add to cart
+    const handleAddToCart = () => {
+        dispatch(addToCart({ product: id, original_price: product.original_price }))
+    }
 
     return (
         <>
@@ -126,7 +132,7 @@ const Product = () => {
                                         </Select>
                                     </FormControl>
                                 </Box>
-                                <Button variant='contained' size='large' color='warning' startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
+                                <Button variant='contained' onClick={handleAddToCart} size='large' color='warning' startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
                                 <Button variant='contained' size='large' startIcon={<FavoriteBorderIcon />}>Add To Wishlist</Button>
                             </Stack>
                             <Button variant='contained'>Buy Now</Button>
@@ -135,7 +141,7 @@ const Product = () => {
                 </Grid>
                 <ProductDesc product={product} />
             </Container >
-            <WriteProductReview productReviews={productReviews} />
+            <WriteProductReview productId={id} productReviews={productReviews} />
             <Box mt={7}>
                 {
                     productReviews.map((rev, index) => (
@@ -146,6 +152,15 @@ const Product = () => {
             <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '70px' }}>
                 <Pagination sx={{ display: 'block', margin: 'auto' }} color='primary' count={10} />
             </Box>
+
+            <Toaster position="top-center"
+                reverseOrder={false}
+                containerStyle={{
+                    padding: '10px',
+                    fontSize: '17px',
+                    fontFamily: 'sans-serif',
+                }}
+            />
         </>
     )
 }
