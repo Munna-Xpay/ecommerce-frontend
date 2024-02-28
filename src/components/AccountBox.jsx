@@ -9,6 +9,9 @@ import GradingOutlinedIcon from '@mui/icons-material/GradingOutlined';
 import { Link } from 'react-router-dom';
 
 const AccountBox = ({ setIsDraweOpen }) => {
+
+    
+
     return (
         <Stack spacing={2} sx={{ border: '2px solid #efefef', borderRadius: '15px', padding: '20px' }}>
             <Stack direction={'row'} spacing={1} alignItems={'center'}>
