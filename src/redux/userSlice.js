@@ -43,8 +43,7 @@ export const profileEdit = createAsyncThunk(
 //get user by id
 export const userById = createAsyncThunk(
   "user/byId",
-  async ({ rejectWithValue }) => {
-    const id = localStorage.getItem("userId");
+  async (id,{ rejectWithValue }) => {
     await axios
       .get(`${BASE_URL}/api/auth/user/${id}`)
       .then((res) => res.data)
