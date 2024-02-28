@@ -11,17 +11,21 @@ const ProductSidebar = () => {
 
     const dispatch = useDispatch();
     const allCategories = useSelector(state => state.categoryReducer.allCategories);
+    const popularProducts = useSelector(state => state.productReducer.allProducts.map(item => item).sort((a, b) => b.review_star - a.review_star))
     const [category, setCategory] = useState("")
-    const [review, setReview] = useState(null)
+    const [review, setReview] = useState(0)
     const [price, setPrice] = useState({
-        min: null,
-        max: null
+        min: "",
+        max: ""
     })
+    const [shipping, setShipping] = useState("")
+    const [inStock, setInStock] = useState(true)
 
-    console.log(price)
+    console.log(category)
 
     useEffect(() => {
         dispatch(fetchAllCategory())
+        dispatch(fetchAllProducts({}))
     }, [])
 
     useEffect(() => {
@@ -37,6 +41,23 @@ const ProductSidebar = () => {
     useEffect(() => {
         dispatch(fetchAllProducts({ review }))
     }, [review])
+
+    useEffect(() => {
+        dispatch(fetchAllProducts({ shipping }))
+    }, [shipping])
+
+    useEffect(() => {
+        const inStockSrting = inStock ? 'true' : 'false'
+        dispatch(fetchAllProducts({ inStockSrting }))
+    }, [inStock])
+
+    const showPopularProducts = popularProducts.map((product, index) => {
+        if (index < 3) {
+            return (
+                <BestSellerCard product={product} />
+            )
+        }
+    })
 
     return (
         <>
@@ -127,11 +148,18 @@ const ProductSidebar = () => {
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }}>Shipping</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <FormGroup>
-                            <FormControlLabel control={<Checkbox />} label="Fast" />
-                            <FormControlLabel control={<Checkbox defaultChecked />} label="Saving" />
-                            <FormControlLabel control={<Checkbox />} label="Free" />
-                        </FormGroup>
+                        <Stack onClick={() => setShipping("Fast")} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                            <Typography variant='body2' sx={{ opacity: shipping == "Fast" ? '.99' : '.7' }}>Fast</Typography>
+                        </Stack>
+                        <Stack onClick={() => setShipping("Free")} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                            <Typography variant='body2' sx={{ opacity: shipping == "Free" ? '.99' : '.7' }}>Free</Typography>
+                        </Stack>
+                        <Stack onClick={() => setShipping("Saving")} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                            <Typography variant='body2' sx={{ opacity: shipping == "Saving" ? '.99' : '.7' }}>Saving</Typography>
+                        </Stack>
                     </AccordionDetails>
                 </Accordion>
 
@@ -165,7 +193,7 @@ const ProductSidebar = () => {
                     <Stack direction={'row'} alignItems={'center'} spacing={2} >
                         <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: 'bold' }}>Only In Stock</Typography>
                         <FormGroup>
-                            <FormControlLabel control={<Switch defaultChecked />} />
+                            <FormControlLabel control={<Switch checked={inStock} onChange={(e) => setInStock(e.target.checked)} />} />
                         </FormGroup>
                     </Stack>
                 </Paper>
@@ -173,12 +201,9 @@ const ProductSidebar = () => {
                 <Paper sx={{ padding: '12px', marginTop: '20px' }}>
                     <Typography gutterBottom variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8', marginBottom: '10px' }}>Best Sellers</Typography>
                     <Stack spacing={3} >
-                        <BestSellerCard />
-                        <BestSellerCard />
-                        <BestSellerCard />
+                        {showPopularProducts}
                     </Stack>
                 </Paper>
-
             </Stack>
         </>
     )

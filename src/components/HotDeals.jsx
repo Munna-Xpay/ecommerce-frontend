@@ -12,11 +12,13 @@ import HotDealProductCard from './HotDealProductCard';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { getCountDownTime } from '../countdownTimer';
+import { useSelector } from 'react-redux';
 
 
-const HotDeals = ({ hotDealProducts }) => {
+const HotDeals = () => {
 
     const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-30T23:59:59'))
+    const hotDealProducts = useSelector(state => state.productReducer.allProducts)
 
     const showProducts = hotDealProducts.map((item, index) => {
         return (

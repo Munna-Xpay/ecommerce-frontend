@@ -17,15 +17,6 @@ import { fetchAllCategory } from '../redux/categorySlice'
 const LandingPage = () => {
 
     const dispatch = useDispatch()
-    const bannerProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isBanner))
-    const hotDealProducts = useSelector(state => state.productReducer.allProducts)
-    const popularProducts = useSelector(state => state.productReducer.allProducts)
-    const featuredProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isFeaturedProduct))
-    const specialOfferProduct = useSelector(state => state.productReducer.allProducts.find((item) => item.isSpacialOffer))
-    const featuredBrand = useSelector(state => state.productReducer.allProducts.find((item) => item.isFeaturedBrand))
-    const popularReviews = useSelector(state => state.reviewReducer.allReviews)
-    const allCategories = useSelector(state => state.categoryReducer.allCategories)
-    console.log(featuredBrand)
 
     useEffect(() => {
         dispatch(fetchAllProducts({}))
@@ -36,15 +27,15 @@ const LandingPage = () => {
     return (
         <Container>
             <Stack mt={6} spacing={10}>
-                <Hero bannerProducts={bannerProducts} />
-                <Categories allCategories={allCategories} />
-                <HotDeals hotDealProducts={hotDealProducts} />
-                <FeaturedProducts featuredProducts={featuredProducts} />
-                <SpecialOffer specialOfferProduct={specialOfferProduct} />
-                <FeaturedBrands featuredBrand={featuredBrand} />
-                <PopularProduct popularProducts={popularProducts} />
+                <Hero />
+                <Categories />
+                <HotDeals />
+                <FeaturedProducts />
+                <SpecialOffer />
+                <FeaturedBrands />
+                <PopularProduct />
                 {/* <TopProducts /> */}
-                <PopularReview popularReviews={popularReviews} />
+                <PopularReview />
             </Stack>
         </Container>
     )

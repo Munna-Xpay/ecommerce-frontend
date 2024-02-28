@@ -3,10 +3,13 @@ import React, { useEffect, useState } from 'react'
 import HotDealProductCard from './HotDealProductCard'
 import { Link } from 'react-router-dom'
 import { getCountDownTime } from '../countdownTimer'
+import { useSelector } from 'react-redux'
 
-const FeaturedProducts = ({ featuredProducts }) => {
+const FeaturedProducts = () => {
 
     const [countdown, setCountdown] = useState(() => getCountDownTime('2024-02-28T23:59:59'))
+    const featuredProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.isFeaturedProduct))
+
 
     const showFeaturedProducts = featuredProducts.map((item, index) => {
         if (index < 3) {
