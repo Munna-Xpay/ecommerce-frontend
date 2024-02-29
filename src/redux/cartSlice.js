@@ -36,6 +36,18 @@ export const fetchCartItems = createAsyncThunk('/fetch-cart-items', async (args,
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
+export const deleteCartItem = createAsyncThunk('/delete-cart-item', async (id, { rejectWithValue }) => {
+    const token = localStorage.getItem('token')
+    return await axios.delete(`${BASE_URL}/api/auth/delete-cart-product/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "user_token": `Bearer ${token}`
+        }
+    })
+        .then(res => id)
+        .catch((err) => rejectWithValue("Something went wrong ! network error"))
+})
+
 const initialState = {
     cartItems: [],
     error: "",
@@ -71,6 +83,20 @@ const cartSlice = createSlice({
         })
 
         builder.addCase(fetchCartItems.rejected, (state, action) => {
+            return { ...state, error: action.payload, loading: false }
+        })
+
+
+
+        builder.addCase(deleteCartItem.pending, (state) => {
+            return { ...state, loading: true }
+        })
+
+        builder.addCase(deleteCartItem.fulfilled, (state, action) => {
+            state.cartItems = state.cartItems.filter((item) => item._id != action.payload)
+        })
+
+        builder.addCase(deleteCartItem.rejected, (state, action) => {
             return { ...state, error: action.payload, loading: false }
         })
     }

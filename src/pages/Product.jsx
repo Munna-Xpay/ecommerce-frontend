@@ -52,7 +52,7 @@ const Product = () => {
 
     //add to cart
     const handleAddToCart = () => {
-        dispatch(addToCart({ product: id, original_price: product.original_price }))
+        dispatch(addToCart({ product: id, original_price: product.discounted_price }))
     }
 
     return (
