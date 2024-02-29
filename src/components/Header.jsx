@@ -16,6 +16,7 @@ const Header = () => {
     const dispatch = useDispatch()
     const cartitems = useSelector(state => state.cartReducer.cartItems)
     const [drawer, setDrawer] = useState(false)
+
     console.log(cartitems)
 
     useEffect(() => {
