@@ -57,8 +57,8 @@ const Product = () => {
     }
 
     //add to wishlist
-    const handleAddToWishlist=()=>{
-        dispatch(addToWishlist({product:id,original_price:product.discounted_price}))
+    const handleAddToWishlist = () => {
+        dispatch(addToWishlist({ product: id, original_price: product.discounted_price }))
     }
 
     return (

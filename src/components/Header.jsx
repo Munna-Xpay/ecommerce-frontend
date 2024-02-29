@@ -17,9 +17,9 @@ const Header = () => {
     const dispatch = useDispatch()
     const cartitems = useSelector(state => state.cartReducer.cartItems)
     const [drawer, setDrawer] = useState(false)
-const wishlistitems=useSelector(state=>state.wishlistReducer.wishlistProducts)
-//console.log(wishlistitems);
-   // console.log(cartitems)
+    const wishlistitems = useSelector(state => state.wishlistReducer.wishlistProducts)
+    //console.log(wishlistitems);
+    // console.log(cartitems)
 
     useEffect(() => {
         dispatch(fetchAllCategory())

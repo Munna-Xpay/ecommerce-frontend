@@ -17,15 +17,15 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCartItem, updateCartItem } from "../redux/cartSlice";
+import { addToCart, deleteCartItem, updateCartItem } from "../redux/cartSlice";
+import { deleteWishlistProduct } from "../redux/wishlistSlice";
 
 function ProductsTable({ isWishlist, products }) {
 
 
   const dispatch = useDispatch()
-  const cartitems = useSelector(state => state.cartReducer.cartItems)
- const wishlistitems=useSelector(state=>state.wishlistReducer.wishlistProducts)
-console.log(wishlistitems);
+ // const cartitems = useSelector(state => state.cartReducer.cartItems)
+ 
   const [qty, setQty] = useState('');
 
   const handleChange = (event) => {
@@ -37,7 +37,17 @@ console.log(wishlistitems);
     dispatch(deleteCartItem(id))
   }
 
-  const showCartItems = products.map((item, index) => {
+  //wishlist delete
+  const handleDeleteWishlistProduct=(id)=>{
+    dispatch(deleteWishlistProduct(id))
+  }
+
+  //add to cart
+  const handleAddToCart=(product,original_price)=>{
+    dispatch(addToCart(product,original_price))
+  }
+
+  const showCart_WishlistItems = products.map((item, index) => {
     return (
       <TableRow
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -65,6 +75,7 @@ console.log(wishlistitems);
           </Box>
         </TableCell>
         <TableCell align="right">
+          {!isWishlist&&
           <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
             <Select
               defaultValue={1}
@@ -79,13 +90,17 @@ console.log(wishlistitems);
               <MenuItem value={5}>5</MenuItem>
             </Select>
           </FormControl>
-        </TableCell>
-        <TableCell align="right">₹ {item.original_price}</TableCell>
-        <TableCell align="right">
-          <IconButton onClick={() => handleCartItemDelete(item._id)}><DeleteIcon /></IconButton>
+  }
+       </TableCell>
+        <TableCell align="right" sx={{fontWeight:'bold'}}>₹ {item.original_price}</TableCell>
+        <TableCell   sx={{display:'flex' ,marginTop:'12px'}} align="right">{!isWishlist?
+          <IconButton onClick={() => handleCartItemDelete(item._id)}><DeleteIcon /></IconButton>:<IconButton onClick={() => handleDeleteWishlistProduct(item._id)}><DeleteIcon /></IconButton>
+        }
+      
           {
-            isWishlist && <AddShoppingCartIcon sx={{ marginLeft: '6px' }} />
+            isWishlist &&<IconButton onClick={()=>handleAddToCart({product:item.product._id,original_price:item.product.original_price})}><AddShoppingCartIcon/></IconButton>
           }
+          
         </TableCell>
       </TableRow>
     )
@@ -93,6 +108,7 @@ console.log(wishlistitems);
 
   return (
     <Box>
+      
       <TableContainer component={Paper}>
         <Table res sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -105,60 +121,11 @@ console.log(wishlistitems);
                 }
               </TableCell>
               <TableCell align="right">Subtotal</TableCell>
-              <TableCell align="right">Manage</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                <Box sx={{ display: "flex" }}>
-                  <img
-                    height={70}
-                    width={110}
-                    src="https://i.postimg.cc/0jxshzJL/iphone-15-pro-gray.jpg"
-                    alt=""
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      margin: "10px",
-                    }}
-                    component={"p"}
-                  >
-                    Iphone 14
-                  </Typography>
-                  <Typography display={"block"} component={"p"}></Typography>
-                </Box>
-              </TableCell>
-              <TableCell align="right">
-                {!isWishlist &&
-                  <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
-                    <Select
-                      defaultValue={1}
-                      onChange={handleChange}
-                      sx={{ height: '33px' }}
-                    >
-                      <MenuItem value="">
-                      </MenuItem>
-                      <MenuItem selected={true} value={1}>1</MenuItem>
-                      <MenuItem value={2}>2</MenuItem>
-                      <MenuItem value={3}>3</MenuItem>
-                    </Select>
-                  </FormControl>
-                }
-              </TableCell>
-              <TableCell align="right">$575</TableCell>
-              <TableCell align="right">
-                <DeleteIcon sx={{ color: 'red' }} />
-                {
-                  isWishlist && <AddShoppingCartIcon sx={{ marginLeft: '6px' }} />
-                }
-              </TableCell>
-            </TableRow>
-            {showCartItems}
+            {showCart_WishlistItems}
           </TableBody>
         </Table>
       </TableContainer>

@@ -3,10 +3,13 @@ import React from "react";
 import ProductsTable from "../components/ProductsTable";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { useSelector } from "react-redux";
 
 function Wishlist({ Wishlist }) {
+  const wishlistitems=useSelector(state=>state.wishlistReducer.wishlistProducts)
+ // console.log(wishlistitems);
   return (
-    <Container sx={{ marginBottom: '70px', minHeight: '100vh',paddingTop:'50px' }}>
+    <Container sx={{ marginBottom: '70px', minHeight: '100vh', paddingTop: '50px' }}>
       <Box
         sx={{
           padding: "10px",
@@ -17,46 +20,8 @@ function Wishlist({ Wishlist }) {
           Wishlist
         </Typography>
       </Box>
-      <ProductsTable isWishlist />
-      <Box
-
-        mt={3}
-        sx={{
-          display: "flex",
-          justifyContent: {
-            lg: "end",
-            md: "center",
-          }
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "200px",
-            marginLeft:{
-              md:0,
-              xs:12
-            },
-            marginBottom:'20px'
-          }}
-        >
-          <Typography fontWeight={"bold"}>Subtotal</Typography>
-          <Typography fontWeight={"bold"}>$567</Typography>
-        </Box>
-      </Box>
-
-      <Stack alignItems={'end'}>
-        <Button sx={{
-          backgroundColor: '#01040a', '&:hover': { backgroundColor: '#01040a' }, width: {
-            xs: 365,
-            md: 200
-          }
-        }} variant="contained" size="large" color="warning">
-          <AddShoppingCartIcon sx={{ marginRight: "10px" }} />
-          Add To Cart
-        </Button>
-      </Stack>
+      <ProductsTable products={wishlistitems} isWishlist />
+      
       {!Wishlist &&
         <Button
           variant="text"

@@ -18,7 +18,7 @@ export const addToWishlist=createAsyncThunk('/add-to-wishlist',async (data,{reje
     )
 });
 
-export const getWishlistProducts=createAsyncThunk('/get-wishlist',async({rejectWithValue})=>{
+export const getWishlistProducts=createAsyncThunk('/get-wishlist',async(args,{rejectWithValue})=>{
     const token=localStorage.getItem('token')
     return await axios.get(`${BASE_URL}/api/auth/wishlist-products`,{
         headers:{
@@ -27,6 +27,20 @@ export const getWishlistProducts=createAsyncThunk('/get-wishlist',async({rejectW
         }
     })
     .then(res=>res.data)
+    .catch((err)=>
+    rejectWithValue(err.response.data)
+    )
+})
+
+export const deleteWishlistProduct=createAsyncThunk('/delete-wishlist-product',async(id,{rejectWithValue})=>{
+    const token=localStorage.getItem('token')
+    return await axios.delete(`${BASE_URL}/api/auth/delete-wishlist-product/${id}`,{
+        headers:{
+            "Content-Type": "application/json",
+            "user_token": `Bearer ${token}`
+        }
+    })
+    .then(res=>id)
     .catch((err)=>
     rejectWithValue(err.response.data)
     )
@@ -48,7 +62,7 @@ const wishlistSlice =createSlice({
             return {...state,loading:true}
         })
         builder.addCase(addToWishlist.fulfilled, (state,action)=>{
-            console.log(action.payload);
+           // console.log(action.payload);
             return {...state,wishlistProducts:action.payload,loading:false}
             
         })
@@ -61,11 +75,24 @@ const wishlistSlice =createSlice({
             return {...state,loading:true}
         })
         builder.addCase(getWishlistProducts.fulfilled, (state,action)=>{
-            console.log(action.payload);
+           // console.log(action.payload);
             return {...state,wishlistProducts:action.payload,loading:false}
             
         })
         builder.addCase(getWishlistProducts.rejected, (state,action)=>{
+            return {...state,error:action.payload,loading:false}
+        })
+
+        //delete wishlist product
+        builder.addCase(deleteWishlistProduct.pending,(state)=>{
+            return {...state,loading:true}
+        })
+        builder.addCase(deleteWishlistProduct.fulfilled, (state,action)=>{
+           // console.log(action.payload);
+            state.wishlistProducts=state.wishlistProducts.filter((product)=>product._id!=action.payload)
+            
+        })
+        builder.addCase(deleteWishlistProduct.rejected, (state,action)=>{
             return {...state,error:action.payload,loading:false}
         })
     }
