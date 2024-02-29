@@ -1,11 +1,21 @@
 import { Box, Button, Container, Drawer, Grid, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductList from '../components/ProductList'
 import ProductSidebar from '../components/ProductSidebar'
+import { useDispatch } from 'react-redux'
+import { fetchAllProducts, fetchBrands } from '../redux/productSlice'
+import { fetchAllCategory } from '../redux/categorySlice'
 
 const Products = () => {
 
+    const dispatch = useDispatch()
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+    useEffect(() => {
+        dispatch(fetchBrands())
+        dispatch(fetchAllCategory())
+        dispatch(fetchAllProducts({}))
+    }, [])
 
     return (
         <>

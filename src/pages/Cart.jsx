@@ -13,8 +13,12 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ProductsTable from "../components/ProductsTable";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Cart() {
+
+  const cartitems = useSelector(state => state.cartReducer.cartItems)
+  console.log(cartitems)
   return (
     <Container sx={{ minHeight: '100vh', marginBottom: '50px' }}>
       <Box
@@ -59,10 +63,10 @@ function Cart() {
               >
                 <Typography fontSize={15}>Subtotal</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  $390
+                ₹{cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
-              <Box
+              {/* <Box
                 mt={2}
                 sx={{ display: "flex", justifyContent: "space-between" }}
               >
@@ -70,14 +74,14 @@ function Cart() {
                 <Typography fontSize={15} fontWeight={"bold"}>
                   $30
                 </Typography>
-              </Box>
+              </Box> */}
               <Box
                 mt={2}
                 sx={{ display: "flex", justifyContent: "space-between" }}
               >
-                <Typography fontSize={15}>Discount(15%)</Typography>
+                <Typography fontSize={15}>Discount</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  -$10
+                  - ₹ {cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price)?.reduce((a, b) => a + b) - cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
               <Box
@@ -86,11 +90,11 @@ function Cart() {
               >
                 <Typography fontSize={15}>Tax</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  7%
+                  {cartitems.map((item) => item.product.tax).length > 0 && cartitems.map((item) => item.product.tax)?.reduce((a, b) => a + b)}%
                 </Typography>
               </Box>
 
-              <TextField
+              {/* <TextField
                 sx={{ marginTop: "10px", backgroundColor: "#f0f3f7" }}
                 placeholder="Discount Code"
                 size="small"
@@ -107,7 +111,7 @@ function Cart() {
                     </InputAdornment>
                   ),
                 }}
-              />
+              /> */}
 
               <Divider sx={{ padding: "10px" }} variant="middle" />
               <Box
@@ -116,7 +120,7 @@ function Cart() {
               >
                 <Typography fontSize={15}>Total</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  $425
+                ₹{cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
               <Link to={'/checkout'} style={{ width: '100%' }}><Button

@@ -6,11 +6,23 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import NavbarCategories from './NavbarCategories';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllCategory } from '../redux/categorySlice';
+import { fetchCartItems } from '../redux/cartSlice';
 
 
 const Header = () => {
 
+    const dispatch = useDispatch()
+    const cartitems = useSelector(state => state.cartReducer.cartItems)
     const [drawer, setDrawer] = useState(false)
+
+    console.log(cartitems)
+
+    useEffect(() => {
+        dispatch(fetchAllCategory())
+        dispatch(fetchCartItems())
+    }, [])
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -31,10 +43,10 @@ const Header = () => {
                         </Typography>
                     </Stack>
                     <Stack direction={'row'} alignItems={'center'} >
-                            <Link to={'/login'}>
+                        <Link to={'/login'}>
                             <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
                         </Link>
-                    <Link to={'/wishlist'}>
+                        <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={2} color="error">
                                     <FavoriteBorderIcon sx={{ color: '#efefef' }} />
@@ -43,7 +55,7 @@ const Header = () => {
                         </Link>
                         <Link to={'/cartlist'}>
                             <IconButton sx={{ ml: 1 }}>
-                                <Badge badgeContent={4} color="error">
+                                <Badge badgeContent={cartitems.length} color="error">
                                     <ShoppingCartOutlinedIcon sx={{ color: '#efefef' }} />
                                 </Badge>
                             </IconButton>
