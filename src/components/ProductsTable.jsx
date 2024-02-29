@@ -16,11 +16,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-function ProductsTable({isWishlist}) {
+function ProductsTable({ isWishlist }) {
 
-  
 
-  const [qty, setQty] =useState('');
+
+  const [qty, setQty] = useState('');
 
   const handleChange = (event) => {
     setQty(event.target.value);
@@ -32,9 +32,14 @@ function ProductsTable({isWishlist}) {
           <TableHead>
             <TableRow>
               <TableCell>Item</TableCell>
-              <TableCell align="right">Quantity</TableCell>
+
+              <TableCell align="right">
+                {!isWishlist &&
+                  <>Quantity</>
+                }
+              </TableCell>
               <TableCell align="right">Subtotal</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="right">Manage</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,25 +68,27 @@ function ProductsTable({isWishlist}) {
                 </Box>
               </TableCell>
               <TableCell align="right">
-                <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
-                  <Select
-                    defaultValue={1}
-                    onChange={handleChange}
-                    sx={{height:'33px'}}
-                  >
-                    <MenuItem value="">
-                    </MenuItem>
-                    <MenuItem selected={true} value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                  </Select>
-                </FormControl>
+                {!isWishlist &&
+                  <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
+                    <Select
+                      defaultValue={1}
+                      onChange={handleChange}
+                      sx={{ height: '33px' }}
+                    >
+                      <MenuItem value="">
+                      </MenuItem>
+                      <MenuItem selected={true} value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                    </Select>
+                  </FormControl>
+                }
               </TableCell>
               <TableCell align="right">$575</TableCell>
               <TableCell align="right">
-                <DeleteIcon sx={{color:'red'}}/>
+                <DeleteIcon sx={{ color: 'red' }} />
                 {
-                  isWishlist&&<AddShoppingCartIcon sx={{marginLeft:'6px'}} />
+                  isWishlist && <AddShoppingCartIcon sx={{ marginLeft: '6px' }} />
                 }
               </TableCell>
             </TableRow>

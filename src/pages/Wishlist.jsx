@@ -34,6 +34,11 @@ function Wishlist({ Wishlist }) {
             display: "flex",
             justifyContent: "space-between",
             width: "200px",
+            marginLeft:{
+              md:0,
+              xs:12
+            },
+            marginBottom:'20px'
           }}
         >
           <Typography fontWeight={"bold"}>Subtotal</Typography>
