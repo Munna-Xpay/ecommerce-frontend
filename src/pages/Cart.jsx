@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 function Cart() {
 
   const cartitems = useSelector(state => state.cartReducer.cartItems)
-  console.log(cartitems)
+  // console.log(cartitems)
   return (
     <Container sx={{ minHeight: '100vh', marginBottom: '50px' }}>
       <Box
@@ -34,7 +34,7 @@ function Cart() {
       <Box sx={{ padding: "10px" }}>
         <Grid container>
           <Grid item xs={12} sm={8}>
-            <ProductsTable />
+            <ProductsTable products={cartitems} />
           </Grid>
           <Grid
             item
@@ -63,7 +63,7 @@ function Cart() {
               >
                 <Typography fontSize={15}>Subtotal</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                ₹{cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price)?.reduce((a, b) => a + b)}
+                  ₹{cartitems.map((item) => item.product.original_price).length > 0 && cartitems.map((item) => item.product.original_price * item.quantity)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
               {/* <Box
@@ -81,7 +81,7 @@ function Cart() {
               >
                 <Typography fontSize={15}>Discount</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  - ₹ {cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price)?.reduce((a, b) => a + b) - cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
+                  - ₹ {cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price * item.quantity)?.reduce((a, b) => a + b) - cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
               <Box
@@ -120,7 +120,7 @@ function Cart() {
               >
                 <Typography fontSize={15}>Total</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                ₹{cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
+                  ₹{cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
                 </Typography>
               </Box>
               <Link to={'/checkout'} style={{ width: '100%' }}><Button

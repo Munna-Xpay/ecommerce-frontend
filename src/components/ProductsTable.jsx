@@ -17,9 +17,9 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCartItem } from "../redux/cartSlice";
+import { deleteCartItem, updateCartItem } from "../redux/cartSlice";
 
-function ProductsTable({ isWishlist }) {
+function ProductsTable({ isWishlist, products }) {
 
 
   const dispatch = useDispatch()
@@ -32,11 +32,12 @@ console.log(wishlistitems);
     setQty(event.target.value);
   };
 
+
   const handleCartItemDelete = (id) => {
     dispatch(deleteCartItem(id))
   }
 
-  const showCartItems = cartitems.map((item, index) => {
+  const showCartItems = products.map((item, index) => {
     return (
       <TableRow
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -67,14 +68,15 @@ console.log(wishlistitems);
           <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
             <Select
               defaultValue={1}
-              onChange={handleChange}
+              onChange={(e) => dispatch(updateCartItem({ id: item._id, data: { quantity: e.target.value, original_price: item.product.original_price } }))}
+              value={item.quantity}
               sx={{ height: '33px' }}
             >
-              <MenuItem value="">
-              </MenuItem>
-              <MenuItem selected={true} value={1}>1</MenuItem>
+              <MenuItem value={1}>1</MenuItem>
               <MenuItem value={2}>2</MenuItem>
               <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
             </Select>
           </FormControl>
         </TableCell>
