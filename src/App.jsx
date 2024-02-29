@@ -19,6 +19,7 @@ import AccountVouchers from './pages/AccountVouchers';
 import ForgotPassword from './pages/ForgotPassword';
 import NotFound from './pages/NotFound';
 import Varification from './pages/Varification';
+import BuyNow from './pages/BuyNow';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cartlist' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/buynow/:id' element={<BuyNow />} />
         <Route path='/compare' element={<Compare />} />
         <Route path='/order/completed' element={<OrderCompleted />} />
         <Route path='/account' element={<Account />} >

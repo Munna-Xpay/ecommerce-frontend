@@ -12,6 +12,7 @@ import { fetchAllreviews } from '../redux/reviewSlice';
 import { fetchAllProducts } from '../redux/productSlice';
 import { addToCart } from '../redux/cartSlice';
 import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 
 const Product = () => {
@@ -25,7 +26,7 @@ const Product = () => {
     // const [images, setImages] = useState([product?.thumbnail, ...product?.images])
     const [selectedColor, setSelecetdColor] = useState('')
     const [selectedMemory, setselectedMemory] = useState('')
-    const [selectedQuantity, setselectedQuantity] = useState(1)
+    // const [selectedQuantity, setselectedQuantity] = useState(1)
 
     const allImg = product?.images?.map((item, index) => {
         return (
@@ -110,7 +111,7 @@ const Product = () => {
                                 </Stack>
                             </Stack>
                             <Stack spacing={2} direction={'row'}>
-                                <Box sx={{ minWidth: 120 }}>
+                                {/* <Box sx={{ minWidth: 120 }}>
                                     <FormControl sx={{ width: '100px' }}>
                                         <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
                                         <Select
@@ -131,11 +132,11 @@ const Product = () => {
                                             <MenuItem value={9}>9</MenuItem>
                                         </Select>
                                     </FormControl>
-                                </Box>
+                                </Box> */}
                                 <Button variant='contained' onClick={handleAddToCart} size='large' color='warning' startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
                                 <Button variant='contained' size='large' startIcon={<FavoriteBorderIcon />}>Add To Wishlist</Button>
                             </Stack>
-                            <Button variant='contained'>Buy Now</Button>
+                            <Link to={'/buynow/' + id}><Button variant='contained'>Buy Now</Button></Link>
                         </Stack>
                     </Grid>
                 </Grid>

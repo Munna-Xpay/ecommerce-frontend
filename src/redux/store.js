@@ -6,6 +6,7 @@ import wishlistSlice from './wishlistSlice'
 import categorySlice from './categorySlice'
 import orderSlice from './orderSlice'
 import reviewSlice from './reviewSlice'
+import couponSlice from './couponSlice'
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         wishlistReducer: wishlistSlice,
         categoryReducer: categorySlice,
         orderReducer: orderSlice,
-        reviewReducer: reviewSlice
+        reviewReducer: reviewSlice,
+        couponReducer: couponSlice
     }
 })
