@@ -24,8 +24,8 @@ function ProductsTable({ isWishlist }) {
 
   const dispatch = useDispatch()
   const cartitems = useSelector(state => state.cartReducer.cartItems)
-
-
+ const wishlistitems=useSelector(state=>state.wishlistReducer.wishlistProducts)
+console.log(wishlistitems);
   const [qty, setQty] = useState('');
 
   const handleChange = (event) => {

@@ -67,14 +67,15 @@ const userSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(userLogin.fulfilled, (state, action) => {
+      //   //console.log(action.payload.user);
+      //  // console.log(action.payload.token);
       return {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
         loading: false,
       };
-      //   //console.log(action.payload.user);
-      //  // console.log(action.payload.token);
+     
     });
     builder.addCase(userLogin.rejected, (state, action) => {
       return { ...state, error: action.payload, loading: false };
@@ -86,8 +87,8 @@ const userSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(profileEdit.fulfilled, (state, action) => {
+     // console.log(action.payload);
       return { ...state, user: action.payload, loading: false };
-      console.log(action.payload);
     });
     builder.addCase(profileEdit.rejected, (state, action) => {
       return { ...state, error: action.payload, loading: false };
@@ -99,8 +100,8 @@ const userSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(userById.fulfilled, (state, action) => {
-      return { ...state, user: action.payload, loading: false };
       // console.log(action.payload);
+      return { ...state, user: action.payload, loading: false };
     });
     builder.addCase(userById.rejected, (state, action) => {
       return { ...state, error: action.payload, loading: false };
