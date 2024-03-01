@@ -11,6 +11,7 @@ import { fetchAllCategory } from '../redux/categorySlice';
 import { fetchCartItems } from '../redux/cartSlice';
 import { getWishlistProducts } from '../redux/wishlistSlice';
 import { userById } from '../redux/userSlice';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 const Header = () => {
@@ -46,7 +47,7 @@ const Header = () => {
             <AppBar position="static">
                 <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '70px' }}>
                     <Stack direction={'row'} alignItems={'center'}>
-                        <IconButton
+                        {user.user && <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
@@ -54,9 +55,9 @@ const Header = () => {
                             onClick={() => setDrawer(true)}
                         >
                             <MenuIcon />
-                        </IconButton>
+                        </IconButton>}
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            <Link to={'/products'} style={{ textDecoration: 'none', color: 'white', fontWeight: 'bold' }}>Shoppify</Link>
+                            <Link to={'/'} style={{ textDecoration: 'none', color: 'white', fontWeight: 'bold' }}>Shoppify</Link>
                         </Typography>
                     </Stack>
                     <Stack direction={'row'} alignItems={'center'} >
@@ -68,25 +69,30 @@ const Header = () => {
                                 :
                                 <Button variant='text' sx={{ color: '#efefef' }}>Log out</Button>
                         }
-                        <Link to={'/wishlist'}>
+                        {user.user && <Link to={'/products'}>
+                            <IconButton sx={{ ml: 1 }}>
+                                <HomeIcon sx={{ color: '#efefef' }} />
+                            </IconButton>
+                        </Link>}
+                        {user.user && <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={wishlistitems.length} color="error">
                                     <FavoriteBorderIcon sx={{ color: '#efefef' }} />
                                 </Badge>
                             </IconButton>
-                        </Link>
-                        <Link to={'/cartlist'}>
+                        </Link>}
+                        {user.user && <Link to={'/cartlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={cartitems.length} color="error">
                                     <ShoppingCartOutlinedIcon sx={{ color: '#efefef' }} />
                                 </Badge>
                             </IconButton>
-                        </Link>
-                        <Link to={'/account/personal'}>
+                        </Link>}
+                        {user.user && <Link to={'/account/personal'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <AccountCircleOutlinedIcon sx={{ color: '#efefef' }} />
                             </IconButton>
-                        </Link>
+                        </Link>}
                     </Stack>
                 </Container>
             </AppBar>

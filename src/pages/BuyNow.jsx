@@ -233,6 +233,7 @@ const BuyNow = () => {
                                     )}
                                 />
                             </Stack>
+                            
                             <Box mt={5}>
                                 <Typography variant="h6">
                                     <span
