@@ -48,6 +48,20 @@ export const deleteCartItem = createAsyncThunk('/delete-cart-item', async (id, {
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
+export const updateCartItem = createAsyncThunk('/update-cart-item', async ({ id, data }, { rejectWithValue }) => {
+    const token = localStorage.getItem('token')
+    console.log(id)
+    console.log(data)
+    return await axios.put(`${BASE_URL}/api/auth/change-cart-quantity/${id}`, data, {
+        headers: {
+            "Content-Type": "application/json",
+            "user_token": `Bearer ${token}`
+        }
+    })
+        .then(res => res.data)
+        .catch((err) => rejectWithValue("Something went wrong ! network error"))
+})
+
 const initialState = {
     cartItems: [],
     error: "",
@@ -97,6 +111,26 @@ const cartSlice = createSlice({
         })
 
         builder.addCase(deleteCartItem.rejected, (state, action) => {
+            return { ...state, error: action.payload, loading: false }
+        })
+
+
+
+        builder.addCase(updateCartItem.pending, (state) => {
+            return { ...state, loading: true }
+        })
+
+        builder.addCase(updateCartItem.fulfilled, (state, action) => {
+            state.cartItems = state.cartItems.map((item) => {
+                if (item._id == action.payload._id) {
+                    return action.payload
+                } else {
+                    return item
+                }
+            })
+        })
+
+        builder.addCase(updateCartItem.rejected, (state, action) => {
             return { ...state, error: action.payload, loading: false }
         })
     }
