@@ -4,7 +4,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarCategories from './NavbarCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategory } from '../redux/categorySlice';
@@ -14,15 +14,26 @@ import { fetchCartItems } from '../redux/cartSlice';
 const Header = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const cartitems = useSelector(state => state.cartReducer.cartItems)
+    const user = useSelector(state => state.userReducer.user)
     const [drawer, setDrawer] = useState(false)
 
     console.log(cartitems)
 
     useEffect(() => {
-        dispatch(fetchAllCategory())
-        dispatch(fetchCartItems())
-    }, [])
+        const token = localStorage.getItem('token')
+        const userId = localStorage.getItem('userId')
+        if (!user && token) {
+            dispatch()
+        } else if (!user && !token) {
+            navigate('/login')
+        }
+        else {
+            dispatch(fetchAllCategory())
+            dispatch(fetchCartItems())
+        }
+    }, [user])
 
     return (
         <Box sx={{ flexGrow: 1 }}>

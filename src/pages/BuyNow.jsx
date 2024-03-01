@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Autocomplete,
     Box,
     Button,
+    Chip,
     Container,
     Dialog,
+    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
@@ -29,15 +31,28 @@ import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { fetchAllcoupons } from '../redux/couponSlice';
+import { validateOrder } from '../validations/orderValidation';
+import { addOrder } from '../redux/orderSlice';
 
 const BuyNow = () => {
 
     const { id } = useParams()
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.filter(item => item._id == id))
+    const userId = useSelector(state => state.userReducer.user.user._id)
     const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product[0].discounted_price))
-    const [open, setOpen] = React.useState(false);
-    console.log(coupons)
+    const [open, setOpen] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [selectedCoupon, setSelectedCoupon] = useState({});
+    const [checkoutDetails, setCheckoutDetails] = useState({
+        address: "",
+        zipCode: null,
+        city: "",
+        country: "",
+        shippingMethod: "Free",
+    });
+    const [qtd, setQtd] = useState(1);
+    console.log(userId)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -46,6 +61,23 @@ const BuyNow = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleSelectCoupon = (item) => {
+        setSelectedCoupon(item)
+        handleClose()
+    }
+
+    const handleCheckout = () => {
+        setErrors(validateOrder(checkoutDetails))
+        if (errors == {}) {
+            const totalPrice = selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)
+            const appliedCoupon = selectedCoupon._id ? selectedCoupon._id : "";
+            const products = [{ original_price: totalPrice, product: product[0], quantity: qtd }];
+            console.log(totalPrice)
+            console.log(appliedCoupon)
+            userId && dispatch(addOrder({ ...checkoutDetails, totalPrice, appliedCoupon, products, userId }))
+        }
+    }
 
     useEffect(() => {
         dispatch(fetchAllProducts({}))
@@ -74,15 +106,15 @@ const BuyNow = () => {
                 <Box textAlign={'center'}>
                     <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
                         <Select
-                            defaultValue={1}
-                            // onChange={handleChange}
+                            value={qtd}
+                            onChange={(e) => setQtd(e.target.value)}
                             sx={{ height: '33px' }}
                         >
-                            <MenuItem value="">
-                            </MenuItem>
-                            <MenuItem selected={true} value={1}>1</MenuItem>
+                            <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>
                             <MenuItem value={3}>3</MenuItem>
+                            <MenuItem value={4}>4</MenuItem>
+                            <MenuItem value={5}>5</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -119,6 +151,10 @@ const BuyNow = () => {
                                 sx={{ width: "396px" }}
                                 label="Street Address"
                                 variant="filled"
+                                value={checkoutDetails.address}
+                                onChange={(e) => setCheckoutDetails({ ...checkoutDetails, address: e.target.value })}
+                                error={errors.address}
+                                helperText={errors.address}
                             />
                             <TextField
                                 InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }}
@@ -129,6 +165,11 @@ const BuyNow = () => {
                                 }}
                                 label="Zip Code"
                                 variant="filled"
+                                type='number'
+                                value={checkoutDetails.zipCode}
+                                onChange={(e) => setCheckoutDetails({ ...checkoutDetails, zipCode: e.target.value })}
+                                error={errors.zipCode}
+                                helperText={errors.zipCode}
                             />
                             <Stack direction={'row'} sx={{
                                 display: {
@@ -138,7 +179,15 @@ const BuyNow = () => {
                                 }
                             }}  >
 
-                                <TextField InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: '396px', marginTop: '20px' }} label="City" type='text' variant="filled" />
+                                <TextField
+                                    InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }}
+                                    sx={{ width: '396px', marginTop: '20px' }}
+                                    label="City" type='text'
+                                    value={checkoutDetails.city}
+                                    onChange={(e) => setCheckoutDetails({ ...checkoutDetails, city: e.target.value })}
+                                    error={errors.city}
+                                    helperText={errors.city}
+                                    variant="filled" />
 
                                 <Autocomplete
                                     style={{ borderRadius: '7px' }}
@@ -146,6 +195,7 @@ const BuyNow = () => {
                                     sx={{ width: '396px', backgroundColor: '#f2f4f5', marginLeft: { md: 1, xs: 0 }, marginTop: '20px', boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
                                     options={countries}
                                     autoHighlight
+                                    onInputChange={(e, value) => setCheckoutDetails({ ...checkoutDetails, country: value })}
                                     getOptionLabel={(option) => option.label}
                                     renderOption={(props, option) => (
                                         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
@@ -161,6 +211,7 @@ const BuyNow = () => {
                                     )}
                                     renderInput={(params) => (
                                         <TextField
+                                            error={errors.country}
                                             {...params}
                                             label="Choose a country"
                                             inputProps={{
@@ -190,7 +241,7 @@ const BuyNow = () => {
                         </Box>
                         <Grid container mt={4}>
                             <FormControl>
-                                <RadioGroup defaultValue="free">
+                                <RadioGroup value={checkoutDetails.shippingMethod} onChange={(e) => setCheckoutDetails({ ...checkoutDetails, shippingMethod: e.target.value })}>
                                     <Grid item md={6} sx={{
                                         marginTop: {
                                             xs: 2,
@@ -205,7 +256,7 @@ const BuyNow = () => {
                                         }} border={1} borderRadius={3} padding={2}>
 
                                             <Stack direction={"row"} spacing={2}>
-                                                <FormControlLabel value="free" control={<Radio />} />
+                                                <FormControlLabel value="Free" control={<Radio />} />
                                                 <PedalBikeIcon />
                                                 <Box
                                                     width={250}
@@ -236,7 +287,7 @@ const BuyNow = () => {
                                         }} border={1} borderRadius={3} padding={2} >
 
                                             <Stack direction={"row"} spacing={2}>
-                                                <FormControlLabel value="standard" control={<Radio />} />
+                                                <FormControlLabel value="Standard" control={<Radio />} />
                                                 <LocalShippingIcon />
                                                 <Box
                                                     width={250}
@@ -300,7 +351,6 @@ const BuyNow = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={3.5}>
-                    {/* <Stack border={1} borderRadius={3} p={4}><OrderSummary products={product} buyNow /></Stack> */}
                     <Box mt={4}>
                         <Typography fontWeight={"bold"} sx={{ textAlign: 'center' }}>Order Summary</Typography>
                         {showCartProducts}
@@ -316,7 +366,7 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15}>Subtotal</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    ${product[0]?.original_price}
+                                    ₹ {product[0]?.original_price * qtd}
                                 </Typography>
                             </Box>
                             <Box
@@ -325,7 +375,7 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15}>Shipping</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    $30
+                                    ₹ 30
                                 </Typography>
                             </Box>
                             <Box
@@ -334,7 +384,7 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15}>Discount</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    -${product[0]?.original_price - product[0]?.discounted_price}
+                                    -₹ {(product[0]?.original_price - product[0]?.discounted_price) * qtd}
                                 </Typography>
                             </Box>
                             <Box
@@ -348,7 +398,7 @@ const BuyNow = () => {
                             </Box>
 
                             <Button onClick={handleClickOpen}>Apply Coupon</Button>
-
+                            {selectedCoupon.title && <Box><Chip label={selectedCoupon.title} onDelete={() => setSelectedCoupon({})} /></Box>}
                             <Divider sx={{ padding: "10px" }} variant="middle" />
                             <Box
                                 mt={2}
@@ -356,14 +406,14 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15} fontWeight={'bold'}>Total</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    ${product[0]?.discounted_price}
+                                    ₹ {selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)}
                                 </Typography>
                             </Box>
-                            <Link style={{ width: '100%' }} to={'/order/completed'}><Button
+                            <Button onClick={handleCheckout}
                                 sx={{ marginTop: '15px', backgroundColor: '#03111c', color: 'white', '&:hover': { backgroundColor: '#03111c' }, width: '100%' }}
                             >
                                 Order Now
-                            </Button></Link>
+                            </Button>
                         </Stack>
                     </Box>
                 </Grid>
@@ -375,18 +425,32 @@ const BuyNow = () => {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                sx={{ bgcolor: '#F4F6F8' }}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                    Available Coupons
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
-                    </DialogContentText>
+                    <Stack spacing={2} sx={{ width: { xs: "100%", md: '300px' } }}>
+                        {
+                            coupons.length > 0 ? coupons.map((item, index) => (
+                                <Stack onClick={() => handleSelectCoupon(item)} p={3} sx={{ bgcolor: '#f2f2f2', borderRadius: '10px' }}>
+                                    <Typography variant='body1' sx={{ fontWeight: 'bold' }}>{item.title}</Typography>
+                                    <Typography variant='body1' >{item.description}</Typography>
+                                    <Typography variant='body1' >Expires On : {new Date(item.expiresOn).toLocaleDateString()}</Typography>
+                                    <Typography variant='body1' >Save : ₹ {item.save_price}</Typography>
+                                </Stack>
+                            ))
+                                :
+                                <Typography>There is no coupons available</Typography>
+                        }
+                    </Stack>
                 </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Close</Button>
+                </DialogActions>
             </Dialog>
-        </Container>
+        </Container >
     )
 }
 
