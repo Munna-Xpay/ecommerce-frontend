@@ -25,7 +25,7 @@ export const addOrder = createAsyncThunk('/add/order', async (data, { rejectWith
             "user_token": `Bearer ${token}`
         }
     }).then(res => {
-        console.log(res.data)
+        console.log(res)
         return res.data
     })
         .catch((err) => rejectWithValue("Something went wrong ! network error"))

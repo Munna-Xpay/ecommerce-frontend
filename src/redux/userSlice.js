@@ -44,10 +44,13 @@ export const profileEdit = createAsyncThunk(
 //get user by id
 export const userById = createAsyncThunk(
   "user/byId",
-  async (id,{ rejectWithValue }) => {
-    await axios
-      .get(`${BASE_URL}/api/auth/user/${id}`)
-      .then((res) => res.data)
+  async (id, { rejectWithValue }) => {
+    console.log(id)
+    return await axios.get(`${BASE_URL}/api/auth/user/${id}`)
+      .then((res) => {
+        console.log(res)
+        return res.data
+      })
       .catch((err) => rejectWithValue(err.response.data));
   }
 );
@@ -76,7 +79,7 @@ const userSlice = createSlice({
         token: action.payload.token,
         loading: false,
       };
-     
+
     });
     builder.addCase(userLogin.rejected, (state, action) => {
       return { ...state, error: action.payload, loading: false };
@@ -88,7 +91,7 @@ const userSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(profileEdit.fulfilled, (state, action) => {
-     // console.log(action.payload);
+      // console.log(action.payload);
       return { ...state, user: action.payload, loading: false };
     });
     builder.addCase(profileEdit.rejected, (state, action) => {

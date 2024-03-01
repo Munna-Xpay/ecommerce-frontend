@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategory } from '../redux/categorySlice';
 import { fetchCartItems } from '../redux/cartSlice';
 import { getWishlistProducts } from '../redux/wishlistSlice';
+import { userById } from '../redux/userSlice';
 
 
 const Header = () => {
@@ -17,18 +18,20 @@ const Header = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const cartitems = useSelector(state => state.cartReducer.cartItems)
-    const user = useSelector(state => state.userReducer.user)
+    const user = useSelector(state => state.userReducer)
     const [drawer, setDrawer] = useState(false)
     const wishlistitems = useSelector(state => state.wishlistReducer.wishlistProducts)
     //console.log(wishlistitems);
-    // console.log(cartitems)
+    console.log(user)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
         const userId = localStorage.getItem('userId')
-        if (!user && token) {
-            dispatch()
-        } else if (!user && !token) {
+        console.log(token)
+        console.log(userId)
+        if (user.user == null && token) {
+            dispatch(userById(userId))
+        } else if (!user.user && !token) {
             navigate('/login')
         }
         else {
@@ -36,7 +39,7 @@ const Header = () => {
             dispatch(fetchCartItems())
             dispatch(getWishlistProducts())
         }
-    }, [user])
+    }, [user.user])
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -57,9 +60,14 @@ const Header = () => {
                         </Typography>
                     </Stack>
                     <Stack direction={'row'} alignItems={'center'} >
-                        <Link to={'/login'}>
-                            <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
-                        </Link>
+                        {
+                            !user.user ?
+                                <Link to={'/login'}>
+                                    <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
+                                </Link>
+                                :
+                                <Button variant='text' sx={{ color: '#efefef' }}>Log out</Button>
+                        }
                         <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
                                 <Badge badgeContent={wishlistitems.length} color="error">

@@ -20,11 +20,14 @@ import ForgotPassword from './pages/ForgotPassword';
 import NotFound from './pages/NotFound';
 import Varification from './pages/Varification';
 import BuyNow from './pages/BuyNow';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const user = useSelector(state => state.userReducer.user)
+
   return (
     <div>
-      <Header />
+       <Header />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />

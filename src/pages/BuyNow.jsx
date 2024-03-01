@@ -39,7 +39,7 @@ const BuyNow = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.filter(item => item._id == id))
-    const userId = useSelector(state => state.userReducer.user.user._id)
+    const orders = useSelector(state => state.orderReducer)
     const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product[0].discounted_price))
     const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState({});
@@ -52,7 +52,7 @@ const BuyNow = () => {
         shippingMethod: "Free",
     });
     const [qtd, setQtd] = useState(1);
-    console.log(userId)
+    console.log(orders)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -69,13 +69,23 @@ const BuyNow = () => {
 
     const handleCheckout = () => {
         setErrors(validateOrder(checkoutDetails))
-        if (errors == {}) {
-            const totalPrice = selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)
-            const appliedCoupon = selectedCoupon._id ? selectedCoupon._id : "";
-            const products = [{ original_price: totalPrice, product: product[0], quantity: qtd }];
-            console.log(totalPrice)
-            console.log(appliedCoupon)
-            userId && dispatch(addOrder({ ...checkoutDetails, totalPrice, appliedCoupon, products, userId }))
+        const { address, zipCode, city, country } = checkoutDetails;
+        if (address && zipCode && city && country) {
+            try {
+                const totalPrice = selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)
+                const products = [{ original_price: totalPrice, product: product[0], quantity: qtd }];
+                console.log(totalPrice)
+                dispatch(addOrder({ ...checkoutDetails, totalPrice, products }))
+                setCheckoutDetails({
+                    address: "",
+                    zipCode: null,
+                    city: "",
+                    country: "",
+                    shippingMethod: "Free",
+                })
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
 
@@ -212,6 +222,7 @@ const BuyNow = () => {
                                     renderInput={(params) => (
                                         <TextField
                                             error={errors.country}
+                                            value={checkoutDetails.country}
                                             {...params}
                                             label="Choose a country"
                                             inputProps={{
