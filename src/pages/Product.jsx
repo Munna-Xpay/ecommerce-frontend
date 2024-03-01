@@ -13,6 +13,7 @@ import { fetchAllProducts } from '../redux/productSlice';
 import { addToCart } from '../redux/cartSlice';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { addToWishlist } from '../redux/wishlistSlice';
 
 
 const Product = () => {
@@ -54,6 +55,11 @@ const Product = () => {
     //add to cart
     const handleAddToCart = () => {
         dispatch(addToCart({ product: id, original_price: product.discounted_price }))
+    }
+
+    //add to wishlist
+    const handleAddToWishlist = () => {
+        dispatch(addToWishlist({ product: id, original_price: product.discounted_price }))
     }
 
     return (
@@ -134,7 +140,7 @@ const Product = () => {
                                     </FormControl>
                                 </Box> */}
                                 <Button variant='contained' onClick={handleAddToCart} size='large' color='warning' startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
-                                <Button variant='contained' size='large' startIcon={<FavoriteBorderIcon />}>Add To Wishlist</Button>
+                                <Button variant='contained' onClick={handleAddToWishlist} size='large' startIcon={<FavoriteBorderIcon />}>Add To Wishlist</Button>
                             </Stack>
                             <Link to={'/buynow/' + id}><Button variant='contained'>Buy Now</Button></Link>
                         </Stack>

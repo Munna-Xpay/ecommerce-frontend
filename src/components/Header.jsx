@@ -9,6 +9,7 @@ import NavbarCategories from './NavbarCategories';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategory } from '../redux/categorySlice';
 import { fetchCartItems } from '../redux/cartSlice';
+import { getWishlistProducts } from '../redux/wishlistSlice';
 
 
 const Header = () => {
@@ -18,8 +19,9 @@ const Header = () => {
     const cartitems = useSelector(state => state.cartReducer.cartItems)
     const user = useSelector(state => state.userReducer.user)
     const [drawer, setDrawer] = useState(false)
-
-    console.log(cartitems)
+    const wishlistitems = useSelector(state => state.wishlistReducer.wishlistProducts)
+    //console.log(wishlistitems);
+    // console.log(cartitems)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
@@ -32,6 +34,7 @@ const Header = () => {
         else {
             dispatch(fetchAllCategory())
             dispatch(fetchCartItems())
+            dispatch(getWishlistProducts())
         }
     }, [user])
 
@@ -59,7 +62,7 @@ const Header = () => {
                         </Link>
                         <Link to={'/wishlist'}>
                             <IconButton sx={{ ml: 1 }}>
-                                <Badge badgeContent={2} color="error">
+                                <Badge badgeContent={wishlistitems.length} color="error">
                                     <FavoriteBorderIcon sx={{ color: '#efefef' }} />
                                 </Badge>
                             </IconButton>
