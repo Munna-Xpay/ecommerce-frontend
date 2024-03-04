@@ -102,7 +102,7 @@ const Header = () => {
                 open={drawer}
                 onClose={() => setDrawer(false)}
             >
-                <NavbarCategories />
+                <NavbarCategories setDrawer={setDrawer} />
             </Drawer>
         </Box >
     )

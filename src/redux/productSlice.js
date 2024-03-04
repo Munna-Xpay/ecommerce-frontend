@@ -5,12 +5,14 @@ import { BASE_URL } from "./baseUrl";
 export const fetchAllProducts = createAsyncThunk(
   "/fetch/all/products",
   async (query, { rejectWithValue }) => {
+    // console.log(query.review)
     try {
       const res = await axios.get(
         `${BASE_URL}/api/product/get?sort=${query.sort ? query.sort : ""
         }&category=${query.category ? query.category : ""}&min=${query.min ? query.min : ""
-        }&max=${query.max ? query.max : ""}&review=${query.review ? query.review : ""
-        }&shipping=${query.shipping ? query.shipping : ""}&inStock=${query.inStockSrting ? query.inStockSrting : "true"
+        }&max=${query.max ? query.max : ""}&shipping=${query.shipping ? query.shipping : ""
+        }&inStock=${query.inStockSrting ? query.inStockSrting : "true"
+        }&brand=${query.brand ? query.brand : ""}&review=${query.review ? query.review : ""
         }`
       );
       // console.log(res.data)

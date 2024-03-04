@@ -53,7 +53,18 @@ const BuyNow = () => {
         shippingMethod: "Free",
     });
     const [qtd, setQtd] = useState(1);
+    const [shippingCharge, setShippingCharge] = useState(0);
     console.log(orders)
+
+    useEffect(() => {
+        if (checkoutDetails.shippingMethod == "Free") {
+            setShippingCharge(0)
+        } else if (checkoutDetails.shippingMethod == "Standard") {
+            setShippingCharge(10)
+        } else if (checkoutDetails.shippingMethod == "Express") {
+            setShippingCharge(20)
+        }
+    }, [checkoutDetails.shippingMethod])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -389,7 +400,7 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15}>Shipping</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    ₹ 30
+                                    ₹ {shippingCharge}
                                 </Typography>
                             </Box>
                             <Box
@@ -420,12 +431,12 @@ const BuyNow = () => {
                             >
                                 <Typography fontSize={15} fontWeight={'bold'}>Total</Typography>
                                 <Typography fontSize={15} fontWeight={"bold"}>
-                                    ₹ {selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)}
+                                    ₹ {selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price + shippingCharge : (product[0]?.discounted_price * qtd) + shippingCharge}
                                 </Typography>
                             </Box>
                             <Button onClick={handleCheckout}
                                 sx={{ marginTop: '15px', backgroundColor: '#03111c', color: 'white', '&:hover': { backgroundColor: '#03111c' }, width: '100%' }}
-                            > 
+                            >
                                 Order Now
                             </Button>
                         </Stack>

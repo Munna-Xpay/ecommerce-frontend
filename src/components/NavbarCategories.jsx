@@ -3,10 +3,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-const NavbarCategories = () => {
+const NavbarCategories = ({ setDrawer }) => {
 
     const categories = useSelector(state => state.categoryReducer.allCategories)
-    console.log(categories)
+    // console.log(categories)
     return (
         <Stack spacing={2} p={4} sx={{ width: { xs: "200px", md: "200px" } }}>
             <Typography variant='subtitle1' fontWeight={'bold'}>Categories</Typography>
@@ -14,7 +14,7 @@ const NavbarCategories = () => {
             {
                 categories.map((item, index) => (
                     < Stack >
-                        <Typography sx={{ fontWeight: 'bold' }}>{item.category}</Typography>
+                        <Link to={'/products/' + item.category} style={{ textDecoration: 'none', color: 'inherit' }} onClick={() => setDrawer(false)}><Typography sx={{ fontWeight: 'bold' }}>{item.category}</Typography></Link>
                         <List>
                             {
                                 item?.sub_categories?.map((sub, index) => (
