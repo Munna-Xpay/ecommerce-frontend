@@ -425,7 +425,7 @@ const BuyNow = () => {
                             </Box>
                             <Button onClick={handleCheckout}
                                 sx={{ marginTop: '15px', backgroundColor: '#03111c', color: 'white', '&:hover': { backgroundColor: '#03111c' }, width: '100%' }}
-                            >
+                            > 
                                 Order Now
                             </Button>
                         </Stack>

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 function Wishlist({ Wishlist }) {
   const wishlistitems=useSelector(state=>state.wishlistReducer.wishlistProducts)
- // console.log(wishlistitems);
+ console.log(wishlistitems);
   return (
     <Container sx={{ marginBottom: '70px', minHeight: '100vh', paddingTop: '50px' }}>
       <Box

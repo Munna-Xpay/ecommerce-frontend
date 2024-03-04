@@ -40,6 +40,27 @@ export const profileEdit = createAsyncThunk(
   }
 );
 
+//profile pic update
+export const updateProfilePic = createAsyncThunk(
+  "user/profile/picture",
+  async (userData, { rejectWithValue }) => {
+    const id = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    //console.log(token);
+    return await axios.put(`${BASE_URL}/api/auth/update-profile-picture/${id}`, userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "user_token": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        return res.data
+      })
+      .catch((err) => rejectWithValue(err.response.data));
+  }
+);
+
 
 //get user by id
 export const userById = createAsyncThunk(
@@ -108,6 +129,19 @@ const userSlice = createSlice({
       return { ...state, user: action.payload, loading: false };
     });
     builder.addCase(userById.rejected, (state, action) => {
+      return { ...state, error: action.payload, loading: false };
+    });
+
+
+
+    builder.addCase(updateProfilePic.pending, (state) => {
+      return { ...state, loading: true, error: "" };
+    });
+    builder.addCase(updateProfilePic.fulfilled, (state, action) => {
+      // console.log(action.payload);
+      return { ...state, user: action.payload, loading: false };
+    });
+    builder.addCase(updateProfilePic.rejected, (state, action) => {
       return { ...state, error: action.payload, loading: false };
     });
   },

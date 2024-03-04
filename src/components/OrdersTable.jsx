@@ -18,7 +18,7 @@ const OrdersTable = () => {
     const columns = [
         { field: 'id', headerName: 'Order ID', width: 130 },
         { field: 'item', headerName: 'Item', width: 130 },
-        { field: 'date', headerName: 'Delivery date', width: 130 },
+        { field: 'date', headerName: 'Ordered date', width: 130 },
         { field: 'quantity', headerName: 'Quantity',type: 'number', width: 60 },
         {
             field: 'price',
