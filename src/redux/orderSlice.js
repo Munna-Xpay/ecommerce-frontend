@@ -56,11 +56,11 @@ const orderSlice = createSlice({
 
 
         builder.addCase(addOrder.pending, (state) => {
-            return { ...state, loading: true }
+            return { ...state, loading: true, error: "" }
         })
 
         builder.addCase(addOrder.fulfilled, (state, action) => {
-            state.allOrders.push(action.payload)
+            return { ...state, allOrders: action.payload, loading: false, error: "" }
         })
 
         builder.addCase(addOrder.rejected, (state, action) => {

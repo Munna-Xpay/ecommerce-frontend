@@ -25,7 +25,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts } from '../redux/productSlice';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { countries } from '../CountryData';
 import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -37,6 +37,7 @@ import { addOrder } from '../redux/orderSlice';
 const BuyNow = () => {
 
     const { id } = useParams()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.filter(item => item._id == id))
     const orders = useSelector(state => state.orderReducer)
@@ -83,6 +84,7 @@ const BuyNow = () => {
                     country: "",
                     shippingMethod: "Free",
                 })
+                navigate('/order/completed')
             } catch (err) {
                 console.log(err)
             }
@@ -233,7 +235,7 @@ const BuyNow = () => {
                                     )}
                                 />
                             </Stack>
-                            
+
                             <Box mt={5}>
                                 <Typography variant="h6">
                                     <span
