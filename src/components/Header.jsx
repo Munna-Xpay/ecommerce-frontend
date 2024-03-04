@@ -32,7 +32,7 @@ const Header = () => {
         console.log(userId)
         if (user.user == null && token) {
             dispatch(userById(userId))
-        } else if (!user.user && !token) {
+        } else if (!token) {
             navigate('/login')
         }
         else {
@@ -41,6 +41,12 @@ const Header = () => {
             dispatch(getWishlistProducts())
         }
     }, [user.user])
+
+    const handleLogOut = () => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("userId")
+        window.location.reload()
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -67,7 +73,7 @@ const Header = () => {
                                     <Button variant='text' sx={{ color: '#efefef' }}>Log in</Button>
                                 </Link>
                                 :
-                                <Button variant='text' sx={{ color: '#efefef' }}>Log out</Button>
+                                <Button onClick={handleLogOut} variant='text' sx={{ color: '#efefef' }}>Log out</Button>
                         }
                         {user.user && <Link to={'/products'}>
                             <IconButton sx={{ ml: 1 }}>
