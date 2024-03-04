@@ -17,7 +17,7 @@ const WriteProductReview = ({ productReviews, productId }) => {
         review: "",
         username: "",
     })
-
+console.log(user)
     const handleClose = () => {
         setOpen(false)
         setCreatereview({
@@ -37,9 +37,9 @@ const WriteProductReview = ({ productReviews, productId }) => {
 
         if (review && username) {
             console.log(productId)
-            console.log(user.user._id)
+            console.log(user._id)
             try {
-                dispatch(addReviews({ ...createreview, date: new Date(), reviewFrom: user.user._id, productId }))
+                dispatch(addReviews({ ...createreview, date: new Date(), reviewFrom: user._id, productId }))
                 handleClose()
             } catch (err) {
                 console.log(err)

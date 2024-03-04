@@ -8,20 +8,23 @@ import React from 'react'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DataGrid } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
 
 
 
 const OrdersTable = () => {
-
+    const orders = useSelector(state => state.orderReducer.allOrders)
+    console.log(orders)
     const columns = [
         { field: 'id', headerName: 'Order ID', width: 130 },
         { field: 'item', headerName: 'Item', width: 130 },
         { field: 'date', headerName: 'Delivery date', width: 130 },
+        { field: 'quantity', headerName: 'Quantity',type: 'number', width: 60 },
         {
             field: 'price',
             headerName: 'Price',
             type: 'number',
-            width: 130,
+            width: 90,
         },
         {
             field: 'status',
@@ -32,17 +35,9 @@ const OrdersTable = () => {
         },
     ];
 
-    const rows = [
-        { id: 1, item: 'Apple iPhone', date: '04 Feb 2024', price: '$' + 53.37, status: 'Completed' },
-        { id: 2, item: 'Bose QuietComfort', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-        { id: 3, item: 'Canon EOS', date: '04 Feb 2024', price: '$' + 53.37, status: 'return' },
-        { id: 4, item: 'HP Spectre', date: '04 Feb 2024', price: '$' + 53.37, status: 'Canceled' },
-        { id: 5, item: 'Samsung Galaxy', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-        { id: 6, item: 'Nike Air Max', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-        { id: 7, item: 'Adidas Ultraboost', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-        { id: 8, item: 'Sony PlayStation', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-        { id: 9, item: 'Microsoft Surface', date: '04 Feb 2024', price: '$' + 53.37, status: 'pending' },
-    ];
+    const rows = orders.map((item, index) => {
+        return { id: item._id, item: item?.products?.product?.title, date: new Date(item.createdAt).toDateString(), quantity: item?.products?.quantity, price: '$' + (item?.products?.product?.discounted_price * item?.products?.quantity), status: item.orderStatus }
+    })
 
     return (
         <>

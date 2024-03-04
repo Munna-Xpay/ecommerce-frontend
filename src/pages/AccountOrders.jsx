@@ -1,22 +1,27 @@
 import { Box, Divider, Stack, Tab, Tabs, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomTabPanel from '../components/CustomTabPanel';
 import OrdersTable from '../components/OrdersTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllOrders } from '../redux/orderSlice';
 
 const AccountOrders = () => {
 
     const [value, setValue] = useState(0)
-
+    const dispatch = useDispatch()
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     function a11yProps(index) {
         return {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`,
         };
     }
+
+    useEffect(() => {
+        dispatch(fetchAllOrders())
+    }, [])
 
     return (
         <>
