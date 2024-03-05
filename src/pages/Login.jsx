@@ -1,11 +1,11 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Button, Divider, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { userLogin } from '../redux/userSlice';
 import toast, { Toaster } from 'react-hot-toast';
-//import { userInputValidation } from '../validations/UserValidation';
+import { userInputValidation } from '../validations/UserValidation';
 import axios from 'axios';
 import { BASE_URL } from '../redux/baseUrl';
 
@@ -13,8 +13,7 @@ function Login({ register }) {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-//const [errors,setErrors]=useState({})
+  const [errors,setErrors]=useState(false)
 
 
   const [user, setUser] = useState({
@@ -30,7 +29,6 @@ function Login({ register }) {
   //password visibility
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const handleClickShowPassword = (field) => {
     if (field === 'password') {
       setShowPassword(!showPassword);
@@ -43,7 +41,7 @@ function Login({ register }) {
   };
 
 
-  //onchange
+  //onchange func
   const setInputs = (e) => {
     const { value, name } = e.target
     setUser({ ...user, [name]: value })
@@ -51,16 +49,13 @@ function Login({ register }) {
   //console.log(user);
 
 
-
-
   //handle register func
   const handleSignUp = async (e) => {
     e.preventDefault()
     const { fullName, email, password } = user
     if (!fullName || !email || !password) {
-      toast.error('Fill all details')
+      setErrors(userInputValidation(user))
     }
-    //setErrors(userInputValidation(user))
     // Check if passwords match
     if (user.password !== user.confirmPass) {
       setPasswordsMatch(false);
@@ -73,8 +68,8 @@ function Login({ register }) {
       const response = await axios.post(`${BASE_URL}/api/auth/register`, data)
       if (response.status === 200) {
         toast.success('SignUp successfull')
-        navigate('/login')
         setUser({ fullName: "", email: "", password: "", confirmPass: "" })
+        navigate('/login')
       }
     }
     catch (err) {
@@ -86,9 +81,13 @@ function Login({ register }) {
   const handleLogin = (e) => {
     e.preventDefault()
     const { email, password } = user
-     //setErrors(userInputValidation(user))
+    if(!email || !password){
+   setErrors(userInputValidation(user))
+    } 
+    if(email && password){
     const data = { email, password }
     dispatch(userLogin(data))
+    }
   }
 
 
@@ -128,14 +127,16 @@ function Login({ register }) {
         {register &&
 
           <Box>
-            <TextField value={user.fullName} onChange={(e) => setInputs(e)} name='fullName' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Full Name" variant="filled" />
+            <TextField  value={user.fullName} onChange={(e) => setInputs(e)} name='fullName' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Full Name" variant="filled" />
+            <FormHelperText sx={{color:'red'}}>{errors.fullName}</FormHelperText>
 
           </Box>
 
         }
 
         <Box>
-          <TextField value={user.email} onChange={(e) => setInputs(e)} name='email' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Email Address" variant="filled" />
+          <TextField  value={user.email} onChange={(e) => setInputs(e)} name='email' InputProps={{ disableUnderline: true, style: { borderRadius: '7px' } }} sx={{ width: { xs: 300, md: 350 } }} label="Email Address" variant="filled" />
+          <FormHelperText sx={{color:'red'}}>{errors.email}</FormHelperText>
 
         </Box>
         <FormControl sx={{ width: '25ch' }} variant="filled">
@@ -149,6 +150,7 @@ function Login({ register }) {
                 md: 350
               }
             }}
+            error={errors.password}
             value={user.password}
             onChange={(e) => setInputs(e)}
             name='password'
@@ -167,7 +169,7 @@ function Login({ register }) {
               </InputAdornment>
             }
           />
-
+          <FormHelperText sx={{color:'red',marginX:'0px'}}>{errors.password}</FormHelperText>
         </FormControl>
 
 
@@ -201,7 +203,7 @@ function Login({ register }) {
                 </InputAdornment>
               }
             />
-            {!passwordsMatch && <Typography fontSize={14} color={'red'}>Passwords do not match!</Typography>}
+            {!passwordsMatch && <Typography fontSize={11.5} color={'red'}>Passwords do not match!</Typography>}
           </FormControl>
 
         }
