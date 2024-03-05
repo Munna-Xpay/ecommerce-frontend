@@ -21,13 +21,14 @@ import NotFound from './pages/NotFound';
 import Varification from './pages/Varification';
 import BuyNow from './pages/BuyNow';
 import { useSelector } from 'react-redux';
+import CategoryProductItems from './pages/CategoryProductItems';
 
 function App() {
   const user = useSelector(state => state.userReducer.user)
 
   return (
     <div>
-       <Header />
+      <Header />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
@@ -35,6 +36,7 @@ function App() {
         <Route path='/forgot_password' element={<ForgotPassword />} />
         <Route path='/product/:id' element={<Product />} />
         <Route path='/products' element={<Products />} />
+        <Route path='/products/:category' element={<CategoryProductItems />} />
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cartlist' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />

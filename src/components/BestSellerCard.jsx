@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const BestSellerCard = ({ product }) => {
     return (
         <Stack spacing={1} direction={'row'} alignItems={'center'}>
-            <Link to={'product/1'} style={{ textDecoration: 'none', color: 'black' }}>
+            <Link to={'product/' + product._id} style={{ textDecoration: 'none', color: 'black' }}>
                 <Box
                     component="img"
                     src={product?.thumbnail}

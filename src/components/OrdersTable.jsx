@@ -18,8 +18,8 @@ const OrdersTable = () => {
     const columns = [
         { field: 'id', headerName: 'Order ID', width: 130 },
         { field: 'item', headerName: 'Item', width: 130 },
-        { field: 'date', headerName: 'Delivery date', width: 130 },
-        { field: 'quantity', headerName: 'Quantity',type: 'number', width: 60 },
+        { field: 'date', headerName: 'Ordered date', width: 130 },
+        { field: 'quantity', headerName: 'Quantity', type: 'number', width: 60 },
         {
             field: 'price',
             headerName: 'Price',
@@ -36,7 +36,7 @@ const OrdersTable = () => {
     ];
 
     const rows = orders.map((item, index) => {
-        return { id: item._id, item: item?.products?.product?.title, date: new Date(item.createdAt).toDateString(), quantity: item?.products?.quantity, price: '$' + (item?.products?.product?.discounted_price * item?.products?.quantity), status: item.orderStatus }
+        return { id: item?.products?.product?._id, item: item?.products?.product?.title, date: new Date(item.createdAt).toDateString(), quantity: item?.products?.quantity, price: '$' + (item?.products?.product?.discounted_price * item?.products?.quantity), status: item.orderStatus }
     })
 
     return (

@@ -1,14 +1,16 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import FeaturedProductCard from './FeaturedProductCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllProducts } from '../redux/productSlice';
 
 const FeaturedBrands = () => {
 
+    const dispatch = useDispatch()
     const featuredBrand = useSelector(state => state.productReducer.allProducts.find((item) => item.isFeaturedBrand))
-    const featuredBrandProducts = useSelector(state => state.productReducer.allProducts.filter((item) => item.manufacturer == featuredBrand.manufacturer))
-    // console.log(featuredBrandProducts)
+    console.log(featuredBrand)
+    const featuredBrandProducts = useSelector(state => state.productReducer.allProducts?.filter((item) => item?.manufacturer == featuredBrand?.manufacturer))
 
     const showAllBrandProducts = featuredBrandProducts.map((item, index) => {
         if (index < 4) {
@@ -19,6 +21,10 @@ const FeaturedBrands = () => {
             )
         }
     })
+
+    useEffect(() => {
+        dispatch(fetchAllProducts({}))
+    }, [])
 
     return (
         <Stack spacing={4} >

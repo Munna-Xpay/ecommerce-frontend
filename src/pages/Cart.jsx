@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 function Cart() {
 
   const cartitems = useSelector(state => state.cartReducer.cartItems)
-  // console.log(cartitems)
+  console.log(cartitems)
   return (
     <Container sx={{ minHeight: '100vh', marginBottom: '50px' }}>
       <Box
@@ -81,7 +81,7 @@ function Cart() {
               >
                 <Typography fontSize={15}>Discount</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
-                  - ₹ {cartitems.map((item) => item.original_price).length > 0 && cartitems.map((item) => item.product.original_price * item.quantity)?.reduce((a, b) => a + b) - cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b)}
+                  - ₹ {cartitems.map((item) => item.product.original_price).length > 0 && (cartitems.map((item) => item.product.original_price * item.quantity)?.reduce((a, b) => a + b)) - (cartitems.map((item) => item.original_price)?.reduce((a, b) => a + b))}
                 </Typography>
               </Box>
               <Box
