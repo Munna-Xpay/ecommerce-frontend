@@ -3,7 +3,8 @@ import { Autocomplete, Box, Button, FormControl, InputLabel, MenuItem, Select, T
 import { countries } from '../CountryData';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileEdit } from '../redux/userSlice';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 function AccountPersonal() {
@@ -33,6 +34,7 @@ function AccountPersonal() {
   const handleEdit = (e) => {
     e.preventDefault()
     dispatch(profileEdit(userData))
+    toast.success('Profile updated!')
   }
 
   //handle autocomplete component select country
@@ -112,6 +114,7 @@ function AccountPersonal() {
           Save Changes
         </Button>
       </Box>
+      <Toaster/>
     </Box>
   )
 }

@@ -131,6 +131,7 @@ const BuyNow = () => {
         <Box textAlign={'center'}>
           <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
             <Select
+            disabled
               value={item.quantity}
               onChange={(e) => setQtd(e.target.value)}
               sx={{ height: '33px' }}
