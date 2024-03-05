@@ -21,7 +21,7 @@ function AccountPersonal() {
     if (userDetails) {
       setUserData(userDetails)
     }
-  }, [])
+  }, [userDetails])
 
   const setInput = (e) => {
     const { value, name } = e.target

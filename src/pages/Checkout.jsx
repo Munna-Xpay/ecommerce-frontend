@@ -104,6 +104,7 @@ const BuyNow = () => {
     }
   }
 
+
   useEffect(() => {
     dispatch(fetchAllcoupons())
   }, [])
