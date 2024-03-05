@@ -156,9 +156,6 @@ const Product = () => {
                     ))
                 }
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '70px' }}>
-                <Pagination sx={{ display: 'block', margin: 'auto' }} color='primary' count={10} />
-            </Box>
 
             <Toaster position="top-center"
                 reverseOrder={false}

@@ -13,7 +13,7 @@ const HotDealProductCard = ({ hotDeal, isTopProduct, product }) => {
             />
             <Typography variant='subtitle2' sx={{ opacity: '.8', color: 'black' }}>{product?.title}</Typography>
             <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8', color: hotDeal ? 'red' : 'black' }}>${product?.discounted_price}</Typography>
-            {hotDeal && <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8', textAlign: 'end', color: 'black' }}>🔥 763 sold</Typography>}
+            {hotDeal && <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8', textAlign: 'end', color: 'black' }}>🔥 {product?.product_sold} sold</Typography>}
         </Stack></Link>
     )
 }
