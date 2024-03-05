@@ -6,17 +6,17 @@ import ProductCard from './ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts } from '../redux/productSlice';
 
-const ProductList = () => {
+const ProductList = ({ category }) => {
 
     const dispatch = useDispatch()
     const allProducts = useSelector(state => state.productReducer.allProducts)
     const [isCardLike, SetIsCardLike] = useState(true)
     const [sort, setSort] = useState("latest")
-    console.log(sort)
+    console.log(allProducts)
 
     useEffect(() => {
-        dispatch(fetchAllProducts({ sort }))
-    }, [sort])
+        dispatch(fetchAllProducts({ sort, category }))
+    }, [sort, category])
 
     const listAllProducts = allProducts.map((item, index) => {
         return (
@@ -52,7 +52,7 @@ const ProductList = () => {
                     </FormControl>
                 </Stack>
                 <Grid container spacing={isCardLike ? 2 : 4}>
-                    {listAllProducts.length > 0 ? listAllProducts : <Typography sx={{ opacity: '.8', textAlign: 'center', my: '30px',width:'300px' }}>There is no products to show</Typography>}
+                    {listAllProducts.length > 0 ? listAllProducts : <Typography sx={{ opacity: '.8', textAlign: 'center', my: '30px', width: '300px' }}>There is no products to show</Typography>}
                 </Grid>
                 {
                     listAllProducts.length > 0 &&

@@ -7,7 +7,7 @@ import BestSellerCard from './BestSellerCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllCategory } from '../redux/categorySlice';
 import { fetchAllProducts } from '../redux/productSlice';
-const ProductSidebar = () => {
+const ProductSidebar = ({ currentCategory }) => {
 
     const dispatch = useDispatch();
     const allCategories = useSelector(state => state.categoryReducer.allCategories);
@@ -31,25 +31,25 @@ const ProductSidebar = () => {
 
     useEffect(() => {
         if (price.min && price.max) {
-            dispatch(fetchAllProducts(price))
+            currentCategory ? dispatch(fetchAllProducts({ ...price, category: currentCategory })) : dispatch(fetchAllProducts(price))
         }
     }, [price])
 
     useEffect(() => {
-        dispatch(fetchAllProducts({ review }))
+        currentCategory ? dispatch(fetchAllProducts({ review, category: currentCategory })) : dispatch(fetchAllProducts({ review }))
     }, [review])
 
     useEffect(() => {
-        dispatch(fetchAllProducts({ shipping }))
+        currentCategory ? dispatch(fetchAllProducts({ shipping, category: currentCategory })) : dispatch(fetchAllProducts({ shipping }))
     }, [shipping])
 
     useEffect(() => {
-        dispatch(fetchAllProducts({ brand }))
+        currentCategory ? dispatch(fetchAllProducts({ brand, category: currentCategory })) : dispatch(fetchAllProducts({ brand }))
     }, [brand])
 
     useEffect(() => {
         const inStockSrting = inStock ? 'true' : 'false'
-        dispatch(fetchAllProducts({ inStockSrting }))
+        currentCategory ? dispatch(fetchAllProducts({ inStockSrting, category: currentCategory })) : dispatch(fetchAllProducts({ inStockSrting }))
     }, [inStock])
 
     const showPopularProducts = popularProducts.map((product, index) => {
@@ -63,7 +63,7 @@ const ProductSidebar = () => {
     return (
         <>
             <Stack sx={{ padding: '30px 0px' }}>
-                <Accordion defaultExpanded>
+                {!currentCategory && <Accordion defaultExpanded>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1-content"
@@ -81,7 +81,7 @@ const ProductSidebar = () => {
                             ))
                         }
                     </AccordionDetails>
-                </Accordion>
+                </Accordion>}
 
                 <Accordion defaultExpanded>
                     <AccordionSummary
