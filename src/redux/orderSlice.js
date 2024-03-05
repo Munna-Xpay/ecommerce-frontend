@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args, { rejectWithValue }) => {
@@ -15,20 +16,23 @@ export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args,
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
-export const addOrder = createAsyncThunk('/add/order', async (data, { rejectWithValue }) => {
+export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }, { rejectWithValue }) => {
     console.log(data)
     const token = localStorage.getItem('token')
     console.log(token)
-    return await axios.post(`${BASE_URL}/api/auth/add-order-details`, data, {
+    return await axios.post(`${BASE_URL}/api/auth/add-order-detail`, data, {
         headers: {
             "Content-Type": "application/json",
             "user_token": `Bearer ${token}`
         }
     }).then(res => {
         console.log(res)
+        navigate('/order/completed')
         return res.data
+    }).catch((err) => {
+        toast.error("Something went wrong ! network error")
+        return rejectWithValue("Something went wrong ! network error")
     })
-        .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
 const initialState = {
