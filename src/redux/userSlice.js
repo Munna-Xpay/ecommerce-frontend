@@ -27,16 +27,16 @@ export const profileEdit = createAsyncThunk(
     const id = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     //console.log(token);
-    const response = await axios
+   return await axios
       .put(`${BASE_URL}/api/auth/update-profile/${id}`, userData, {
         headers: {
           "Content-Type": "application/json",
           user_token: `Bearer ${token}`,
         },
+      }).then(res=>{
+        return res.data
       })
       .catch((err) => rejectWithValue(err.response.data));
-    return response;
-    //console.log(response);
   }
 );
 
