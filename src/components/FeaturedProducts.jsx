@@ -62,8 +62,11 @@ const FeaturedProducts = () => {
     })
 
     useEffect(() => {
+        const today = new Date();
+        const nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + 2);
         setInterval(() => {
-            setCountdown(() => getCountDownTime('2024-02-28T23:59:59'))
+            setCountdown(() => getCountDownTime(nextDay))
         }, 1000)
     }, [])
 

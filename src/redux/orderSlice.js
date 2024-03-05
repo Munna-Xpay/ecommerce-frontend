@@ -20,7 +20,7 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }
     console.log(data)
     const token = localStorage.getItem('token')
     console.log(token)
-    return await axios.post(`${BASE_URL}/api/auth/add-order-detail`, data, {
+    return await axios.post(`${BASE_URL}/api/auth/add-order-details`, data, {
         headers: {
             "Content-Type": "application/json",
             "user_token": `Bearer ${token}`

@@ -18,7 +18,7 @@ const OrdersTable = () => {
     const columns = [
         { field: 'id', headerName: 'Order ID', width: 130 },
         { field: 'item', headerName: 'Item', width: 130 },
-        { field: 'date', headerName: 'Ordered date', width: 130 },
+        { field: 'orderDate', headerName: 'Ordered date', width: 130 },
         { field: 'quantity', headerName: 'Quantity', type: 'number', width: 60 },
         {
             field: 'price',
@@ -36,12 +36,12 @@ const OrdersTable = () => {
     ];
 
     const rows = orders.map((item, index) => {
-        return { id: item?.products?.product?._id, item: item?.products?.product?.title, date: new Date(item.createdAt).toDateString(), quantity: item?.products?.quantity, price: '$' + (item?.products?.product?.discounted_price * item?.products?.quantity), status: item.orderStatus }
+        return { id: item?.products?.product?._id, item: item?.products?.product?.title, orderDate: new Date(item.updatedAt).toDateString(), quantity: item?.products?.quantity, price: '$' + (item?.products?.product?.discounted_price * item?.products?.quantity), status: item.orderStatus }
     })
 
     return (
         <>
-            <Grid container spacing={1}>
+            {/* <Grid container spacing={1}>
                 <Grid item xs={12} md={7}>
                     <TextField
                         sx={{ width: '100%' }}
@@ -65,7 +65,7 @@ const OrdersTable = () => {
                         <DatePicker sx={{ width: '100%' }} label='End Date' onChange={(e) => console.log(e)} />
                     </LocalizationProvider>
                 </Grid>
-            </Grid>
+            </Grid> */}
             <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                 <DataGrid
                     rows={rows}

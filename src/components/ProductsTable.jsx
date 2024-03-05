@@ -93,7 +93,7 @@ function ProductsTable({ isWishlist, products }) {
           }
         </TableCell>
         <TableCell align="right" sx={{ fontWeight: 'bold' }}>₹ {item.original_price}</TableCell>
-        <TableCell sx={{ display: 'flex', marginTop: '12px' }} align="right">{!isWishlist ?
+        <TableCell align="right">{!isWishlist ?
           <IconButton onClick={() => handleCartItemDelete(item._id)}><DeleteIcon /></IconButton> : <IconButton onClick={() => handleDeleteWishlistProduct(item._id)}><DeleteIcon /></IconButton>
         }
 

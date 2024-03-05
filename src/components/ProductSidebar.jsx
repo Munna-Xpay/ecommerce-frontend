@@ -60,6 +60,11 @@ const ProductSidebar = ({ currentCategory }) => {
         }
     })
 
+    const handleDefault = () => {
+        dispatch(fetchAllProducts({}))
+        setCategory("")
+    }
+
     return (
         <>
             <Stack sx={{ padding: '30px 0px' }}>
@@ -72,6 +77,10 @@ const ProductSidebar = ({ currentCategory }) => {
                         <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }}>Category</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+                        <Stack onClick={handleDefault} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                            <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
+                            <Typography variant='body2' sx={{ opacity: category == "" ? '.99' : '.7' }}>Default</Typography>
+                        </Stack>
                         {
                             allCategories.map((item, index) => (
                                 <Stack onClick={() => setCategory(item.category)} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>

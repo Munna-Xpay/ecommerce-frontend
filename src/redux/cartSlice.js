@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export const addToCart = createAsyncThunk('/add-cart-item', async (data, { rejectWithValue }) => {
@@ -14,11 +15,14 @@ export const addToCart = createAsyncThunk('/add-cart-item', async (data, { rejec
         }
     }).then(res => {
         console.log(res)
+        toast.success("Product added to your cart")
         return res.data
     }).catch((err) => {
         if (err.response.status == 503) {
+            toast.error(err.response.data)
             return rejectWithValue(err.response.data)
         } else {
+            toast.error("Something went wrong network error")
             return rejectWithValue("Something went wrong network error")
         }
     })
@@ -44,8 +48,14 @@ export const deleteCartItem = createAsyncThunk('/delete-cart-item', async (id, {
             "user_token": `Bearer ${token}`
         }
     })
-        .then(res => id)
-        .catch((err) => rejectWithValue("Something went wrong ! network error"))
+        .then(res => {
+            toast.success("Product removed from your cart")
+            return id
+        })
+        .catch((err) => {
+            toast.error("Something went wrong ! network error")
+            return rejectWithValue("Something went wrong ! network error")
+        })
 })
 
 export const updateCartItem = createAsyncThunk('/update-cart-item', async ({ id, data }, { rejectWithValue }) => {
@@ -85,7 +95,7 @@ const cartSlice = createSlice({
             return { ...state, error: action.payload, loading: false }
         })
 
-
+        
 
         builder.addCase(fetchCartItems.pending, (state) => {
             return { ...state, loading: true }
