@@ -35,6 +35,24 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }
     })
 })
 
+export const CancelOrder = createAsyncThunk('/cancel/order', async ({ data, id }, { rejectWithValue }) => {
+    console.log(data)
+    const token = localStorage.getItem('token')
+    return await axios.put(`${BASE_URL}/api/auth/cancel-order/${id}`, data, {
+        headers: {
+            "Content-Type": "application/json",
+            "user_token": `Bearer ${token}`
+        }
+    }).then(res => {
+        console.log(res)
+        toast.success("Order Canceled")
+        return res.data
+    }).catch((err) => {
+        toast.error("Failed to Cancel Order")
+        return rejectWithValue("Failed to Cancel Order")
+    })
+})
+
 const initialState = {
     allOrders: [],
     error: "",
@@ -68,6 +86,20 @@ const orderSlice = createSlice({
         })
 
         builder.addCase(addOrder.rejected, (state, action) => {
+            return { ...state, error: action.payload, loading: false }
+        })
+
+
+
+        builder.addCase(CancelOrder.pending, (state) => {
+            return { ...state, loading: true, error: "" }
+        })
+
+        builder.addCase(CancelOrder.fulfilled, (state, action) => {
+            return { ...state, allOrders: action.payload, loading: false, error: "" }
+        })
+
+        builder.addCase(CancelOrder.rejected, (state, action) => {
             return { ...state, error: action.payload, loading: false }
         })
     }
