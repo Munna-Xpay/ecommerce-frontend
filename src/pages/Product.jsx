@@ -21,8 +21,8 @@ const Product = () => {
     const dispatch = useDispatch()
     const product = useSelector(state => state.productReducer.allProducts.find(item => item._id == id))
     const cart = useSelector(state => state.cartReducer)
+    const user = useSelector(state => state.userReducer.user)
     const productReviews = useSelector(state => state.reviewReducer.allReviews?.filter(item => item.productId == id))
-    console.log(cart)
     const [slideImg, setSlideImg] = useState(product?.thumbnail)
     // const [images, setImages] = useState([product?.thumbnail, ...product?.images])
     const [selectedColor, setSelecetdColor] = useState('')
@@ -117,32 +117,10 @@ const Product = () => {
                                 </Stack>
                             </Stack>
                             <Stack spacing={2} direction={'row'}>
-                                {/* <Box sx={{ minWidth: 120 }}>
-                                    <FormControl sx={{ width: '100px' }}>
-                                        <InputLabel id="demo-simple-select-label">Quantity</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={selectedQuantity}
-                                            label="Quantity"
-                                            onChange={(e) => setselectedQuantity(e.target.value)}
-                                        >
-                                            <MenuItem value={1}>1</MenuItem>
-                                            <MenuItem value={2}>2</MenuItem>
-                                            <MenuItem value={3}>2</MenuItem>
-                                            <MenuItem value={4}>4</MenuItem>
-                                            <MenuItem value={5}>5</MenuItem>
-                                            <MenuItem value={6}>6</MenuItem>
-                                            <MenuItem value={7}>7</MenuItem>
-                                            <MenuItem value={8}>8</MenuItem>
-                                            <MenuItem value={9}>9</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box> */}
                                 <Button variant='contained' onClick={handleAddToCart} size='large' color='warning' startIcon={<AddShoppingCartIcon />}>Add To Cart</Button>
                                 <Button variant='contained' onClick={handleAddToWishlist} size='large' startIcon={<FavoriteBorderIcon />}>Add To Wishlist</Button>
                             </Stack>
-                            <Link to={'/buynow/' + id}><Button variant='contained'>Buy Now</Button></Link>
+                            {user && <Link to={'/buynow/' + id}><Button variant='contained'>Buy Now</Button></Link>}
                         </Stack>
                     </Grid>
                 </Grid>
