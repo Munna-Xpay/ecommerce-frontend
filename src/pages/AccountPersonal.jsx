@@ -34,7 +34,7 @@ function AccountPersonal() {
   const handleEdit = (e) => {
     e.preventDefault()
     dispatch(profileEdit(userData))
-    toast.success('Profile updated!')
+    // toast.success('Profile updated!')
   }
 
   //handle autocomplete component select country

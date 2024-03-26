@@ -106,6 +106,7 @@ const Product = () => {
                                     }
                                 </Stack>
                             </Stack>
+                            {product.category==='Electronics'&&
                             <Stack spacing={2}>
                                 {product?.memory.length > 0 && <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Memory</Typography>}
                                 <Stack direction={'row'} spacing={3}>
@@ -116,6 +117,7 @@ const Product = () => {
                                     }
                                 </Stack>
                             </Stack>
+}
                             <Stack spacing={2} direction={'row'}>
                                 {/* <Box sx={{ minWidth: 120 }}>
                                     <FormControl sx={{ width: '100px' }}>
