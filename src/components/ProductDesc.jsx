@@ -42,13 +42,13 @@ const ProductDesc = ({ product }) => {
 
             <Stack maxWidth={600} spacing={2} mt={8} bgcolor={'success'}>
                 <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.8' }}>Description</Typography>
-                {/* <ul style={{ lineHeight: '30px' }}>
+                <ul style={{ lineHeight: '30px' }}>
                     {
                         product?.description?.map((desc, index) => (
                             <li><Typography sx={{ opacity: '.8' }}>{desc}</Typography></li>
                         ))
                     }
-                </ul> */}
+                </ul>
                 <Typography variant='body1' sx={{ opacity: '.8' }}>{product?.about}</Typography>
             </Stack>
         </>
