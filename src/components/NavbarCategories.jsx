@@ -14,7 +14,7 @@ const NavbarCategories = ({ setDrawer }) => {
             {
                 categories.map((item, index) => (
                     < Stack >
-                        <Link to={'/products/' + item.category} style={{ textDecoration: 'none', color: 'inherit' }} onClick={() => setDrawer(false)}><Typography sx={{ fontWeight: 'bold' }}>{item.category}</Typography></Link>
+                        <Link to={'/products/' + item?._id} style={{ textDecoration: 'none', color: 'inherit' }} onClick={() => setDrawer(false)}><Typography sx={{ fontWeight: 'bold' }}>{item?._id}</Typography></Link>
                         <List>
                             {
                                 item?.sub_categories?.map((sub, index) => (

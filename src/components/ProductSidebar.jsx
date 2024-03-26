@@ -83,9 +83,9 @@ const ProductSidebar = ({ currentCategory }) => {
                         </Stack>
                         {
                             allCategories.map((item, index) => (
-                                <Stack onClick={() => setCategory(item.category)} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
+                                <Stack onClick={() => setCategory(item._id)} direction={'row'} mb={1} spacing={1} alignItems={'center'} sx={{ cursor: 'pointer' }}>
                                     <ChevronRightIcon sx={{ opacity: '.8' }} fontSize='small' />
-                                    <Typography variant='body2' sx={{ opacity: category == item.category ? '.99' : '.7' }}>{item.category}</Typography>
+                                    <Typography variant='body2' sx={{ opacity: category == item._id ? '.99' : '.7' }}>{item._id}</Typography>
                                 </Stack>
                             ))
                         }

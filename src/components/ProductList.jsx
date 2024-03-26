@@ -11,7 +11,7 @@ const ProductList = ({ category }) => {
     const dispatch = useDispatch()
     const allProducts = useSelector(state => state.productReducer.allProducts)
     const [isCardLike, SetIsCardLike] = useState(true)
-    const [itemsPerPage, SetItemsPerPage] = useState(4)
+    const [itemsPerPage, SetItemsPerPage] = useState(24)
     const [currentPage, setCurrentPage] = useState(1)
     const [sort, setSort] = useState("latest")
 
