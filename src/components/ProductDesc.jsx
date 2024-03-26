@@ -44,7 +44,7 @@ const ProductDesc = ({ product }) => {
             <Stack maxWidth={600} spacing={2} mt={8} bgcolor={'success'}>
                 <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.8' }}>Description</Typography>
               
-                           <Typography sx={{ opacity: '.8' }}>{HTMLReactParser(product.description)}</Typography>
+                           <Typography sx={{ opacity: '.8' }}>{product?.description&& HTMLReactParser(product.description)}</Typography>
             
                 <Typography variant='body1' sx={{ opacity: '.8' }}>{product?.about}</Typography>
             </Stack>
