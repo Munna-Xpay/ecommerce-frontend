@@ -14,6 +14,7 @@ import { addToCart } from '../redux/cartSlice';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { addToWishlist } from '../redux/wishlistSlice';
+import { BASE_URL } from '../redux/baseUrl';
 
 
 const Product = () => {
@@ -35,7 +36,7 @@ const Product = () => {
                 onClick={(e) => setSlideImg(item)}
                 component={'img'}
                 alt='product image'
-                src={item}
+                src={`${BASE_URL}/uploadedFiles/${item}`}
                 sx={{ width: '70px', height: '70px', objectFit: 'contain', borderRadius: '8px', border: `3px solid ${item == slideImg ? 'orange' : 'white'}`, cursor: 'pointer' }}
             />
         )
@@ -75,7 +76,7 @@ const Product = () => {
                         <Box
                             component={'img'}
                             alt='product image'
-                            src={slideImg}
+                            src={`${BASE_URL}/uploadedFiles/${slideImg}`}
                             sx={{ filter: 'blur(0)', borderRadius: '10px', width: '100%', height: '40em', objectFit: 'contain' }}
                         />
                         <Stack direction={'row'} m={3} justifyContent={'center'} spacing={2}>
@@ -91,7 +92,7 @@ const Product = () => {
                                     <Rating readOnly value={product?.review_star} />
                                     <Typography variant='subtitle2' sx={{ opacity: '.7' }}>({productReviews?.length} Reviews)</Typography>
                                 </Stack>
-                                <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: '500' }}>${product?.discounted_price} - $<Typography component={'span'} sx={{ textDecoration: 'line-through' }}>{product?.original_price}</Typography> </Typography>
+                                <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: '500' }}>₹{product?.discounted_price} - ₹<Typography component={'span'} sx={{ textDecoration: 'line-through' }}>{product?.original_price}</Typography> </Typography>
                                 <Typography variant='body2' sx={{ opacity: '.8', lineHeight: '22px' }}>
                                     {product?.about}
                                 </Typography>
@@ -106,18 +107,18 @@ const Product = () => {
                                     }
                                 </Stack>
                             </Stack>
-                            {product.category==='Electronics'&&
                             <Stack spacing={2}>
                                 {product?.memory.length > 0 && <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Memory</Typography>}
                                 <Stack direction={'row'} spacing={3}>
                                     {
                                         product?.memory?.map((item, index) => (
-                                            <Box onClick={() => setselectedMemory(item)} sx={{ border: selectedMemory == item ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{item}</Typography></Box>
+                                            item.split(',').map((i)=>(
+                                          <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
+                                            ))
                                         ))
                                     }
                                 </Stack>
                             </Stack>
-}
                             <Stack spacing={2} direction={'row'}>
                                 {/* <Box sx={{ minWidth: 120 }}>
                                     <FormControl sx={{ width: '100px' }}>

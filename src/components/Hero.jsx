@@ -10,6 +10,7 @@ import 'swiper/css/scrollbar';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { BASE_URL } from '../redux/baseUrl';
 
 const Hero = () => {
 
@@ -50,7 +51,7 @@ const Hero = () => {
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <Box
-                                            src={item?.thumbnail}
+                                            src={`${BASE_URL}/uploadedFiles/${item?.thumbnail}`}
                                             alt='product image'
                                             component={'img'}
                                             width={'100%'}

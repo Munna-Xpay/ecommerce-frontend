@@ -1,6 +1,7 @@
 import { Box, Rating, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { BASE_URL } from '../redux/baseUrl'
 
 const BestSellerCard = ({ product }) => {
     return (
@@ -8,7 +9,7 @@ const BestSellerCard = ({ product }) => {
             <Link to={'product/' + product._id} style={{ textDecoration: 'none', color: 'black' }}>
                 <Box
                     component="img"
-                    src={product?.thumbnail}
+                    src={`${BASE_URL}/uploadedFiles/${product?.thumbnail}`}
                     alt="green iguana"
                     sx={{ objectFit: 'contain', height: '80px', width: '80px', borderRadius: '12px' }}
 
