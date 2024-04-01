@@ -49,8 +49,6 @@ const Product = () => {
 
     useEffect(() => {
         setSlideImg(product?.thumbnail)
-        setSelecetdColor(product?.colors[0])
-        setselectedMemory(product?.memory[0])
     }, [product])
 
     //add to cart
@@ -97,27 +95,22 @@ const Product = () => {
                                     {product?.about}
                                 </Typography>
                             </Stack>
+                        
                             <Stack spacing={2}>
-                                <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Color</Typography>
-                                <Stack direction={'row'} spacing={3}>
-                                    {
-                                        product?.colors?.map((color, index) => (
-                                            < Box onClick={() => setSelecetdColor(color)} width={35} height={35} sx={{ background: color, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == color && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
-                                        ))
-                                    }
-                                </Stack>
-                            </Stack>
-                            <Stack spacing={2}>
-                                {product?.memory.length > 0 && <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Memory</Typography>}
-                                <Stack direction={'row'} spacing={3}>
-                                    {
-                                        product?.memory?.map((item, index) => (
-                                            item.split(',').map((i)=>(
-                                          <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
-                                            ))
-                                        ))
-                                    }
-                                </Stack>
+                                {
+                                    product?.features?.map((item) => (
+                                        <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                                            <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>{item.key}</Typography>
+                                            {
+                                            item.value.split(',').map((i) => (
+                                               item.key==='Colour'? < Box onClick={() => setSelecetdColor(i)}  width={35} height={35} sx={{ background: i, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == i && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
+                                            :  <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
+
+                                             ))
+                                            }
+                                        </Stack>
+                                    ))
+                                }
                             </Stack>
                             <Stack spacing={2} direction={'row'}>
                                 {/* <Box sx={{ minWidth: 120 }}>
