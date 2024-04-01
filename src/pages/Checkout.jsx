@@ -436,7 +436,7 @@ const BuyNow = () => {
                 <Typography fontSize={15} fontWeight={'bold'}>Total</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
                   ₹ {selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
-                    : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge}
+                    : (product.map((item) => item.original_price * qtd).length > 0 && product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge)}
                 </Typography>
               </Box>
               <Button onClick={handleCheckout}
