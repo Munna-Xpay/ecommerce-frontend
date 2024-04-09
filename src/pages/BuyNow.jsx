@@ -124,7 +124,7 @@ const BuyNow = () => {
                     </Box>
                     <Box>
                         <Typography mt={2}>{item.title}</Typography>
-                        <Typography fontWeight={"bold"}>${item.discounted_price}</Typography>
+                        <Typography fontWeight={"bold"}>₹{item.discounted_price}</Typography>
                     </Box>
                 </Stack>
                 <Box textAlign={'center'}>
@@ -290,7 +290,7 @@ const BuyNow = () => {
                                                     justifyContent={"space-between"}
                                                 >
                                                     <Typography justifyContent={"space-between"}>Free</Typography>
-                                                    <Typography>$0</Typography>
+                                                    <Typography>₹0</Typography>
                                                 </Box>
                                                 <br />
                                             </Stack>
@@ -321,7 +321,7 @@ const BuyNow = () => {
                                                     justifyContent={"space-between"}
                                                 >
                                                     <Typography justifyContent={"space-between"}>Standard</Typography>
-                                                    <Typography>$10</Typography>
+                                                    <Typography>₹50</Typography>
                                                 </Box>
                                                 <br />
                                             </Stack>
@@ -359,7 +359,7 @@ const BuyNow = () => {
                                                     justifyContent={"space-between"}
                                                 >
                                                     <Typography justifyContent={"space-between"}>Express</Typography>
-                                                    <Typography>$20</Typography>
+                                                    <Typography>₹100</Typography>
                                                 </Box>
                                                 <br />
                                             </Stack>

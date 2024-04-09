@@ -114,7 +114,14 @@ function AccountPersonal() {
           Save Changes
         </Button>
       </Box>
-      <Toaster/>
+      <Toaster position="top-center"
+          reverseOrder={false}
+          containerStyle={{
+            padding: '10px',
+            fontSize: '17px',
+            fontFamily: 'sans-serif',
+          }}
+      />
     </Box>
   )
 }
