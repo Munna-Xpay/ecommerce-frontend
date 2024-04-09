@@ -19,6 +19,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, deleteCartItem, updateCartItem } from "../redux/cartSlice";
 import { deleteWishlistProduct } from "../redux/wishlistSlice";
+import { BASE_URL } from "../redux/baseUrl";
 
 function ProductsTable({ isWishlist, products }) {
 
@@ -59,7 +60,7 @@ function ProductsTable({ isWishlist, products }) {
               sx={{ objectFit: 'contain' }}
               height={70}
               width={110}
-              src={item.product.thumbnail}
+              src={`${BASE_URL}/uploadedFiles/${item.product.thumbnail}`}
               alt={item.product.title}
             />
             <Typography

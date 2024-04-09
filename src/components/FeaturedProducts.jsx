@@ -4,6 +4,7 @@ import HotDealProductCard from './HotDealProductCard'
 import { Link } from 'react-router-dom'
 import { getCountDownTime } from '../countdownTimer'
 import { useSelector } from 'react-redux'
+import { BASE_URL } from '../redux/baseUrl'
 
 const FeaturedProducts = () => {
 
@@ -20,11 +21,11 @@ const FeaturedProducts = () => {
                             <Box
                                 component={'img'}
                                 alt='product image'
-                                src={item?.thumbnail}
+                                src={`${BASE_URL}/uploadedFiles/${item?.thumbnail}`}
                                 sx={{ width: '100%', height: '300px', objectFit: 'contain' }}
                             />
                             <Typography variant='body2' sx={{ color: '#770508', fontWeight: 'bold', opacity: '.8' }}>{item?.title}</Typography>
-                            <Typography variant='subtitle1' sx={{ color: '#770508', fontWeight: 'bold' }}>From ${item?.discounted_price}</Typography>
+                            <Typography variant='subtitle1' sx={{ color: '#770508', fontWeight: 'bold' }}>From ₹{item?.discounted_price}</Typography>
                             <Stack direction={'row'} alignItems={'start'} spacing={1}>
                                 <Stack alignItems={'center'}>
                                     <Avatar sx={{ bgcolor: '#131D2C', fontWeight: 'bold', width: '50px' }} variant="rounded">

@@ -2,6 +2,7 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, IconButton, Pap
 import React from 'react'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../redux/baseUrl';
 
 const ProductCard = ({ isCardLike, product }) => {
     return (
@@ -9,7 +10,7 @@ const ProductCard = ({ isCardLike, product }) => {
             <Stack spacing={isCardLike ? 1 : 3} direction={isCardLike ? 'column' : 'row'} sx={{ width: '99%', position: 'relative', padding: '10px' }}>
                 <Box
                     component="img"
-                    src={product?.thumbnail}
+                    src={`${BASE_URL}/uploadedFiles/${product?.thumbnail}`}
                     alt="green iguana"
                     sx={{ objectFit: 'contain', height: isCardLike ? '190px' : '160px', width: isCardLike ? '94%' : '190px', borderRadius: '12px' }}
 
@@ -21,7 +22,7 @@ const ProductCard = ({ isCardLike, product }) => {
                 </Box>
                 <Stack spacing={1} gap={isCardLike ? '0' : '5px'} >
                     {/* <Typography variant="body2" gutterBottom sx={{ opacity: '.6', fontWeight: '500' }}>{product?.category[1]}</Typography> */}
-                    <Typography variant="body2" gutterBottom sx={{ opacity: '.8', fontWeight: '500' }}>{product?.title}</Typography>
+                    <Typography variant="body2" gutterBottom sx={{ opacity: '.8', fontWeight: '500' }}>{product.title.length > 23 ? `${product.title.slice(0, 23)}...` : product.title}</Typography>
                     {!isCardLike && <Typography variant="body2" gutterBottom sx={{ opacity: '.5', fontWeight: '500' }}>
                         {product?.about.slice(0, 70)}...
                     </Typography>}

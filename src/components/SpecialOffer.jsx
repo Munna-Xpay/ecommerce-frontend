@@ -4,6 +4,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { Link } from 'react-router-dom';
 import { getCountDownTime } from '../countdownTimer';
 import { useSelector } from 'react-redux';
+import { BASE_URL } from '../redux/baseUrl';
 
 const SpecialOffer = () => {
 
@@ -71,7 +72,7 @@ const SpecialOffer = () => {
                     <Box
                         component={'img'}
                         alt='product image'
-                        src={specialOfferProduct?.thumbnail}
+                        src={`${BASE_URL}/uploadedFiles/${specialOfferProduct?.thumbnail}`}
                         sx={{ width: '100%', height: '400px', objectFit: 'contain', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', borderRadius: '15px' }}
                     />
                 </Grid>
@@ -96,8 +97,9 @@ const SpecialOffer = () => {
                             <Stack direction={'row'} spacing={3} pl={2}>
                                 {
                                     specialOfferProduct?.memory?.map((item, index) => (
-                                        <Box onClick={() => setselectedMemory(item)} sx={{ border: selectedMemory == item ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{item}</Typography></Box>
-                                    ))
+                                        item.split(',').map((i)=>(
+                                            <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
+                                              ))                                    ))
                                 }
                             </Stack>
                         </Stack>
