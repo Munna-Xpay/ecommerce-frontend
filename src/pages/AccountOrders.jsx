@@ -27,7 +27,7 @@ const AccountOrders = () => {
         <>
             <Stack spacing={3}>
                 <Stack spacing={2}>
-                    <Typography variant='h6' sx={{ fontWeight: 'bold', opacity: '.9' }}>Vouchers</Typography>
+                    <Typography variant='h6' sx={{ fontWeight: 'bold', opacity: '.9' }}>Orders</Typography>
 
                 </Stack>
                 <Divider />

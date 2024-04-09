@@ -110,7 +110,7 @@ function Login({ register }) {
   }
 
   return (
-    <Stack style={{ background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),url(https://www.goalcast.com/wp-content/uploads/2022/07/Goalcast-44-1-1100x610.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} justifyContent={'center'} alignItems={'center'} sx={{ width: '100%', minHeight: '85vh', marginBottom: '40px' }}>
+    <Stack  justifyContent={'center'} alignItems={'center'} sx={{ width: '100%', minHeight: '85vh', marginBottom: '40px' }}>
       <Stack sx={{
         width: {
           xs: 300,

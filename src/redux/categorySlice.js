@@ -10,8 +10,11 @@ export const addCategory = createAsyncThunk('/add/category', async (data, { reje
 })
 
 export const fetchAllCategory = createAsyncThunk('/fetch/all/category', async (args, { rejectWithValue }) => {
-    return await axios.get(`${BASE_URL}/api/admin/get-category`)
-        .then(res => res.data)
+    return await axios.get(`${BASE_URL}/api/product/get-category`)
+        .then(res => {
+            console.log(res)
+            return res.data
+        })
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 

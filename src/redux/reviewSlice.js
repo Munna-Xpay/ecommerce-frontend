@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export const addReviews = createAsyncThunk('/add/reviews', async (data, { rejectWithValue }) => {
@@ -48,6 +49,7 @@ const reviewSlice = createSlice({
         })
 
 
+        
         builder.addCase(addReviews.pending, (state) => {
             return { ...state, loading: true }
         })

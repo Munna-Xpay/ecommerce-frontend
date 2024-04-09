@@ -12,9 +12,9 @@ const Categories = () => {
         if (index < 12) {
             return (
                 <Grid item xs={6} sm={3} md={2} >
-                    <Link to={'/products/' + item.category} style={{ textDecoration: 'none', color: 'inherit' }}><Stack alignItems={'center'} spacing={2} p={2} sx={{ border: '2px solid #efefef', borderRadius: '15px', cursor: 'pointer', '&:hover': { border: '2px solid grey' } }}>
-                        <Box component={'img'} sx={{ width: '40px', height: '40px', backgroundColor: '#efefef', objectFit: 'contain', borderRadius: '50%' }} p={2} src={item?.category_icon} />
-                        <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }} >{item?.category}</Typography>
+                    <Link to={'/products/' + item._id} style={{ textDecoration: 'none', color: 'inherit' }}><Stack alignItems={'center'} spacing={2} p={2} sx={{ border: '2px solid #efefef', borderRadius: '15px', cursor: 'pointer', '&:hover': { border: '2px solid grey' } }}>
+                        <Box component={'img'} sx={{ width: '40px', height: '40px', backgroundColor: '#efefef', objectFit: 'contain', borderRadius: '50%' }} p={2} src={"https://cdn3.iconfinder.com/data/icons/fluent-solid-24px-vol-4/24/ic_fluent_grid_24_filled-1024.png"} />
+                        <Typography variant='subtitle1' sx={{ fontWeight: 'bold', opacity: '.8' }} >{item?._id}</Typography>
                     </Stack></Link>
                 </Grid>
             )

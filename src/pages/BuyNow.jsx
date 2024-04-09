@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 import {
     Autocomplete,
     Box,
@@ -40,9 +41,10 @@ const BuyNow = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [qtd, setQtd] = useState(1);
     const product = useSelector(state => state.productReducer.allProducts.filter(item => item._id == id))
     const orders = useSelector(state => state.orderReducer)
-    const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product[0].discounted_price))
+    const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product[0].discounted_price * qtd))
     const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState({});
     const [selectedCoupon, setSelectedCoupon] = useState({});
@@ -53,7 +55,6 @@ const BuyNow = () => {
         country: "",
         shippingMethod: "Free",
     });
-    const [qtd, setQtd] = useState(1);
     const [shippingCharge, setShippingCharge] = useState(0);
     console.log(orders)
 
@@ -84,22 +85,18 @@ const BuyNow = () => {
         setErrors(validateOrder(checkoutDetails))
         const { address, zipCode, city, country } = checkoutDetails;
         if (address && zipCode && city && country) {
-            try {
-                const totalPrice = selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)
-                const products = [{ original_price: totalPrice, product: product[0], quantity: qtd }];
-                console.log(totalPrice)
-                dispatch(addOrder({ ...checkoutDetails, totalPrice, products }))
-                setCheckoutDetails({
-                    address: "",
-                    zipCode: null,
-                    city: "",
-                    country: "",
-                    shippingMethod: "Free",
-                })
-                navigate('/order/completed')
-            } catch (err) {
-                console.log(err)
-            }
+            const totalPrice = selectedCoupon.save_price ? (product[0]?.discounted_price * qtd) - selectedCoupon.save_price : (product[0]?.discounted_price * qtd)
+            const products = [{ original_price: totalPrice, product: product[0], quantity: qtd }];
+            console.log(totalPrice)
+            dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products }, navigate }))
+            setCheckoutDetails({
+                address: "",
+                zipCode: null,
+                city: "",
+                country: "",
+                shippingMethod: "Free",
+            })
+            // navigate('/order/completed')
         }
     }
 
@@ -476,6 +473,17 @@ const BuyNow = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
+
+            <Toaster position="top-center"
+                reverseOrder={false}
+                containerStyle={{
+                    padding: '10px',
+                    fontSize: '17px',
+                    fontFamily: 'sans-serif',
+
+
+                }}
+            />
         </Container >
     )
 }

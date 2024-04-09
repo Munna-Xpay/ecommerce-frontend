@@ -34,6 +34,12 @@ const AccountBox = ({ setIsDraweOpen }) => {
         }
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("userId")
+        window.location.reload()
+    }
+
     return (
         <Stack spacing={2} sx={{ border: '2px solid #efefef', borderRadius: '15px', padding: '20px' }}>
             <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -73,7 +79,7 @@ const AccountBox = ({ setIsDraweOpen }) => {
                 <Link to={'/account/orders'} onClick={() => setIsDraweOpen(false)} style={{ textDecoration: 'none' }}><Button sx={{ display: 'flex', width: '100%', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<GradingOutlinedIcon fontSize='large' />}>Orders</Button></Link>
             </Stack>
             <Divider />
-            <Button sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<LogoutOutlinedIcon fontSize='large' />}>Logout</Button>
+            <Button onClick={handleLogout} sx={{ display: 'flex', justifyContent: 'flex-start', color: '#212121', padding: '10px' }} startIcon={<LogoutOutlinedIcon fontSize='large' />}>Logout</Button>
         </Stack>
     )
 }

@@ -11,14 +11,20 @@ const ProductList = ({ category }) => {
     const dispatch = useDispatch()
     const allProducts = useSelector(state => state.productReducer.allProducts)
     const [isCardLike, SetIsCardLike] = useState(true)
+    const [itemsPerPage, SetItemsPerPage] = useState(24)
+    const [currentPage, setCurrentPage] = useState(1)
     const [sort, setSort] = useState("latest")
-    console.log(allProducts)
+
+    const lastProductIndex = itemsPerPage * currentPage;
+    const firstProductIndex = lastProductIndex - itemsPerPage;
+    // console.log(lastProductIndex)
+    // console.log(firstProductIndex)
 
     useEffect(() => {
         dispatch(fetchAllProducts({ sort, category }))
     }, [sort, category])
 
-    const listAllProducts = allProducts.map((item, index) => {
+    const listAllProducts = allProducts?.slice(firstProductIndex, lastProductIndex)?.map((item, index) => {
         return (
             <Grid item xs={isCardLike ? 6 : 12} sm={isCardLike ? 3 : 12}>
                 <ProductCard isCardLike={isCardLike} product={item} />
@@ -57,7 +63,7 @@ const ProductList = ({ category }) => {
                 {
                     listAllProducts.length > 0 &&
                     <Stack direction={'row'} justifyContent={'center'}>
-                        <Pagination count={10} color="primary" />
+                        <Pagination count={Math.ceil(allProducts.length / itemsPerPage)} onChange={(e, pageNumber) => setCurrentPage(pageNumber)} color="primary" />
                     </Stack>
                 }
             </Stack>

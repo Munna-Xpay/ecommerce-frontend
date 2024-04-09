@@ -90,7 +90,7 @@ const BuyNow = () => {
         const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
           : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge
         console.log(totalPrice)
-        dispatch(addOrder({ ...checkoutDetails, totalPrice, products: product }))
+        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate }))
         setCheckoutDetails({
           address: "",
           zipCode: null,
@@ -98,7 +98,6 @@ const BuyNow = () => {
           country: "",
           shippingMethod: "Free",
         })
-        navigate('/order/completed')
       } catch (err) {
         console.log(err)
       }
@@ -132,7 +131,7 @@ const BuyNow = () => {
         <Box textAlign={'center'}>
           <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
             <Select
-            disabled
+              disabled
               value={item.quantity}
               onChange={(e) => setQtd(e.target.value)}
               sx={{ height: '33px' }}
@@ -438,7 +437,7 @@ const BuyNow = () => {
                 <Typography fontSize={15} fontWeight={'bold'}>Total</Typography>
                 <Typography fontSize={15} fontWeight={"bold"}>
                   ₹ {selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
-                    : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge}
+                    : (product.map((item) => item.original_price * qtd).length > 0 && product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge)}
                 </Typography>
               </Box>
               <Button onClick={handleCheckout}
