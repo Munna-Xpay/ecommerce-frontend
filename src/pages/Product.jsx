@@ -14,6 +14,7 @@ import { addToCart } from '../redux/cartSlice';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { addToWishlist } from '../redux/wishlistSlice';
+import { BASE_URL } from '../redux/baseUrl';
 
 
 const Product = () => {
@@ -35,7 +36,7 @@ const Product = () => {
                 onClick={(e) => setSlideImg(item)}
                 component={'img'}
                 alt='product image'
-                src={item}
+                src={`${BASE_URL}/uploadedFiles/${item}`}
                 sx={{ width: '70px', height: '70px', objectFit: 'contain', borderRadius: '8px', border: `3px solid ${item == slideImg ? 'orange' : 'white'}`, cursor: 'pointer' }}
             />
         )
@@ -48,8 +49,6 @@ const Product = () => {
 
     useEffect(() => {
         setSlideImg(product?.thumbnail)
-        setSelecetdColor(product?.colors[0])
-        setselectedMemory(product?.memory[0])
     }, [product])
 
     //add to cart
@@ -75,7 +74,7 @@ const Product = () => {
                         <Box
                             component={'img'}
                             alt='product image'
-                            src={slideImg}
+                            src={`${BASE_URL}/uploadedFiles/${slideImg}`}
                             sx={{ filter: 'blur(0)', borderRadius: '10px', width: '100%', height: '40em', objectFit: 'contain' }}
                         />
                         <Stack direction={'row'} m={3} justifyContent={'center'} spacing={2}>
@@ -91,30 +90,27 @@ const Product = () => {
                                     <Rating readOnly value={product?.review_star} />
                                     <Typography variant='subtitle2' sx={{ opacity: '.7' }}>({productReviews?.length} Reviews)</Typography>
                                 </Stack>
-                                <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: '500' }}>${product?.discounted_price} - $<Typography component={'span'} sx={{ textDecoration: 'line-through' }}>{product?.original_price}</Typography> </Typography>
+                                <Typography variant='subtitle1' sx={{ opacity: '.8', fontWeight: '500' }}>₹{product?.discounted_price} - ₹<Typography component={'span'} sx={{ textDecoration: 'line-through' }}>{product?.original_price}</Typography> </Typography>
                                 <Typography variant='body2' sx={{ opacity: '.8', lineHeight: '22px' }}>
                                     {product?.about}
                                 </Typography>
                             </Stack>
+                        
                             <Stack spacing={2}>
-                                <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Color</Typography>
-                                <Stack direction={'row'} spacing={3}>
-                                    {
-                                        product?.colors?.map((color, index) => (
-                                            < Box onClick={() => setSelecetdColor(color)} width={35} height={35} sx={{ background: color, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == color && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
-                                        ))
-                                    }
-                                </Stack>
-                            </Stack>
-                            <Stack spacing={2}>
-                                {product?.memory.length > 0 && <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>Memory</Typography>}
-                                <Stack direction={'row'} spacing={3}>
-                                    {
-                                        product?.memory?.map((item, index) => (
-                                            <Box onClick={() => setselectedMemory(item)} sx={{ border: selectedMemory == item ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{item}</Typography></Box>
-                                        ))
-                                    }
-                                </Stack>
+                                {
+                                    product?.features?.map((item) => (
+                                        <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                                            <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>{item.key}</Typography>
+                                            {
+                                            item.value.split(',').map((i) => (
+                                               item.key==='Colour'? < Box onClick={() => setSelecetdColor(i)}  width={35} height={35} sx={{ background: i, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == i && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
+                                            :  <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
+
+                                             ))
+                                            }
+                                        </Stack>
+                                    ))
+                                }
                             </Stack>
                             <Stack spacing={2} direction={'row'}>
                                 {/* <Box sx={{ minWidth: 120 }}>

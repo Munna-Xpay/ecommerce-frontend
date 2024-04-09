@@ -33,6 +33,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { fetchAllcoupons } from '../redux/couponSlice';
 import { validateOrder } from '../validations/orderValidation';
 import { addOrder } from '../redux/orderSlice';
+import { BASE_URL } from '../redux/baseUrl';
 
 const BuyNow = () => {
 
@@ -104,6 +105,7 @@ const BuyNow = () => {
     }
   }
 
+
   useEffect(() => {
     dispatch(fetchAllcoupons())
   }, [])
@@ -118,7 +120,7 @@ const BuyNow = () => {
               width={80}
               height={80}
               sx={{ objectFit: 'contain' }}
-              src={item.product.thumbnail}
+              src={`${BASE_URL}/uploadedFiles/${item.product.thumbnail}`}
               alt=""
             />
           </Box>
@@ -130,6 +132,7 @@ const BuyNow = () => {
         <Box textAlign={'center'}>
           <FormControl sx={{ ms: 2, minWidth: 50 }} size="small">
             <Select
+            disabled
               value={item.quantity}
               onChange={(e) => setQtd(e.target.value)}
               sx={{ height: '33px' }}

@@ -21,7 +21,7 @@ const CategoryProductItems = () => {
     }, [])
 
     return (
-        <>
+        <Box>
             <Container sx={{ padding: '50px 0px' }}>
                 <Typography gutterBottom variant='h4' sx={{ fontWeight: 'bolder', opacity: '.8' }}>Catalog</Typography>
                 <Grid container spacing={1}>
@@ -42,7 +42,7 @@ const CategoryProductItems = () => {
                     <ProductSidebar currentCategory={category} />
                 </Box>
             </Drawer>
-        </>
+        </Box>
     )
 }
 

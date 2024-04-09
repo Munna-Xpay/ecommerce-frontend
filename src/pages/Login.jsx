@@ -65,15 +65,17 @@ function Login({ register }) {
     const data = { fullName, email, password }
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/auth/register`, data)
-      if (response.status === 200) {
+      const result = await axios.post(`${BASE_URL}/api/auth/register`, data)
+      if (result.status === 200) {
         toast.success('SignUp successfull')
         setUser({ fullName: "", email: "", password: "", confirmPass: "" })
         navigate('/login')
       }
+  
     }
     catch (err) {
-      // toast.error(err.response.data)
+      toast.error(err.response.data)
+      
     }
   }
 

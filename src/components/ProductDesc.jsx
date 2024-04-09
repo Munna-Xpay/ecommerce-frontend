@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
-
+import parse from 'html-react-parser';
+import HTMLReactParser from 'html-react-parser';
 
 const ProductDesc = ({ product }) => {
     return (
@@ -42,13 +43,9 @@ const ProductDesc = ({ product }) => {
 
             <Stack maxWidth={600} spacing={2} mt={8} bgcolor={'success'}>
                 <Typography variant='h5' sx={{ fontWeight: 'bold', opacity: '.8' }}>Description</Typography>
-                <ul style={{ lineHeight: '30px' }}>
-                    {
-                        product?.description?.map((desc, index) => (
-                            <li><Typography sx={{ opacity: '.8' }}>{desc}</Typography></li>
-                        ))
-                    }
-                </ul>
+              
+                           <Typography sx={{ opacity: '.8' }}>{product?.description&& HTMLReactParser(product.description)}</Typography>
+            
                 <Typography variant='body1' sx={{ opacity: '.8' }}>{product?.about}</Typography>
             </Stack>
         </>
