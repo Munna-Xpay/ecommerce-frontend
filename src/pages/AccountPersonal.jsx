@@ -11,11 +11,11 @@ function AccountPersonal() {
 
   const dispatch = useDispatch()
   const [userGender, setUserGender] = useState('')
- 
+
   //state for storing user data
   const [userData, setUserData] = useState({})
 
- //data from store
+  //data from store
   const userDetails = useSelector(state => state.userReducer.user)
   console.log(userDetails);
   useEffect(() => {
@@ -28,7 +28,7 @@ function AccountPersonal() {
     const { value, name } = e.target
     setUserData({ ...userData, [name]: value })
   }
- // console.log(userData);
+  // console.log(userData);
 
   //handle edit func
   const handleEdit = (e) => {
@@ -89,12 +89,12 @@ function AccountPersonal() {
 
           <Autocomplete
             onChange={handleAutocompleteChange}
-            value={userData?.country||selectedOption}
+            value={userData?.country || selectedOption}
             name='country'
             style={{ borderRadius: '7px' }}
             id="country-select-demo"
             sx={{ width: '396px', backgroundColor: '#edf2ef', marginTop: '20px', boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
-            options={countries.map(country=>country.label)}
+            options={countries.map(country => country.label)}
             autoHighlight
             renderInput={(params) => (
               <TextField
@@ -114,7 +114,7 @@ function AccountPersonal() {
           Save Changes
         </Button>
       </Box>
-      <Toaster/>
+      <Toaster />
     </Box>
   )
 }

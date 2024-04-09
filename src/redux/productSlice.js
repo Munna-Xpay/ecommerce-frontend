@@ -15,7 +15,7 @@ export const fetchAllProducts = createAsyncThunk(
         }&brand=${query.brand ? query.brand : ""}&review=${query.review ? query.review : ""
         }`
       );
-      // console.log(res.data)
+      console.log(res.data)
       return res.data;
     } catch (err) {
       rejectWithValue("Something went wrong ! network error");
