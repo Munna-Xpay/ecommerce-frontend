@@ -53,7 +53,7 @@ const OrdersTable = () => {
                 <TableCell align="center">{item?.products?.quantity}</TableCell>
                 <TableCell align="center">{item?.products?.product?.discounted_price * item?.products?.quantity}</TableCell>
                 <TableCell align="center">{item.orderStatus}</TableCell>
-                <TableCell align="center"><Button size='small' variant='contained' disabled={item.orderStatus == "dispatched" || item.orderStatus == "delivered"} onClick={() => handleClickOpen(item?._id, item?.products?.product?._id)}>Cancel</Button></TableCell>
+                <TableCell align="center"><Button size='small' variant='contained' disabled={item.orderStatus == "Shipped" || item.orderStatus == "Refunded"} onClick={() => handleClickOpen(item?._id, item?.products?.product?._id)}>Cancel</Button></TableCell>
             </TableRow>
         )
     })

@@ -53,12 +53,12 @@ const Product = () => {
 
     //add to cart
     const handleAddToCart = () => {
-        dispatch(addToCart({ product: id, original_price: product.discounted_price }))
+        dispatch(addToCart({ product, original_price: product.discounted_price }))
     }
 
     //add to wishlist
     const handleAddToWishlist = () => {
-        dispatch(addToWishlist({ product: id, original_price: product.discounted_price }))
+        dispatch(addToWishlist({ product, original_price: product.discounted_price }))
     }
 
     return (
@@ -85,7 +85,7 @@ const Product = () => {
                         <Stack direction={'column'} spacing={5} alignItems={'flex-start'} sx={{ paddingLeft: { xs: '0px', md: '50px' } }}>
                             <Chip label={product?.inStock ? "In Stock" : "out of stock"} variant='filled' color={product?.inStock ? "success" : "error"} sx={{ fontWeight: 'bold' }} />
                             <Stack spacing={2}>
-                                <Typography variant='h5' sx={{ opacity: '.8', fontWeight: '500' }}>{product?.title}</Typography>
+                                <Typography variant='h5' sx={{ opacity: '.8', fontWeight: '500' }}>{product?.title} <Typography variant='body2' sx={{ opacity: '.7' }}>(Selling by: {product?.seller?.company_name})</Typography></Typography>
                                 <Stack direction={'row'}>
                                     <Rating readOnly value={product?.review_star} />
                                     <Typography variant='subtitle2' sx={{ opacity: '.7' }}>({productReviews?.length} Reviews)</Typography>
@@ -95,18 +95,18 @@ const Product = () => {
                                     {product?.about}
                                 </Typography>
                             </Stack>
-                        
+
                             <Stack spacing={2}>
                                 {
                                     product?.features?.map((item) => (
                                         <Stack direction={'row'} spacing={2} alignItems={'center'}>
                                             <Typography variant='subtitle1' sx={{ fontWeight: '500' }}>{item.key}</Typography>
                                             {
-                                            item.value.split(',').map((i) => (
-                                               item.key==='Colour'? < Box onClick={() => setSelecetdColor(i)}  width={35} height={35} sx={{ background: i, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == i && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
-                                            :  <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
+                                                item.value.split(',').map((i) => (
+                                                    item.key === 'Colour' ? < Box onClick={() => setSelecetdColor(i)} width={35} height={35} sx={{ background: i, opacity: '.7', borderRadius: '6px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', border: "1px solid gray" }}>{selectedColor == i && <DoneIcon sx={{ color: '#efefef' }} />}</Box>
+                                                        : <Box onClick={() => setselectedMemory(i)} sx={{ border: selectedMemory == i ? '2px solid gray' : '2px solid #dfdfdf', borderRadius: '6px', padding: '10px 15px', cursor: 'pointer' }}><Typography variant='body2' sx={{ fontWeight: '500' }}>{i}</Typography></Box>
 
-                                             ))
+                                                ))
                                             }
                                         </Stack>
                                     ))
