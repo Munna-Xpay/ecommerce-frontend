@@ -26,6 +26,15 @@ const Header = () => {
     console.log(user)
 
     useEffect(() => {
+        if (user && user?.user?.isBlocked) {
+            alert("You are blocked by admin !")
+            localStorage.removeItem("token")
+            localStorage.removeItem("userId")
+            window.location.reload()
+        }
+    }, [user])
+
+    useEffect(() => {
         const token = localStorage.getItem('token')
         const userId = localStorage.getItem('userId')
         console.log(token)
