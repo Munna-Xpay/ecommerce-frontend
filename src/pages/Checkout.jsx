@@ -34,7 +34,7 @@ import { fetchAllcoupons } from '../redux/couponSlice';
 import { validateOrder } from '../validations/orderValidation';
 import { addOrder } from '../redux/orderSlice';
 import { BASE_URL } from '../redux/baseUrl';
-
+import { io } from 'socket.io-client';
 const BuyNow = () => {
 
   const navigate = useNavigate()
@@ -55,6 +55,17 @@ const BuyNow = () => {
   });
   const [qtd, setQtd] = useState(1);
   const [shippingCharge, setShippingCharge] = useState(0)
+  const [socket, setSocket] = useState(null)
+  //socket io
+  useEffect(() => {
+    const ws = io(BASE_URL)
+    setSocket(ws)
+  }, [])
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId')
+    socket && socket.emit("sendClient", userId)
+  }, [socket])
 
   useEffect(() => {
     if (checkoutDetails.shippingMethod == "Free") {

@@ -28,7 +28,7 @@ const LandingPage = () => {
         <Container>
             <Stack mt={6} spacing={10}>
                 <Hero />
-                <Categories />
+                {/* <Categories /> */}
                 <HotDeals />
                 <FeaturedProducts />
                 <SpecialOffer />
