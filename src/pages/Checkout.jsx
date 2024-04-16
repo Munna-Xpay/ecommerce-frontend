@@ -39,8 +39,12 @@ const BuyNow = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const socketConnection=useSelector(state=>state.socketReducer.socket)
+ // console.log(socketConnection);
+  const user = useSelector(state => state.userReducer.user.fullName)
+  //console.log(user);
   const product = useSelector(state => state.cartReducer.cartItems)
-  console.log(product);
+  //console.log(product);
   const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product.map((i) => i.product.discounted_price)))
   const [open, setOpen] = useState(false);
   const [errors, setErrors] = useState({});
@@ -58,8 +62,7 @@ const BuyNow = () => {
   const [socket, setSocket] = useState(null)
   //socket io
   useEffect(() => {
-    const ws = io(BASE_URL)
-    setSocket(ws)
+    setSocket(socketConnection)
   }, [])
 
   useEffect(() => {
@@ -92,7 +95,8 @@ const BuyNow = () => {
     setSelectedCoupon(item)
     handleClose()
   }
-
+  const sellerId = product.map((i) => i.product).map((j) => j.seller._id)
+  console.log(sellerId);
   const handleCheckout = () => {
     setErrors(validateOrder(checkoutDetails))
     const { address, zipCode, city, country } = checkoutDetails;
@@ -101,7 +105,7 @@ const BuyNow = () => {
         const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
           : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge
         console.log(product)
-        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate }))
+        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, user,socket}))
         setCheckoutDetails({
           address: "",
           zipCode: null,

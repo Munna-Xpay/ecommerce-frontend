@@ -3,7 +3,6 @@ import axios from 'axios';
 import { BASE_URL } from './baseUrl';
 import toast, { Toaster } from 'react-hot-toast';
 
-
 export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     return await axios.get(`${BASE_URL}/api/auth/user-orders`, {
@@ -16,7 +15,7 @@ export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args,
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
-export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }, { rejectWithValue }) => {
+export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate,user,socket }, { rejectWithValue }) => {
     console.log(data)
     const token = localStorage.getItem('token')
     console.log(token)
@@ -26,9 +25,13 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }
             "user_token": `Bearer ${token}`
         }
     }).then(res => {
-        console.log(res)
+       console.log(res)
+       if(res.status===200){
+        socket?.emit('sendNotifyCheckout',{products:data.products,user:user})
         navigate('/order/completed')
         return res.data
+       }
+       
     }).catch((err) => {
         toast.error("Something went wrong ! network error")
         return rejectWithValue("Something went wrong ! network error")
