@@ -99,7 +99,7 @@ function ProductsTable({ isWishlist, products }) {
         }
 
           {
-            isWishlist && <IconButton onClick={() => handleAddToCart({ product: item.product._id, original_price: item.product.original_price })}><AddShoppingCartIcon /></IconButton>
+            isWishlist && <IconButton onClick={() => handleAddToCart({ product: item.product, original_price: item.product.original_price })}><AddShoppingCartIcon /></IconButton>
           }
 
         </TableCell>
