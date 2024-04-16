@@ -34,7 +34,10 @@ export const profileEdit = createAsyncThunk(
           user_token: `Bearer ${token}`,
         },
       }).then(res=>{
-        return res.data
+        if(res.status===200){
+          toast.success('Profile edited!')
+          return res.data
+        }
       })
       .catch((err) => rejectWithValue(err.response.data));
   }

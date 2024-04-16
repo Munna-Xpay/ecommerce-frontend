@@ -65,6 +65,7 @@ function Login({ register }) {
     const data = { fullName, email, password }
 
     try {
+      if(fullName&&email&&password){
       const result = await axios.post(`${BASE_URL}/api/auth/register`, data)
       if (result.status === 200) {
         toast.success('SignUp successfull')
@@ -72,10 +73,9 @@ function Login({ register }) {
         navigate('/login')
       }
   
-    }
+       } }
     catch (err) {
       toast.error(err.response.data)
-      
     }
   }
 
@@ -274,14 +274,12 @@ function Login({ register }) {
 
       </Stack>
       <Toaster position="top-center"
-        reverseOrder={false}
-        containerStyle={{
-          padding: '10px',
-          fontSize: '17px',
-          fontFamily: 'sans-serif',
-
-
-        }}
+          reverseOrder={false}
+          containerStyle={{
+            padding: '10px',
+            fontSize: '17px',
+            fontFamily: 'sans-serif',
+          }}
       />
     </Stack>
   )
