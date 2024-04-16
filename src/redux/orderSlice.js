@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
 import toast, { Toaster } from 'react-hot-toast';
+import { io } from "socket.io-client";
 
 
 export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args, { rejectWithValue }) => {
@@ -28,6 +29,7 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate }
     }).then(res => {
         console.log(res)
         navigate('/order/completed')
+        // const socket = io(BASE_URL)
         return res.data
     }).catch((err) => {
         toast.error("Something went wrong ! network error")

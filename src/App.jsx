@@ -22,13 +22,29 @@ import Varification from './pages/Varification';
 import BuyNow from './pages/BuyNow';
 import { useSelector } from 'react-redux';
 import CategoryProductItems from './pages/CategoryProductItems';
+import { BASE_URL } from './redux/baseUrl';
+import { useEffect, useState } from 'react';
+import { io } from "socket.io-client";
 
 function App() {
   const user = useSelector(state => state.userReducer.user)
+  const [socket, setSocket] = useState(null)
+
+  useEffect(() => {
+    const ws = io(BASE_URL)
+    console.log(ws)
+    setSocket(ws)
+  }, [])
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId')
+    socket && socket?.emit("sendClient", userId);
+  }, [socket])
+
 
   return (
     <div>
-      <Header />
+      <Header socket={socket} />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
@@ -40,7 +56,7 @@ function App() {
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cartlist' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />
-        <Route path='/buynow/:id' element={<BuyNow />} />
+        <Route path='/buynow/:id' element={<BuyNow socket={socket} />} />
         <Route path='/compare' element={<Compare />} />
         <Route path='/order/completed' element={<OrderCompleted />} />
         <Route path='/account' element={<Account />} >

@@ -35,15 +35,17 @@ import { fetchAllcoupons } from '../redux/couponSlice';
 import { validateOrder } from '../validations/orderValidation';
 import { addOrder } from '../redux/orderSlice';
 import { BASE_URL } from '../redux/baseUrl';
+import { io } from "socket.io-client";
 
-const BuyNow = () => {
+const BuyNow = ({ socket }) => {
 
     const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [qtd, setQtd] = useState(1);
     const product = useSelector(state => state.productReducer.allProducts.filter(item => item._id == id))
-    console.log(product)
+    const username = useSelector(state => state.userReducer.user?.fullName)
+    console.log(username)
     const orders = useSelector(state => state.orderReducer)
     const coupons = useSelector(state => state.couponReducer.allCoupon.filter((item) => item.price_limit < product[0]?.discounted_price * qtd))
     const [open, setOpen] = useState(false);
@@ -58,6 +60,8 @@ const BuyNow = () => {
     });
     const [shippingCharge, setShippingCharge] = useState(0);
     console.log(orders)
+
+
 
     useEffect(() => {
         if (checkoutDetails.shippingMethod == "Free") {
@@ -97,6 +101,7 @@ const BuyNow = () => {
                 country: "",
                 shippingMethod: "Free",
             })
+            socket?.emit("sendNotify", { receiverId: product[0]?.seller?._id, msg: `${username} placed an order for ${product[0]?.title}` })
             // navigate('/order/completed')
         }
     }
