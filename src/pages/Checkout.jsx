@@ -39,9 +39,9 @@ const BuyNow = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const socketConnection=useSelector(state=>state.socketReducer.socket)
- // console.log(socketConnection);
-  const user = useSelector(state => state.userReducer.user.fullName)
+  const socket = useSelector(state => state.socketReducer.socket)
+  // console.log(socketConnection);
+  const user = useSelector(state => state.userReducer.user?.fullName)
   //console.log(user);
   const product = useSelector(state => state.cartReducer.cartItems)
   //console.log(product);
@@ -59,16 +59,6 @@ const BuyNow = () => {
   });
   const [qtd, setQtd] = useState(1);
   const [shippingCharge, setShippingCharge] = useState(0)
-  const [socket, setSocket] = useState(null)
-  //socket io
-  useEffect(() => {
-    setSocket(socketConnection)
-  }, [])
-
-  useEffect(() => {
-    const userId = localStorage.getItem('userId')
-    socket && socket.emit("sendClient", userId)
-  }, [socket])
 
   useEffect(() => {
     if (checkoutDetails.shippingMethod == "Free") {
@@ -105,7 +95,7 @@ const BuyNow = () => {
         const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
           : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge
         console.log(product)
-        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, user,socket}))
+        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, user, socket }))
         setCheckoutDetails({
           address: "",
           zipCode: null,

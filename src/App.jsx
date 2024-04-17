@@ -28,23 +28,19 @@ import { io } from "socket.io-client";
 
 function App() {
   const user = useSelector(state => state.userReducer.user)
-  const [socket, setSocket] = useState(null)
+  const socket = useSelector(state => state.socketReducer.socket)
+  console.log(socket)
+  console.log(user)
 
   useEffect(() => {
-    const ws = io(BASE_URL)
-    console.log(ws)
-    setSocket(ws)
-  }, [])
-
-  useEffect(() => {
-    const userId = localStorage.getItem('userId')
-    socket && socket?.emit("sendClient", userId);
-  }, [socket])
-
+    if (user) {
+      socket && socket?.emit("sendClient", user._id);
+    }
+  }, [socket, user])
 
   return (
     <div>
-      <Header socket={socket} />
+      <Header />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />

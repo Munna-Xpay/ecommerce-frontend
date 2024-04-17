@@ -17,10 +17,11 @@ import { BASE_URL } from '../redux/baseUrl';
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const Header = ({ socket }) => {
+const Header = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const socket = useSelector(state => state.socketReducer.socket)
     const cartitems = useSelector(state => state.cartReducer.cartItems)
     const user = useSelector(state => state.userReducer)
     const [drawer, setDrawer] = useState(false)

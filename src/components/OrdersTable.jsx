@@ -12,8 +12,11 @@ const OrdersTable = () => {
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch()
     const [itemsPerPage, SetItemsPerPage] = useState(5)
+    const socket = useSelector(state => state.socketReducer.socket)
     const [cancelId, setCancelId] = useState("")
-    const [cancelProductId, setCancelProductId] = useState("")
+    const [cancelProductName, setCancelProductName] = useState("")
+    const [cancelProductSellerId, setCancelProductSellerId] = useState("")
+    const username = useSelector(state => state.userReducer.user?.fullName)
     const [currentPage, setCurrentPage] = useState(1)
     console.log(orders)
 
@@ -21,22 +24,24 @@ const OrdersTable = () => {
     const firstProductIndex = lastProductIndex - itemsPerPage;
 
     const handleCancelOrder = () => {
-        if (cancelId && cancelProductId) {
-            dispatch(CancelOrder({ data: { productId: cancelProductId }, id: cancelId }))
+        if (cancelId) {
+            dispatch(CancelOrder({ data: { orderStatus: "Canceled" }, id: cancelId, socket, msg: `${username} canceled order for ${cancelProductName}`, receiverId: cancelProductSellerId }))
             setOpen(false);
         }
     }
 
-    const handleClickOpen = (id, productId) => {
+    const handleClickOpen = (id, productTitle, sellerId) => {
         setOpen(true);
         setCancelId(id)
-        setCancelProductId(productId)
+        setCancelProductName(productTitle)
+        setCancelProductSellerId(sellerId)
     };
 
     const handleClose = () => {
         setOpen(false);
         setCancelId("")
-        setCancelProductId("")
+        setCancelProductName("")
+        setCancelProductSellerId("")
     };
 
     const showAllOrders = orders?.slice(firstProductIndex, lastProductIndex)?.map((item, index) => {
@@ -53,7 +58,7 @@ const OrdersTable = () => {
                 <TableCell align="center">{item?.products?.quantity}</TableCell>
                 <TableCell align="center">{item?.products?.product?.discounted_price * item?.products?.quantity}</TableCell>
                 <TableCell align="center">{item.orderStatus}</TableCell>
-                <TableCell align="center"><Button size='small' variant='contained' disabled={item.orderStatus == "Shipped" || item.orderStatus == "Refunded"} onClick={() => handleClickOpen(item?._id, item?.products?.product?._id)}>Cancel</Button></TableCell>
+                <TableCell align="center"><Button size='small' variant='contained' disabled={item.orderStatus == "Shipped" || item.orderStatus == "Refunded" || item.orderStatus == "Canceled"} onClick={() => handleClickOpen(item?._id, item?.products?.product?.title, item?.products?.product?.seller?._id)}>Cancel</Button></TableCell>
             </TableRow>
         )
     })
