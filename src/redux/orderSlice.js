@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL } from './baseUrl';
 import toast, { Toaster } from 'react-hot-toast';
+import { io } from "socket.io-client";
 
 export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
@@ -15,7 +16,7 @@ export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args,
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
-export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate,user,socket }, { rejectWithValue }) => {
+export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate, user, socket }, { rejectWithValue }) => {
     console.log(data)
     const token = localStorage.getItem('token')
     console.log(token)
@@ -25,20 +26,21 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate,u
             "user_token": `Bearer ${token}`
         }
     }).then(res => {
-       console.log(res)
-       if(res.status===200){
-        socket?.emit('sendNotifyCheckout',{products:data.products,user:user})
-        navigate('/order/completed')
-        return res.data
-       }
-       
+        console.log(res)
+        if (res.status === 200) {
+            socket?.emit('sendNotifyCheckout', { products: data.products, user: user })
+            navigate('/order/completed')
+            // const socket = io(BASE_URL)
+            return res.data
+        }
+
     }).catch((err) => {
         toast.error("Something went wrong ! network error")
         return rejectWithValue("Something went wrong ! network error")
     })
 })
 
-export const CancelOrder = createAsyncThunk('/cancel/order', async ({ data, id }, { rejectWithValue }) => {
+export const CancelOrder = createAsyncThunk('/cancel/order', async ({ data, id, socket, msg, receiverId }, { rejectWithValue }) => {
     console.log(data)
     const token = localStorage.getItem('token')
     return await axios.put(`${BASE_URL}/api/auth/cancel-order/${id}`, data, {
@@ -49,6 +51,7 @@ export const CancelOrder = createAsyncThunk('/cancel/order', async ({ data, id }
     }).then(res => {
         console.log(res)
         toast.success("Order Canceled")
+        socket?.emit("sendCancelOrder", { receiverId, msg })
         return res.data
     }).catch((err) => {
         toast.error("Failed to Cancel Order")

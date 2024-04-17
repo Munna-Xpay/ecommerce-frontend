@@ -22,9 +22,21 @@ import Varification from './pages/Varification';
 import BuyNow from './pages/BuyNow';
 import { useSelector } from 'react-redux';
 import CategoryProductItems from './pages/CategoryProductItems';
+import { BASE_URL } from './redux/baseUrl';
+import { useEffect, useState } from 'react';
+import { io } from "socket.io-client";
 
 function App() {
   const user = useSelector(state => state.userReducer.user)
+  const socket = useSelector(state => state.socketReducer.socket)
+  console.log(socket)
+  console.log(user)
+
+  useEffect(() => {
+    if (user) {
+      socket && socket?.emit("sendClient", user._id);
+    }
+  }, [socket, user])
 
   return (
     <div>
@@ -40,7 +52,7 @@ function App() {
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cartlist' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />
-        <Route path='/buynow/:id' element={<BuyNow />} />
+        <Route path='/buynow/:id' element={<BuyNow socket={socket} />} />
         <Route path='/compare' element={<Compare />} />
         <Route path='/order/completed' element={<OrderCompleted />} />
         <Route path='/account' element={<Account />} >

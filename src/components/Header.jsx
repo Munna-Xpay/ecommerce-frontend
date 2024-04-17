@@ -12,18 +12,35 @@ import { fetchCartItems } from '../redux/cartSlice';
 import { getWishlistProducts } from '../redux/wishlistSlice';
 import { userById } from '../redux/userSlice';
 import HomeIcon from '@mui/icons-material/Home';
+import { io } from "socket.io-client";
+import { BASE_URL } from '../redux/baseUrl';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Header = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const socket = useSelector(state => state.socketReducer.socket)
     const cartitems = useSelector(state => state.cartReducer.cartItems)
     const user = useSelector(state => state.userReducer)
     const [drawer, setDrawer] = useState(false)
+    const [notifyMsg, setNotifyMsg] = useState("")
     const wishlistitems = useSelector(state => state.wishlistReducer.wishlistProducts)
     //console.log(wishlistitems);
     console.log(user)
+
+    useEffect(() => {
+        socket && socket?.on("getUpdateNotify", (msg) => {
+            setNotifyMsg(msg)
+            // toast.success(msg)
+            console.log(msg)
+        })
+    }, [socket])
+
+    useEffect(() => {
+        notifyMsg && toast.success(notifyMsg, { duration: 5000 })
+    }, [notifyMsg])
 
     useEffect(() => {
         if (user && user?.user?.isBlocked) {
@@ -119,6 +136,7 @@ const Header = () => {
             >
                 <NavbarCategories setDrawer={setDrawer} />
             </Drawer>
+            <Toaster />
         </Box >
     )
 }
