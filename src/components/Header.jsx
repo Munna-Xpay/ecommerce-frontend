@@ -12,10 +12,8 @@ import { fetchCartItems } from '../redux/cartSlice';
 import { getWishlistProducts } from '../redux/wishlistSlice';
 import { userById } from '../redux/userSlice';
 import HomeIcon from '@mui/icons-material/Home';
-import { io } from "socket.io-client";
-import { BASE_URL } from '../redux/baseUrl';
 import toast, { Toaster } from 'react-hot-toast';
-
+import { fetchAllOrders } from '../redux/orderSlice';
 
 const Header = () => {
 
@@ -33,8 +31,8 @@ const Header = () => {
     useEffect(() => {
         socket && socket?.on("getUpdateNotify", (msg) => {
             setNotifyMsg(msg)
-            // toast.success(msg)
-            console.log(msg)
+            dispatch(fetchAllOrders())
+            //console.log(msg)
         })
     }, [socket])
 
