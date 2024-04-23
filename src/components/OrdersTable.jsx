@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, InputAdornment, Pagination, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, Pagination, Paper, Radio, RadioGroup, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
@@ -18,15 +18,20 @@ const OrdersTable = () => {
     const [cancelProductSellerId, setCancelProductSellerId] = useState("")
     const username = useSelector(state => state.userReducer.user?.fullName)
     const [currentPage, setCurrentPage] = useState(1)
-    console.log(orders)
+    const [selectedReason, setSelectedReason] = useState(null);
+
+    const handleReasonChange = (event) => {
+        setSelectedReason(event.target.value);
+    };
+    console.log(selectedReason)
 
     const lastProductIndex = itemsPerPage * currentPage;
     const firstProductIndex = lastProductIndex - itemsPerPage;
 
     const handleCancelOrder = () => {
-        if (cancelId) {
-            dispatch(CancelOrder({ data: { orderStatus: "Canceled" }, id: cancelId, socket, msg: `${username} canceled order for ${cancelProductName}`, receiverId: cancelProductSellerId }))
-            setOpen(false);
+        if (cancelId && selectedReason) {
+            dispatch(CancelOrder({ data: { orderStatus: "Canceled", canceledReason: selectedReason }, id: cancelId, socket, msg: `${username} canceled order for ${cancelProductName}`, receiverId: cancelProductSellerId }))
+            handleClose();
         }
     }
 
@@ -40,6 +45,7 @@ const OrdersTable = () => {
     const handleClose = () => {
         setOpen(false);
         setCancelId("")
+        setSelectedReason(null)
         setCancelProductName("")
         setCancelProductSellerId("")
     };
@@ -53,7 +59,7 @@ const OrdersTable = () => {
                 <TableCell >
                     {item?._id.slice(0, 10)}...
                 </TableCell>
-                <TableCell align="center">{item?.products?.product?.title}</TableCell>
+                <TableCell align="center">{item?.products?.product?.title.slice(0, 15)}...</TableCell>
                 <TableCell align="center">{new Date(item.updatedAt).toDateString()}</TableCell>
                 <TableCell align="center">{item?.products?.quantity}</TableCell>
                 <TableCell align="center">{item?.products?.product?.discounted_price * item?.products?.quantity}</TableCell>
@@ -124,11 +130,27 @@ const OrdersTable = () => {
             >
                 <Box sx={{ padding: '20px' }}>
                     <DialogTitle id="alert-dialog-title">
-                        {"Are you sure, Do you want want to cancel this order ?"}
+                        {/* {"Are you sure, Do you want want to cancel this order ?"} */}
+                        <Typography gutterBottom variant='h4' fontWeight={'bold'}>Order Cancellation Reason</Typography>
+                        <FormControl component="fieldset">
+                            <FormLabel>Select your reason:</FormLabel>
+                            <RadioGroup value={selectedReason} onChange={handleReasonChange}>
+                                <FormControlLabel value="Item no longer needed" control={<Radio />} label="Item no longer needed" />
+                                <FormControlLabel value="Found a better deal elsewhere" control={<Radio />} label="Found a better deal elsewhere" />
+                                {/* <FormControlLabel value="wrong_size_fit" control={<Radio />} label="Wrong size or fit" /> */}
+                                <FormControlLabel value="Changed mind" control={<Radio />} label="Changed mind" />
+                                <FormControlLabel value="Shipping delays" control={<Radio />} label="Shipping delays" />
+                                <FormControlLabel value="Quality concerns" control={<Radio />} label="Quality concerns" />
+                                <FormControlLabel value="Duplicate order" control={<Radio />} label="Duplicate order" />
+                                <FormControlLabel value="Financial constraints" control={<Radio />} label="Financial constraints" />
+                                <FormControlLabel value="Others" control={<Radio />} label="Others" />
+                                {/* Add more radio buttons for other cancellation reasons */}
+                            </RadioGroup>
+                        </FormControl>
                     </DialogTitle>
                     <DialogActions >
                         <Button variant='outlined' onClick={handleClose}>Back</Button>
-                        <Button variant='contained' color='error' onClick={handleCancelOrder} autoFocus>
+                        <Button variant='contained' disabled={!selectedReason} color='error' onClick={handleCancelOrder} autoFocus>
                             Confirm
                         </Button>
                     </DialogActions>
