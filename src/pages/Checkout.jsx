@@ -36,6 +36,9 @@ import { addOrder } from '../redux/orderSlice';
 import { BASE_URL, KEY_ID } from '../redux/baseUrl';
 import { io } from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+
+
 const BuyNow = () => {
 
   const navigate = useNavigate()
@@ -88,43 +91,40 @@ const BuyNow = () => {
   }
   const sellerId = product.map((i) => i.product).map((j) => j.seller._id)
   //console.log(sellerId);
-  
+
   //checkout func
   const handleCheckout = async () => {
     setErrors(validateOrder(checkoutDetails));
     const { address, zipCode, city, country } = checkoutDetails;
-  // Calculate total price inside handleCheckout function
-  const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
-    : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge;
+    const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
+      : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge;
 
     if (address && zipCode && city && country) {
       try {
-        const token=localStorage.getItem('token')
-        // Make a POST request to create an order
-        const orderResponse = await fetch(`${BASE_URL}/api/auth/create-order`, {
-          method: 'POST',
+        const token = localStorage.getItem('token')
+        const data={
+          amount: totalPrice * 100,
+        }
+        const orderResponse = await axios.post(`${BASE_URL}/api/auth/create-order`,data,{
           headers: {
             'Content-Type': 'application/json',
-            'user_token':`Bearer ${token}`
+            'user_token': `Bearer ${token}`
           },
-          body: JSON.stringify({
-            amount: totalPrice*100,
-          }),
         });
-  
-        const order = await orderResponse.json();
-  
-        // Call handlePayment function to initiate payment
-        handlePayment(order,totalPrice);
+        if (orderResponse.status === 200) {
+          const order = orderResponse.data
+          handlePayment(order, totalPrice);
+        }
+        else {
+          console.log('Failed to create order!');
+        }
       } catch (error) {
         console.error('Error during checkout:', error);
-        // Handle error if any
       }
     }
   };
-  
-  const handlePayment = (order,totalPrice) => {
- 
+
+  const handlePayment = (order, totalPrice) => {
     const options = {
       key: KEY_ID,
       amount: order.amount,
@@ -134,31 +134,33 @@ const BuyNow = () => {
       description: 'Purchase description',
       handler: async function (response) {
         try {
-          const token=localStorage.getItem('token')
-          const paymentResponse = await fetch(`${BASE_URL}/api/auth/capture-payment`, {
-            method: 'POST',
+          const token = localStorage.getItem('token')
+          const data={
+            razorpay_order_id: order.id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }
+          const paymentResponse = await axios.post(`${BASE_URL}/api/auth/capture-payment`,data, {
             headers: {
               'Content-Type': 'application/json',
-              'user_token':`Bearer ${token}`
+              'user_token': `Bearer ${token}`
             },
-            body: JSON.stringify({
-              razorpay_order_id: order.id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            })
           });
-  
-          const paymentStatus = await paymentResponse.json();
-          if (paymentStatus.status === 'success') {
-            // Payment successful, handle success action
-           const userName=user.fullName
-            dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, userName, socket }));
-          } else {
-            toast.error('Payment failed')
+          if (paymentResponse.status === 200) {
+            const paymentStatus = paymentResponse.data
+            if (paymentStatus.status === 'success') {
+              const userName = user.fullName
+              dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, userName, socket }));
+            } else {
+              toast.error('Payment failed')
+            }
           }
+          else {
+            console.log('Payment verification failed!');
+          }
+
         } catch (error) {
           console.error('Error during payment capture:', error);
-          // Handle error if any
         }
       },
       prefill: {
@@ -167,11 +169,10 @@ const BuyNow = () => {
         contact: user.phoneNum,
       },
     };
-  
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
-  
+
 
 
   useEffect(() => {
