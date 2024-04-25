@@ -16,7 +16,7 @@ export const fetchAllOrders = createAsyncThunk('/fetch/all/orders', async (args,
         .catch((err) => rejectWithValue("Something went wrong ! network error"))
 })
 
-export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate, user, socket }, { rejectWithValue }) => {
+export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate, userName, socket }, { rejectWithValue }) => {
     console.log(data)
     const token = localStorage.getItem('token')
     console.log(token)
@@ -28,9 +28,8 @@ export const addOrder = createAsyncThunk('/add/order', async ({ data, navigate, 
     }).then(res => {
         console.log(res)
         if (res.status === 200) {
-            socket?.emit('sendNotifyCheckout', { products: data.products, user: user })
+            socket?.emit('sendNotifyCheckout', { products: data.products, user: userName })
             navigate('/order/completed')
-            // const socket = io(BASE_URL)
             return res.data
         }
 

@@ -33,15 +33,19 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { fetchAllcoupons } from '../redux/couponSlice';
 import { validateOrder } from '../validations/orderValidation';
 import { addOrder } from '../redux/orderSlice';
-import { BASE_URL } from '../redux/baseUrl';
+import { BASE_URL, KEY_ID } from '../redux/baseUrl';
 import { io } from 'socket.io-client';
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+
+
 const BuyNow = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const socket = useSelector(state => state.socketReducer.socket)
   // console.log(socketConnection);
-  const user = useSelector(state => state.userReducer.user?.fullName)
+  const user = useSelector(state => state.userReducer.user)
   //console.log(user);
   const product = useSelector(state => state.cartReducer.cartItems)
   //console.log(product);
@@ -86,28 +90,89 @@ const BuyNow = () => {
     handleClose()
   }
   const sellerId = product.map((i) => i.product).map((j) => j.seller._id)
-  console.log(sellerId);
-  const handleCheckout = () => {
-    setErrors(validateOrder(checkoutDetails))
+  //console.log(sellerId);
+
+  //checkout func
+  const handleCheckout = async () => {
+    setErrors(validateOrder(checkoutDetails));
     const { address, zipCode, city, country } = checkoutDetails;
+    const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
+      : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge;
+
     if (address && zipCode && city && country) {
       try {
-        const totalPrice = selectedCoupon.save_price ? product.map((item) => item.original_price * qtd)?.reduce((a, b) => a + b) - selectedCoupon.save_price + shippingCharge
-          : product.map((item) => item.original_price * qtd).reduce((a, b) => a + b) + shippingCharge
-        console.log(product)
-        dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, user, socket }))
-        setCheckoutDetails({
-          address: "",
-          zipCode: null,
-          city: "",
-          country: "",
-          shippingMethod: "Free",
-        })
-      } catch (err) {
-        console.log(err)
+        const token = localStorage.getItem('token')
+        const data={
+          amount: totalPrice * 100,
+        }
+        const orderResponse = await axios.post(`${BASE_URL}/api/auth/create-order`,data,{
+          headers: {
+            'Content-Type': 'application/json',
+            'user_token': `Bearer ${token}`
+          },
+        });
+        if (orderResponse.status === 200) {
+          const order = orderResponse.data
+          handlePayment(order, totalPrice);
+        }
+        else {
+          console.log('Failed to create order!');
+        }
+      } catch (error) {
+        console.error('Error during checkout:', error);
       }
     }
-  }
+  };
+
+  const handlePayment = (order, totalPrice) => {
+    const options = {
+      key: KEY_ID,
+      amount: order.amount,
+      currency: order.currency,
+      order_id: order.id,
+      name: 'Shopify',
+      description: 'Purchase description',
+      handler: async function (response) {
+        try {
+          const token = localStorage.getItem('token')
+          const data={
+            razorpay_order_id: order.id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }
+          const paymentResponse = await axios.post(`${BASE_URL}/api/auth/capture-payment`,data, {
+            headers: {
+              'Content-Type': 'application/json',
+              'user_token': `Bearer ${token}`
+            },
+          });
+          if (paymentResponse.status === 200) {
+            const paymentStatus = paymentResponse.data
+            if (paymentStatus.status === 'success') {
+              const userName = user.fullName
+              dispatch(addOrder({ data: { ...checkoutDetails, totalPrice, products: product }, navigate, userName, socket }));
+            } else {
+              toast.error('Payment failed')
+            }
+          }
+          else {
+            console.log('Payment verification failed!');
+          }
+
+        } catch (error) {
+          console.error('Error during payment capture:', error);
+        }
+      },
+      prefill: {
+        name: user.fullName,
+        email: user.email,
+        contact: user.phoneNum,
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
 
 
   useEffect(() => {
@@ -486,6 +551,14 @@ const BuyNow = () => {
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
+      <Toaster position="top-center"
+        reverseOrder={false}
+        containerStyle={{
+          padding: '10px',
+          fontSize: '17px',
+          fontFamily: 'sans-serif',
+        }}
+      />
     </Container >
   )
 }

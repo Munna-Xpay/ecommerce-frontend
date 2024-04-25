@@ -92,8 +92,6 @@ function Login({ register }) {
     }
   }
 
-
-
   //error 
   const error = useSelector(state => state.userReducer.error)
   useEffect(() => {
