@@ -102,10 +102,10 @@ const BuyNow = () => {
     if (address && zipCode && city && country) {
       try {
         const token = localStorage.getItem('token')
-        const data={
+        const data = {
           amount: totalPrice * 100,
         }
-        const orderResponse = await axios.post(`${BASE_URL}/api/auth/create-order`,data,{
+        const orderResponse = await axios.post(`${BASE_URL}/api/auth/create-order`, data, {
           headers: {
             'Content-Type': 'application/json',
             'user_token': `Bearer ${token}`
@@ -135,12 +135,20 @@ const BuyNow = () => {
       handler: async function (response) {
         try {
           const token = localStorage.getItem('token')
-          const data={
+          const orderAmount = order.amount / 100
+          const data = {
             razorpay_order_id: order.id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
+            amount: orderAmount,
+            method: "Card",
+            type: checkoutDetails.shippingMethod,
+            status: "Paid",
+            country: checkoutDetails.country,
+            currency: order.currency,
+            products: product
           }
-          const paymentResponse = await axios.post(`${BASE_URL}/api/auth/capture-payment`,data, {
+          const paymentResponse = await axios.post(`${BASE_URL}/api/auth/capture-payment`, data, {
             headers: {
               'Content-Type': 'application/json',
               'user_token': `Bearer ${token}`
